@@ -1,0 +1,71 @@
+{
+    "Map/SizeTest": {
+        "height": 4300,
+        "width": 2
+    },
+    "activeFile": "tiles/level01.tmx",
+    "expandedProjectPaths": [
+    ],
+    "file.lastUsedOpenFilter": "All Files (*)",
+    "fileStates": {
+        "tiles/characters.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tiles/level01.tmx": {
+            "scale": 1.5,
+            "selectedLayer": 4,
+            "viewCenter": {
+                "x": 146,
+                "y": 1007
+            }
+        },
+        "tiles/props_big.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tiles/props_small.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tiles/tanks.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
+        "tiles/tileset.tsx": {
+            "scaleInDock": 1.5,
+            "scaleInEditor": 1.5
+        }
+    },
+    "last.externalTilesetPath": "/home/dl/Projects/commando24/assets/tiles",
+    "last.imagePath": "/home/dl/Projects/commando24/assets/images",
+    "map.height": 80,
+    "map.lastUsedFormat": "tmx",
+    "map.tileHeight": 16,
+    "map.tileWidth": 16,
+    "map.width": 20,
+    "openFiles": [
+        "tiles/tanks.tsx",
+        "tiles/characters.tsx",
+        "tiles/props_small.tsx",
+        "tiles/props_big.tsx",
+        "tiles/tileset.tsx",
+        "tiles/level01.tmx"
+    ],
+    "project": "commando24.tiled-project",
+    "property.type": "int",
+    "recentFiles": [
+        "tiles/props_big.tsx",
+        "tiles/level01.tmx",
+        "tiles/tanks.tsx",
+        "tiles/characters.tsx",
+        "tiles/props_small.tsx",
+        "tiles/tileset.tsx"
+    ],
+    "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
+    "tileset.lastUsedFormat": "tsx",
+    "tileset.tileSize": {
+        "height": 16,
+        "width": 16
+    }
+}
