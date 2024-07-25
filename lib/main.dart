@@ -4,8 +4,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:signals_core/signals_core.dart';
 
-import 'main_game.dart';
 import 'game/storage.dart';
+import 'main_game.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

@@ -2,10 +2,7 @@ import 'package:dart_minilog/dart_minilog.dart';
 import 'package:flame/components.dart';
 
 import '../util/auto_dispose.dart';
-import '../util/messaging.dart';
-import 'game_configuration.dart';
 import 'game_data.dart';
-import 'game_messages.dart';
 import 'hiscore.dart';
 import 'storage.dart';
 
@@ -20,9 +17,13 @@ Future save_not_first_time() async {
   await save_data('first_time', {'first_time': false});
 }
 
-final state = GameState();
+final state = GameState.instance;
 
 class GameState extends Component with AutoDispose, HasGameData {
+  static final instance = GameState._();
+
+  GameState._();
+
   var level_number_starting_at_1 = 1;
   var _last_extra_at = 0;
   var _score = 0;
@@ -33,16 +34,16 @@ class GameState extends Component with AutoDispose, HasGameData {
   int get score => _score;
 
   set score(int value) {
-    if (!game_complete) {
-      final progressive = level_number_starting_at_1 * configuration.extra_life_mod;
-      final next_extra = _last_extra_at + configuration.extra_life_base + progressive;
-      final b4 = _score < next_extra;
-      final now = value >= next_extra;
-      if (b4 && now) {
-        _last_extra_at = _score;
-        sendMessage(ExtraLife());
-      }
-    }
+    // if (!game_complete) {
+    //   final progressive = level_number_starting_at_1 * configuration.extra_life_mod;
+    //   final next_extra = _last_extra_at + configuration.extra_life_base + progressive;
+    //   final b4 = _score < next_extra;
+    //   final now = value >= next_extra;
+    //   if (b4 && now) {
+    //     _last_extra_at = _score;
+    //     sendMessage(ExtraLife());
+    //   }
+    // }
     _score = value;
   }
 

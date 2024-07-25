@@ -103,6 +103,7 @@
    <property name="flammable" type="bool" value="true"/>
    <property name="height" type="int" value="25"/>
    <property name="hits" type="int" value="1"/>
+   <property name="smoke_when_hit" type="bool" value="true"/>
    <property name="width" type="int" value="16"/>
   </properties>
  </tile>
@@ -110,6 +111,7 @@
   <properties>
    <property name="destructible" type="bool" value="true"/>
    <property name="explosive" type="bool" value="true"/>
+   <property name="flammable" type="bool" value="true"/>
    <property name="height" type="int" value="25"/>
    <property name="hits" type="int" value="2"/>
    <property name="smoke_when_hit" type="bool" value="true"/>
@@ -118,24 +120,29 @@
  </tile>
  <tile id="16" type="box">
   <properties>
+   <property name="burns" type="bool" value="true"/>
+   <property name="crack_when_hit" type="bool" value="true"/>
    <property name="destructible" type="bool" value="true"/>
+   <property name="flammable" type="bool" value="true"/>
    <property name="height" type="int" value="26"/>
    <property name="hits" type="int" value="1"/>
-   <property name="spawn_prop" type="bool" value="true"/>
    <property name="width" type="int" value="16"/>
   </properties>
  </tile>
  <tile id="17" type="box_small">
   <properties>
+   <property name="burns" type="bool" value="true"/>
+   <property name="crack_when_hit" type="bool" value="true"/>
    <property name="destructible" type="bool" value="true"/>
+   <property name="flammable" type="bool" value="true"/>
    <property name="height" type="int" value="22"/>
    <property name="hits" type="int" value="1"/>
-   <property name="spawn_prop" type="bool" value="true"/>
    <property name="width" type="int" value="16"/>
   </properties>
  </tile>
  <tile id="18" type="score_container">
   <properties>
+   <property name="crack_when_hit" type="bool" value="true"/>
    <property name="destructible" type="bool" value="true"/>
    <property name="height" type="int" value="21"/>
    <property name="hits" type="int" value="2"/>
@@ -145,19 +152,19 @@
  </tile>
  <tile id="19" type="metal_box">
   <properties>
+   <property name="crack_when_hit" type="bool" value="true"/>
    <property name="destructible" type="bool" value="true"/>
    <property name="height" type="int" value="26"/>
    <property name="hits" type="int" value="3"/>
-   <property name="spawn_prop" type="bool" value="true"/>
    <property name="width" type="int" value="16"/>
   </properties>
  </tile>
  <tile id="20" type="metal_box_small">
   <properties>
+   <property name="crack_when_hit" type="bool" value="true"/>
    <property name="destructible" type="bool" value="true"/>
    <property name="height" type="int" value="22"/>
    <property name="hits" type="int" value="3"/>
-   <property name="spawn_prop" type="bool" value="true"/>
    <property name="width" type="int" value="16"/>
   </properties>
  </tile>
@@ -179,6 +186,7 @@
  </tile>
  <tile id="27" type="bush_small">
   <properties>
+   <property name="grenade_hits" type="int" value="1"/>
    <property name="height" type="int" value="20"/>
    <property name="width" type="int" value="16"/>
   </properties>

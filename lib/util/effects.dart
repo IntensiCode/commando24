@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:commando24/util/extensions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/animation.dart';
@@ -32,6 +33,43 @@ class BlinkEffect extends Effect {
   void apply(double progress) {
     final visible = (progress * (on + off)) % (on + off);
     (parent as HasVisibility).isVisible = visible <= on;
+  }
+}
+
+class JumpEffect extends Component {
+  JumpEffect({this.duration = 0.5, this.height = 16, this.echos = 1});
+
+  final double duration;
+  final double height;
+  final int echos;
+
+  final _base_position = Vector2.zero();
+
+  double _elapsed = 0;
+  int _echoed = 0;
+
+  @override
+  void onMount() {
+    _base_position.setFrom(ppc.position);
+    _elapsed = 0;
+  }
+
+  @override
+  void update(double dt) {
+    _elapsed += dt;
+    if (_elapsed >= duration) {
+      if (_echoed < echos) {
+        _echoed++;
+        _elapsed = 0;
+      } else {
+        ppc.position.setFrom(_base_position);
+        removeFromParent();
+      }
+    } else {
+      final h = height - height * _echoed / (echos + 1);
+      final y = sin(_elapsed * pi / duration) * h;
+      ppc.position.y = (_base_position.y - y).roundToDouble();
+    }
   }
 }
 

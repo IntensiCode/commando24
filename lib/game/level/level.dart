@@ -1,6 +1,7 @@
 import 'package:dart_minilog/dart_minilog.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
+import 'package:flame/sprite.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
 import '../../core/common.dart';
@@ -16,11 +17,14 @@ import 'level_state.dart';
 import 'level_tiles.dart';
 
 class Level extends PositionComponent with AutoDispose, GameContext, HasPaint {
-  Level() {
+  Level(this._atlas, this._sprites16) {
     level = this;
     priority = -1000;
     paint = pixel_paint();
   }
+
+  final Image _atlas;
+  final SpriteSheet _sprites16;
 
   late final LevelTiles _tiles;
   late final LevelProps _big_props;
@@ -53,9 +57,9 @@ class Level extends PositionComponent with AutoDispose, GameContext, HasPaint {
   Future onLoad() async {
     super.onLoad();
 
-    await add(_tiles = LevelTiles(paint));
-    await add(_big_props = LevelProps('props_big', 64, 64, paint));
-    await add(_small_props = LevelProps('props_small', 32, 32, paint));
+    await add(_tiles = LevelTiles(_atlas, _sprites16, paint));
+    await add(_big_props = LevelProps(_atlas, 'props_big', 64, 64, paint));
+    await add(_small_props = LevelProps(_atlas, 'props_small', 32, 32, paint));
 
     onMessage<EnterRound>((_) {
       reset();

@@ -97,6 +97,8 @@ extension TiledMapExtensions on TiledMap {
 }
 
 extension TiledObjectExtensions on TiledObject {
+  int get priority => properties.firstWhere((it) => it.name == 'priority').value as int;
+
   double? get spawnAt => properties.firstWhereOrNull((it) => it.name == 'SpawnAt')?.value as double?;
 
   String get spawnSpec => properties.firstWhere((it) => it.name == 'SpawnSpec').value.toString();

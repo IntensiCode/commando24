@@ -4,7 +4,6 @@ import 'components/flow_text.dart';
 import 'components/soft_keys.dart';
 import 'core/common.dart';
 import 'core/screens.dart';
-import 'game/game_state.dart' as gs;
 import 'game/game_state.dart';
 import 'game/hiscore.dart';
 import 'game/soundboard.dart';
@@ -27,7 +26,7 @@ class TheEndScreen extends GameScriptComponent {
       size: Vector2(256, 64 - 8),
     ));
 
-    if (hiscore.isHiscoreRank(gs.state.score)) {
+    if (hiscore.isHiscoreRank(state.score)) {
       softkeys('Hiscore', null, (_) => showScreen(Screen.enter_hiscore));
     } else {
       clear_game_state();

@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:commando24/game/player/player_state.dart';
 import 'package:dart_minilog/dart_minilog.dart';
 import 'package:flame/components.dart';
 
@@ -24,12 +25,10 @@ import 'game_phase.dart';
 import 'game_state.dart';
 import 'hiscore.dart';
 import 'level_bonus.dart';
-import 'player.dart';
 import 'scoreboard.dart';
 import 'simple_game_dialog.dart';
 import 'soundboard.dart';
 import 'visual_configuration.dart';
-// import 'visual_configuration.dart';
 
 /// Reminder to self: Controls the top-level game logic (here called [GamePhase]s) in contrast to the [GameModel]
 /// handling the game-play
@@ -311,21 +310,6 @@ class GameScreen extends GameScriptComponent with HasAutoDisposeShortcuts {
     model.state.reset();
     await model.state.delete();
   }
-
-  // @override
-  // void renderTree(Canvas canvas) {
-  //   if (visual.pixelate_screen) {
-  //     final recorder = PictureRecorder();
-  //     super.renderTree(Canvas(recorder));
-  //     final picture = recorder.endRecording();
-  //     final image = picture.toImageSync(game_width ~/ 1, game_height ~/ 1);
-  //     canvas.drawImage(image, Offset.zero, pixel_paint());
-  //     image.dispose();
-  //     picture.dispose();
-  //   } else {
-  //     super.renderTree(canvas);
-  //   }
-  // }
 
   // Implementation
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<tileset version="1.10" tiledversion="1.10.2" name="tileset" tilewidth="16" tileheight="16" tilecount="1152" columns="48">
- <image source="../images/tileset.png" width="768" height="384"/>
+<tileset version="1.10" tiledversion="1.10.2" name="tileset" tilewidth="16" tileheight="16" tilecount="3072" columns="48">
+ <image source="../images/tileset.png" width="768" height="1024"/>
  <tile id="384">
   <properties>
    <property name="priority" type="int" value="0"/>
@@ -538,18 +538,21 @@
  </tile>
  <tile id="490">
   <properties>
+   <property name="height" type="int" value="0"/>
    <property name="priority" type="int" value="16"/>
    <property name="walk_behind" type="bool" value="true"/>
   </properties>
  </tile>
  <tile id="491">
   <properties>
+   <property name="height" type="int" value="0"/>
    <property name="priority" type="int" value="16"/>
    <property name="walk_behind" type="bool" value="true"/>
   </properties>
  </tile>
  <tile id="492">
   <properties>
+   <property name="height" type="int" value="0"/>
    <property name="priority" type="int" value="16"/>
    <property name="walk_behind" type="bool" value="true"/>
   </properties>
@@ -764,17 +767,23 @@
  </tile>
  <tile id="538">
   <properties>
+   <property name="height" type="int" value="0"/>
    <property name="priority" type="int" value="16"/>
+   <property name="walk_behind" type="bool" value="true"/>
   </properties>
  </tile>
  <tile id="539">
   <properties>
+   <property name="height" type="int" value="0"/>
    <property name="priority" type="int" value="16"/>
+   <property name="walk_behind" type="bool" value="true"/>
   </properties>
  </tile>
  <tile id="540">
   <properties>
+   <property name="height" type="int" value="0"/>
    <property name="priority" type="int" value="16"/>
+   <property name="walk_behind" type="bool" value="true"/>
   </properties>
  </tile>
  <tile id="541">
@@ -800,20 +809,25 @@
  </tile>
  <tile id="545">
   <properties>
+   <property name="height" type="int" value="4"/>
    <property name="priority" type="int" value="0"/>
    <property name="walk_behind" type="bool" value="true"/>
+   <property name="width" type="int" value="12"/>
   </properties>
  </tile>
  <tile id="546">
   <properties>
+   <property name="height" type="int" value="4"/>
    <property name="priority" type="int" value="0"/>
    <property name="walk_behind" type="bool" value="true"/>
   </properties>
  </tile>
  <tile id="547">
   <properties>
+   <property name="height" type="int" value="4"/>
    <property name="priority" type="int" value="0"/>
    <property name="walk_behind" type="bool" value="true"/>
+   <property name="width" type="int" value="12"/>
   </properties>
  </tile>
  <tile id="548">
@@ -2193,6 +2207,7 @@
  </tile>
  <tile id="846">
   <properties>
+   <property name="height" type="int" value="12"/>
    <property name="priority" type="int" value="48"/>
   </properties>
  </tile>

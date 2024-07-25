@@ -1,21 +1,21 @@
 import 'dart:ui';
 
+import 'package:commando24/core/common.dart';
+import 'package:commando24/game/game_context.dart';
+import 'package:commando24/game/level/level_object.dart';
+import 'package:commando24/util/extensions.dart';
+import 'package:commando24/util/tiled_extensions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/foundation.dart';
 
-import '../../core/common.dart';
-import '../../util/extensions.dart';
-import '../../util/functions.dart';
-import '../../util/tiled_extensions.dart';
-import '../game_context.dart';
-import 'level_object_base.dart';
-
 class LevelTiles extends Component with GameContext, HasVisibility {
-  LevelTiles(this._paint);
+  LevelTiles(this._atlas, this._sprites, this._paint);
 
+  final Image _atlas;
+  final SpriteSheet _sprites;
   final Paint _paint;
 
   final _cached_tiles = <List<List<Gid>>>[];
@@ -24,7 +24,6 @@ class LevelTiles extends Component with GameContext, HasVisibility {
   final _cached_transforms = <int, RSTransform>{};
   final _render_pos = Vector2.zero();
 
-  late final SpriteSheet _sprites;
   late final SpriteBatch _batch;
 
   late TiledMap? _map;
@@ -61,12 +60,30 @@ class LevelTiles extends Component with GameContext, HasVisibility {
 
           final index = (gid.tile - tileset.firstGid!).clamp(0, tileset.tileCount! - 1);
           final priority = _cached_priority[gid.tile] ??= tileset.priority(gid.tile - 1);
-          await model.add(_StackedTile(
+
+          final merged_properties = <String, dynamic>{};
+          final tile = tileset.tiles[index];
+          for (final it in tile.properties.byName.entries) {
+            merged_properties[it.key] = it.value.value;
+          }
+          if (tile.type != null) {
+            merged_properties['type'] = tile.type!;
+          }
+
+          final it = StackedTile(
             sprite: _sprites.getSpriteById(index),
             paint: _paint,
             position: _render_pos,
             priority: _render_pos.y.toInt() + t * 16 - 16 + priority,
-          ));
+          );
+          await model.add(it);
+
+          it.properties = merged_properties;
+
+          it.hit_width = merged_properties['width']?.toDouble() ?? it.width;
+          it.hit_height = merged_properties['height']?.toDouble() ?? it.height;
+          it.visual_width = merged_properties['visual_width']?.toDouble() ?? it.hit_width;
+          it.visual_height = merged_properties['visual_height']?.toDouble() ?? it.hit_width;
         }
       }
     }
@@ -78,9 +95,7 @@ class LevelTiles extends Component with GameContext, HasVisibility {
   @override
   Future onLoad() async {
     super.onLoad();
-    final atlas = await image('tileset.png');
-    _sprites = sheetWH(atlas, 16, 16);
-    _batch = SpriteBatch(atlas, useAtlas: !kIsWeb);
+    _batch = SpriteBatch(_atlas, useAtlas: !kIsWeb);
   }
 
   @override
@@ -135,8 +150,8 @@ class _Stacking {
   Rect? rect;
 }
 
-class _StackedTile extends SpriteComponent with HasVisibility, LevelObjectBase {
-  _StackedTile({
+class StackedTile extends SpriteComponent with HasVisibility, LevelObject {
+  StackedTile({
     required super.sprite,
     required Paint paint,
     required super.position,
@@ -144,7 +159,13 @@ class _StackedTile extends SpriteComponent with HasVisibility, LevelObjectBase {
   }) : super(anchor: Anchor.bottomCenter) {
     level_paint = paint;
     position.x += width / 2;
-    override_width = 32;
-    override_height = 24;
+
+    hit_width = 16;
+    hit_height = 16;
+    visual_width = 16;
+    visual_height = 16;
   }
+
+  @override
+  String toString() => '$properties with $children at $position';
 }

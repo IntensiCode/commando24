@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "tiles/level01.tmx",
+    "activeFile": "",
     "expandedProjectPaths": [
     ],
     "file.lastUsedOpenFilter": "All Files (*)",
@@ -12,19 +12,31 @@
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
+        "tiles/characters_atlas.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 0.75
+        },
         "tiles/level01.tmx": {
-            "scale": 1.5,
-            "selectedLayer": 4,
+            "scale": 2,
+            "selectedLayer": 6,
             "viewCenter": {
-                "x": 146,
-                "y": 1007
+                "x": 149.25,
+                "y": 181.25
             }
         },
         "tiles/props_big.tsx": {
             "scaleInDock": 1,
+            "scaleInEditor": 2
+        },
+        "tiles/props_big_atlas.tsx": {
+            "scaleInDock": 1,
             "scaleInEditor": 1
         },
         "tiles/props_small.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 4
+        },
+        "tiles/props_small_atlas.tsx": {
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
@@ -32,9 +44,13 @@
             "scaleInDock": 1,
             "scaleInEditor": 1
         },
+        "tiles/tanks_atlas.tsx": {
+            "scaleInDock": 1,
+            "scaleInEditor": 1
+        },
         "tiles/tileset.tsx": {
-            "scaleInDock": 1.5,
-            "scaleInEditor": 1.5
+            "scaleInDock": 1,
+            "scaleInEditor": 3
         }
     },
     "last.externalTilesetPath": "/home/dl/Projects/commando24/assets/tiles",
@@ -45,27 +61,25 @@
     "map.tileWidth": 16,
     "map.width": 20,
     "openFiles": [
-        "tiles/tanks.tsx",
-        "tiles/characters.tsx",
-        "tiles/props_small.tsx",
-        "tiles/props_big.tsx",
-        "tiles/tileset.tsx",
-        "tiles/level01.tmx"
     ],
     "project": "commando24.tiled-project",
     "property.type": "int",
     "recentFiles": [
-        "tiles/props_big.tsx",
+        "tiles/tanks_atlas.tsx",
+        "tiles/characters_atlas.tsx",
+        "tiles/props_small_atlas.tsx",
+        "tiles/props_small.tsx",
         "tiles/level01.tmx",
         "tiles/tanks.tsx",
         "tiles/characters.tsx",
-        "tiles/props_small.tsx",
-        "tiles/tileset.tsx"
+        "tiles/tileset.tsx",
+        "tiles/props_big_atlas.tsx",
+        "tiles/props_big.tsx"
     ],
     "tileset.lastUsedFilter": "Tiled tileset files (*.tsx *.xml)",
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
-        "height": 16,
-        "width": 16
+        "height": 48,
+        "width": 64
     }
 }

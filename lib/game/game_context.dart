@@ -7,7 +7,7 @@ import 'game_phase.dart';
 import 'game_screen.dart';
 import 'game_state.dart';
 import 'level/level.dart';
-import 'player.dart';
+import 'player/player.dart';
 import 'visual_configuration.dart';
 
 // to make these available to the tiny components, singletons are just fine:

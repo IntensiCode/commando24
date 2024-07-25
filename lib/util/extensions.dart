@@ -7,6 +7,8 @@ import 'package:flame/sprite.dart';
 import 'package:kart/kart.dart';
 
 extension ComponentExtension on Component {
+  PositionComponent get ppc => parent! as PositionComponent;
+
   T added<T extends Component>(T it) {
     add(it);
     return it;

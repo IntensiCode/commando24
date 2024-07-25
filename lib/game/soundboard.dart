@@ -1,19 +1,41 @@
 import 'dart:async';
 
-import 'package:commando24/util/auto_dispose.dart';
 import 'package:dart_minilog/dart_minilog.dart';
 import 'package:flame/components.dart' hide Timer;
 import 'package:flutter/foundation.dart';
 
 import '../core/common.dart';
+import '../util/auto_dispose.dart';
 import 'game_data.dart';
 import 'soundboard_soloud.dart' if (dart.library.html) 'soundboard_web.dart';
 import 'storage.dart';
 // import 'soundboard_mixed.dart' if (dart.library.html) 'soundboard_web.dart';
 
 enum Sound {
-  cannot_do,
-  card_placed,
+  burst_machine_gun,
+  collect,
+  empty_click,
+  explosion_1,
+  explosion_2,
+  explosion_hollow,
+  flamethrower(limit: 1),
+  hit_crack,
+  hit_metal,
+  shot_assault_rifle,
+  shot_assault_rifle_real,
+  shot_bazooka,
+  shot_machine_gun,
+  shot_machine_gun_real,
+  shot_nine_mm,
+  shot_shotgun,
+  shot_shotgun_real,
+  shot_smg,
+  shot_smg_real,
+  ;
+
+  final int? limit;
+
+  const Sound({this.limit});
 }
 
 final soundboard = SoundboardImpl();
@@ -216,6 +238,12 @@ abstract class Soundboard extends Component {
     super.onLoad();
     final data = await load_data('soundboard');
     if (data != null) load_state(data);
+  }
+
+  @override
+  void onMount() {
+    super.onMount();
+    if (dev) preload();
   }
 
   @override

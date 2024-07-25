@@ -50,40 +50,40 @@ class LevelBonus extends PositionComponent with AutoDispose, GameScriptFunctions
 
       game_state.game_complete = true;
 
-      if (game_state.blasts > 0) {
-        at(1.0, () => content.lines.add(''));
-        at(0.0, () => content.lines.add('SAVED PLASMA:'));
+      // if (game_state.blasts > 0) {
+      //   at(1.0, () => content.lines.add(''));
+      //   at(0.0, () => content.lines.add('SAVED PLASMA:'));
+      //
+      //   final count = game_state.blasts;
+      //   for (int i = 0; i < count; i++) {
+      //     final extra = (i + 1) * configuration.eog_blast_bonus;
+      //     at(0.1, () {
+      //       if (content.lines.last.startsWith('*')) {
+      //         content.lines.removeLast();
+      //       }
+      //       content.lines.add('*$extra POINTS*');
+      //       game_state.score += configuration.eog_blast_bonus;
+      //       game_state.blasts--;
+      //     });
+      //   }
+      // }
 
-        final count = game_state.blasts;
-        for (int i = 0; i < count; i++) {
-          final extra = (i + 1) * configuration.eog_blast_bonus;
-          at(0.1, () {
-            if (content.lines.last.startsWith('*')) {
-              content.lines.removeLast();
-            }
-            content.lines.add('*$extra POINTS*');
-            game_state.score += configuration.eog_blast_bonus;
-            game_state.blasts--;
-          });
-        }
-      }
-
-      if (game_state.lives > 0) {
-        at(1.0, () => content.lines.add(''));
-        at(0.0, () => content.lines.add('REMAINING LIVES:'));
-        final count = game_state.lives;
-        for (int i = 0; i < count; i++) {
-          final extra = (i + 1) * configuration.eog_life_bonus;
-          at(0.1, () {
-            if (content.lines.last.startsWith('*')) {
-              content.lines.removeLast();
-            }
-            content.lines.add('*$extra POINTS*');
-            game_state.score += configuration.eog_life_bonus;
-            game_state.lives--;
-          });
-        }
-      }
+      // if (game_state.lives > 0) {
+      //   at(1.0, () => content.lines.add(''));
+      //   at(0.0, () => content.lines.add('REMAINING LIVES:'));
+      //   final count = game_state.lives;
+      //   for (int i = 0; i < count; i++) {
+      //     final extra = (i + 1) * configuration.eog_life_bonus;
+      //     at(0.1, () {
+      //       if (content.lines.last.startsWith('*')) {
+      //         content.lines.removeLast();
+      //       }
+      //       content.lines.add('*$extra POINTS*');
+      //       game_state.score += configuration.eog_life_bonus;
+      //       game_state.lives--;
+      //     });
+      //   }
+      // }
 
       at(1.0, () => when_done());
     } else {

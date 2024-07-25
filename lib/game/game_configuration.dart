@@ -5,27 +5,22 @@ class GameConfiguration {
 
   GameConfiguration._();
 
-  int enemy_score = 200;
+  final double player_move_speed = 75;
+  final double player_run_speed = 125;
 
-  double level_time = 60;
+  late int projectile_hits_per_grenade = 10;
+  late int grenade_hits_per_bazooka = 3;
 
-  double mode_time = 30;
-  double expand_time = 30;
-  double slow_down_time = 30;
-  double disruptor_time = 10;
-
-  double force_hold_timeout = 1.0;
-  double plasma_cool_down = 1.0;
-  double plasma_disruptor = 1.0;
-
-  final max_ball_speed = 155.0;
-  final opt_ball_speed = 100.0;
-  final min_ball_speed = 25.0;
-  final min_ball_y_speed = 15.0;
-  final min_ball_x_speed_after_brick_hit = 10;
-
-  int extra_life_base = 3000;
-  int extra_life_mod = 500;
-  int eog_blast_bonus = 111;
-  int eog_life_bonus = 222;
+  final assault_rifle_fire_rate = 0.2;
+  final assault_rifle_spread = 0.0;
+  final bazooka_fire_rate = 1.0;
+  final bazooka_spread = 0.0;
+  final flame_thrower_fire_rate = 0.03;
+  final flame_thrower_spread = 0.4;
+  final machine_gun_fire_rate = 0.3;
+  final machine_gun_spread = 0.075;
+  final shotgun_fire_rate = 0.5;
+  final shotgun_spread = 0.25;
+  final smg_fire_rate = 0.1;
+  final smg_spread = 0.175;
 }

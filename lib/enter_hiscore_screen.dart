@@ -1,6 +1,5 @@
 import 'core/common.dart';
 import 'core/screens.dart';
-import 'game/game_state.dart' as gs;
 import 'game/game_state.dart';
 import 'game/hiscore.dart';
 import 'util/fonts.dart';
@@ -18,10 +17,10 @@ class EnterHiscoreScreen extends GameScriptComponent with HasAutoDisposeShortcut
     textXY('HISCORE', center_x, default_line_height * 3, scale: 2);
 
     textXY('Score', center_x, default_line_height * 5);
-    textXY('${gs.state.score}', center_x, default_line_height * 6, scale: 2);
+    textXY('${state.score}', center_x, default_line_height * 6, scale: 2);
 
     textXY('Round', center_x, default_line_height * 8);
-    textXY('${gs.state.level_number_starting_at_1}', center_x, default_line_height * 9, scale: 2);
+    textXY('${state.level_number_starting_at_1}', center_x, default_line_height * 9, scale: 2);
 
     textXY('Enter your name:', center_x, default_line_height * 12);
 
@@ -38,7 +37,7 @@ class EnterHiscoreScreen extends GameScriptComponent with HasAutoDisposeShortcut
         name = name.substring(0, name.length - 1);
       } else if (it == '<Enter>' && name.isNotEmpty) {
         shortcuts.snoop = (_) {};
-        hiscore.insert(gs.state.score, gs.state.level_number_starting_at_1, name);
+        hiscore.insert(state.score, state.level_number_starting_at_1, name);
         showScreen(Screen.hiscore);
         clear_game_state();
       }

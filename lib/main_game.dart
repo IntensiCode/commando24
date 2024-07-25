@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:commando24/game/hud.dart';
 import 'package:dart_minilog/dart_minilog.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
@@ -32,6 +35,7 @@ class MainGame extends FlameGame<MainController>
       hudComponents: [_ticks(), _frames()],
     );
     camera.viewfinder.anchor = Anchor.topLeft;
+    camera.viewport.add(hud);
   }
 
   _ticks() => RenderTps(
