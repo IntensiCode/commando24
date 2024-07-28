@@ -1,6 +1,6 @@
 import 'package:collection/collection.dart';
 
-// order for guns has to match sprite sheet
+// name and order for guns has to match sprite sheet
 
 enum WeaponType {
   assault_rifle(projectile_damage: 1, pickup_ammo: 0),
@@ -9,7 +9,7 @@ enum WeaponType {
   machine_gun(projectile_damage: 2, pickup_ammo: 50),
   smg(projectile_damage: 0.8, pickup_ammo: 250),
   shotgun(projectile_damage: 0.5, pickup_ammo: 50),
-  grenade(blast_damage: 1, pickup_ammo: 3),
+  grenades(blast_damage: 1, pickup_ammo: 3),
   explosion(blast_damage: 0.3, pickup_ammo: 0),
   smoking(projectile_damage: 0.1, fire_damage: 0.1, pickup_ammo: 0),
   burning(projectile_damage: 0.2, fire_damage: 0.2, pickup_ammo: 0),

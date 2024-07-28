@@ -34,12 +34,26 @@ class BaseWeapon extends Component with AutoDispose, GameContext {
   late final _recycler = ComponentRecycler(() => Projectile(type));
 
   final temp_pos = Vector2.zero();
-  final temp_dir = Vector2.zero();
-  final _north = Vector2(0, 1);
+  final velocity = Vector2.zero();
 
   int ammo = 0;
 
-  double _fire_time = 0;
+  final weapon_behaviors = [
+    FireRateOnGameKey(GameKey.fire1),
+    RandomSpread(),
+    PlayerRelativeSpeed(),
+  ];
+
+  final projectile_behaviors = [
+    SetAngleFromVelocity(),
+    RecycleOnAnimComplete(),
+    MoveByVelocity(),
+    RecycleOutOfBounds(),
+    RecycleOnSolidHit(),
+    RecycleOnTargetHit(),
+  ];
+
+  bool get active => player.active_weapon == this;
 
   @override
   void onMount() {
@@ -49,18 +63,60 @@ class BaseWeapon extends Component with AutoDispose, GameContext {
 
   @override
   void update(double dt) {
-    if (ammo == 0) return;
-    if (player.active_weapon != this) return;
+    if (ammo == 0 || !active) return;
     if (player.state != PlayerState.playing) return;
     super.update(dt);
-    _on_fire_weapon(dt);
+    for (final it in weapon_behaviors) {
+      it.update(this, dt);
+    }
   }
 
-  void _on_fire_weapon(double dt) {
-    if (_keys.check(GameKey.fire1)) {
+  void on_fire(double dt, {bool sound = true, bool show_firing = true}) {
+    if (ammo != -1 && --ammo == 0) sendMessage(WeaponEmpty(type));
+
+    if (show_firing) player.show_firing = fire_rate * 2;
+
+    temp_pos.setFrom(player.position);
+    temp_pos.y -= player.height / 3;
+
+    velocity.setFrom(player.fire_dir);
+    if (velocity.isZero()) velocity.setValues(0, -1);
+
+    for (final it in weapon_behaviors) {
+      it.on_fire(this, dt);
+    }
+
+    final projectile = _recycler.acquire();
+    if (projectile.behaviors.isEmpty) {
+      projectile.behaviors.addAll(projectile_behaviors);
+    }
+    projectile.init(animation: _animation, position: temp_pos, velocity: velocity);
+    model.add(projectile);
+
+    if (sound) soundboard.play(_sound);
+  }
+}
+
+abstract class WeaponBehavior {
+  void update(BaseWeapon weapon, double dt) {}
+
+  void on_fire(BaseWeapon weapon, double dt) {}
+}
+
+class FireRateOnGameKey extends WeaponBehavior {
+  FireRateOnGameKey(this.fire_key, {this.show_firing = true});
+
+  final GameKey fire_key;
+  final bool show_firing;
+
+  double _fire_time = 0;
+
+  @override
+  void update(BaseWeapon weapon, double dt) {
+    if (weapon._keys.check(fire_key)) {
       if (_fire_time <= 0) {
-        _fire_time = fire_rate;
-        on_fire(dt);
+        _fire_time = weapon.fire_rate;
+        weapon.on_fire(dt, show_firing: show_firing);
       } else {
         _fire_time -= dt;
       }
@@ -68,31 +124,23 @@ class BaseWeapon extends Component with AutoDispose, GameContext {
       _fire_time -= dt;
     }
   }
+}
 
-  void on_fire(double dt, {bool sound = true}) {
-    if (ammo != -1 && --ammo == 0) sendMessage(WeaponEmpty(type));
-
-    player.show_firing = fire_rate * 2;
-
-    temp_pos.setFrom(player.position);
-    temp_pos.y -= player.height / 3;
-
-    temp_dir.setFrom(player.fire_dir);
-    if (temp_dir.isZero()) temp_dir.setValues(0, -1);
-
-    final projectile = _recycler.acquire();
-    update_projectile(dt, projectile);
-    model.add(projectile);
-
-    if (sound) soundboard.play(_sound);
+class RandomSpread extends WeaponBehavior {
+  @override
+  void on_fire(BaseWeapon weapon, double dt) {
+    weapon.velocity.rotate(rng.nextDoublePM(weapon.spread));
   }
+}
 
-  void update_projectile(double dt, Projectile projectile) {
-    temp_dir.rotate(spread_rotation(dt));
-    temp_dir.scale(player.move_dir.isZero() ? projectile_speed : projectile_speed + player.move_speed);
-    projectile.angle = temp_dir.angleTo(_north);
-    projectile.init(animation: _animation, position: temp_pos, velocity: temp_dir);
+class PlayerRelativeSpeed extends WeaponBehavior {
+  PlayerRelativeSpeed({this.add_relative = true});
+
+  bool add_relative;
+
+  @override
+  void on_fire(BaseWeapon weapon, double dt) {
+    final add = (!add_relative || player.move_dir.isZero()) ? 0 : player.move_speed;
+    weapon.velocity.scale(weapon.projectile_speed + add);
   }
-
-  double spread_rotation(double dt) => rng.nextDoublePM(spread);
 }

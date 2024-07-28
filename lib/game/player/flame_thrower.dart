@@ -2,6 +2,7 @@ import 'package:commando24/game/game_configuration.dart';
 import 'package:commando24/game/player/base_weapon.dart';
 import 'package:commando24/game/player/weapon_type.dart';
 import 'package:commando24/game/soundboard.dart';
+import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
 
 class FlameThrower extends BaseWeapon {
@@ -18,15 +19,19 @@ class FlameThrower extends BaseWeapon {
           fire_rate: configuration.flame_thrower_fire_rate,
           spread: configuration.flame_thrower_spread,
           projectile_speed: 150,
-        );
+        ) {
+    weapon_behaviors.removeWhere((it) => it is RandomSpread);
+    weapon_behaviors.add(SweepingSpread());
+  }
+}
 
+class SweepingSpread extends WeaponBehavior {
   double _spread = 0;
   double _spread_dir = 12;
   double _spread_timeout = 0;
 
   @override
-  void update(double dt) {
-    super.update(dt);
+  void update(BaseWeapon weapon, double dt) {
     if (_spread_timeout < 0.5) {
       _spread_timeout += dt;
     } else {
@@ -36,10 +41,10 @@ class FlameThrower extends BaseWeapon {
   }
 
   @override
-  double spread_rotation(double dt) {
+  void on_fire(BaseWeapon weapon, double dt) {
     _spread_timeout = 0;
     _spread += _spread_dir * dt;
     if (_spread.abs() >= configuration.flame_thrower_spread) _spread_dir = -_spread_dir;
-    return _spread;
+    weapon.velocity.rotate(_spread);
   }
 }

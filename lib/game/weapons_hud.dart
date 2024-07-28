@@ -4,6 +4,7 @@ import 'dart:ui';
 
 import 'package:commando24/game/game_context.dart';
 import 'package:commando24/game/game_messages.dart';
+import 'package:commando24/game/player/base_weapon.dart';
 import 'package:commando24/game/player/player_state.dart';
 import 'package:commando24/util/auto_dispose.dart';
 import 'package:commando24/util/extensions.dart';
@@ -51,20 +52,29 @@ class WeaponsHud extends PositionComponent with AutoDispose, HasPaint {
 
   // TODO snapshot
 
+  final _armory = <BaseWeapon>[];
+
   @override
   void render(Canvas canvas) {
     super.render(canvas);
+
+    if (_armory.isEmpty) {
+      _armory.addAll(model.weapons.weapons.values);
+      _armory.add(model.grenades);
+    }
 
     if (paint.opacity == 0) return;
     // if (player.state != PlayerState.playing) return;
 
     _render_pos.x = 0;
-    for (final it in model.weapons.weapons.values) {
-      final show_text = it != player.active_weapon || _blink_time < 0.8;
-      if (show_text) {
-        tiny_font.paint = paint;
-        tiny_font.drawStringAligned(canvas, _render_pos.x + 16, 212, (it.type.index + 1).toString(), Anchor.center);
-      }
+    for (final it in _armory) {
+      final grenades = it == model.grenades;
+      if (grenades) _render_pos.x += 4;
+
+      final show_blink = it != player.active_weapon || _blink_time < 0.8;
+      tiny_font.paint = paint;
+      final label = grenades ? '0' : (it.type.index + 1).toString();
+      tiny_font.drawStringAligned(canvas, _render_pos.x + 16, 212, label, Anchor.center);
 
       if (it.ammo != 0) {
         _render_pos.y = 240 - 26;
@@ -72,16 +82,16 @@ class WeaponsHud extends PositionComponent with AutoDispose, HasPaint {
       }
 
       _render_pos.y = 240 - 41;
-      final sprite = _sprites32.getSprite(17, it.type.index);
-      sprite.render(canvas, position: _render_pos, overridePaint: paint);
-
-      if (show_text) {
-        final x = _render_pos.x + 16;
-        final y = _render_pos.y + 36;
-        final ammo = it.ammo == -1 ? '\u0080' : it.ammo.toString();
-        tiny_font.paint = paint;
-        tiny_font.drawStringAligned(canvas, x, y, ammo, Anchor.center);
+      if (show_blink) {
+        final sprite = grenades ? _sprites32.getSprite(16, 2) : _sprites32.getSprite(17, it.type.index);
+        sprite.render(canvas, position: _render_pos, overridePaint: paint);
       }
+
+      final x = _render_pos.x + 16;
+      final y = _render_pos.y + 36;
+      final ammo = it.ammo == -1 ? '\u0080' : it.ammo.toString();
+      tiny_font.paint = paint;
+      tiny_font.drawStringAligned(canvas, x, y, ammo, Anchor.center);
 
       if (it.ammo == 0) {
         _render_pos.y = 240 - 26;

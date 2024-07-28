@@ -1,5 +1,6 @@
 import 'package:commando24/core/common.dart';
 import 'package:commando24/game/game_context.dart';
+import 'package:commando24/game/level/level_object.dart';
 import 'package:commando24/game/player/weapon_type.dart';
 import 'package:commando24/game/soundboard.dart';
 import 'package:commando24/util/component_recycler.dart';
@@ -8,15 +9,16 @@ import 'package:flame/components.dart';
 
 class Projectile extends SpriteAnimationComponent with Recyclable {
   Projectile(this.type, {this.hit_metal = true}) {
-    logWarn('NEW PROJECTILE');
+    if (dev) logWarn('NEW PROJECTILE');
   }
+
+  final behaviors = <ProjectileBehavior>[];
+  final data = <String, dynamic>{};
 
   final WeaponType type;
   final bool hit_metal;
 
   final velocity = Vector2.zero();
-
-  final _check_pos = Vector2.zero();
 
   void init({
     required SpriteAnimation animation,
@@ -27,44 +29,102 @@ class Projectile extends SpriteAnimationComponent with Recyclable {
     this.position.setFrom(position);
     this.velocity.setFrom(velocity);
     this.anchor = Anchor.center;
-
-    this.animationTicker?.reset();
-    this.animationTicker?.onComplete = recycle;
+    for (final it in behaviors) {
+      it.init(this);
+    }
   }
 
   @override
   void update(double dt) {
     super.update(dt);
+    for (final it in behaviors) {
+      it.update(this, dt);
+    }
+  }
+}
 
-    position.add(velocity * dt);
+abstract class ProjectileBehavior {
+  void init(Projectile projectile) {}
 
-    if (position.x < -100) recycle();
-    if (position.x > game_width + 100) recycle();
-    if (position.y < player.y - game_height) recycle();
-    if (position.y > player.y + game_height) recycle();
+  void update(Projectile projectile, double dt) {}
 
-    priority = position.y.toInt() + 10;
+  void target_hit(Projectile projectile, LevelObject target) {}
+}
 
-    _check_pos.setFrom(position);
-    _check_pos.y += 6;
+class SetAngleFromVelocity extends ProjectileBehavior {
+  static final _north = Vector2(0, 1);
 
-    for (final it in model.solids) {
-      if (it.is_hit_by(_check_pos)) {
-        if (it.properties['walk_behind'] == true) continue;
-        recycle();
+  @override
+  void init(Projectile projectile) {
+    projectile.angle = projectile.velocity.angleTo(_north);
+  }
+}
+
+class RecycleOnAnimComplete extends ProjectileBehavior {
+  @override
+  void init(Projectile projectile) {
+    projectile.animationTicker?.reset();
+    projectile.animationTicker?.onComplete = projectile.recycle;
+  }
+}
+
+class MoveByVelocity extends ProjectileBehavior {
+  @override
+  void update(Projectile projectile, double dt) {
+    projectile.position.add(projectile.velocity * dt);
+    projectile.priority = projectile.position.y.toInt() + 10;
+  }
+}
+
+class RecycleOutOfBounds extends ProjectileBehavior {
+  @override
+  void update(Projectile projectile, double dt) {
+    if (projectile.position.x < -100) projectile.recycle();
+    if (projectile.position.x > game_width + 100) projectile.recycle();
+    if (projectile.position.y < player.y - game_height) projectile.recycle();
+    if (projectile.position.y > player.y + game_height) projectile.recycle();
+  }
+}
+
+class RecycleOnSolidHit extends ProjectileBehavior {
+  static final _check_pos = Vector2.zero();
+
+  @override
+  void update(Projectile projectile, double dt) {
+    _check_pos.setFrom(projectile.position);
+    _check_pos.y += 6; // TODO wtf :-D ‾\_('')_/‾
+
+    for (final solid in model.solids) {
+      if (solid.is_hit_by(_check_pos)) {
+        if (solid.properties['walk_behind'] == true) continue;
+        projectile.recycle();
         return;
       }
     }
+  }
+}
 
-    for (final it in model.destructibles) {
-      if (it.is_hit_by(_check_pos)) {
-        it.on_hit(type);
+class RecycleOnTargetHit extends ProjectileBehavior {
+  static final _check_pos = Vector2.zero();
 
-        if (hit_metal && it.properties['metal'] == true) {
+  @override
+  void update(Projectile projectile, double dt) {
+    _check_pos.setFrom(projectile.position);
+    _check_pos.y += 6;
+
+    for (final target in model.destructibles) {
+      if (target.is_hit_by(_check_pos)) {
+        target.on_hit(projectile.type);
+
+        for (final it in projectile.behaviors) {
+          it.target_hit(projectile, target);
+        }
+
+        if (projectile.hit_metal && target.properties['metal'] == true) {
           soundboard.play(Sound.hit_metal);
         }
 
-        recycle();
+        projectile.recycle();
         return;
       }
     }

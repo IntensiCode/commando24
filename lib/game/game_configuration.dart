@@ -23,4 +23,7 @@ class GameConfiguration {
   final shotgun_spread = 0.25;
   final smg_fire_rate = 0.1;
   final smg_spread = 0.175;
+
+  final grenades_fire_rate = 0.3;
+  final grenades_spread = 0.0;
 }

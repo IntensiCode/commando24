@@ -170,8 +170,9 @@ class Player extends SpriteComponent with AutoDispose, GameContext, HasAutoDispo
     if (fire_dir.y < 0) offset = 0;
     if (fire_dir.y > 0) offset = 4;
 
+    final weapon = active_weapon?.type.index ?? 0;
     final firing = show_firing > 0 ? 16 : 0;
-    this.sprite = _sprites.getSprite(12, 16 + offset + frame + firing);
+    this.sprite = _sprites.getSprite(12 + weapon, 16 + offset + frame + firing);
   }
 
   void _on_leaving(double dt) {

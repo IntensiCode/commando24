@@ -7,6 +7,7 @@ import 'package:commando24/game/hud.dart';
 import 'package:commando24/game/level/level_object.dart';
 import 'package:commando24/game/level/level_tiles.dart';
 import 'package:commando24/game/particles.dart';
+import 'package:commando24/game/player/grenades.dart';
 import 'package:commando24/game/player/weapons.dart';
 import 'package:commando24/game/weapons_hud.dart';
 import 'package:commando24/util/auto_dispose.dart';
@@ -39,6 +40,7 @@ class GameModel extends Component with AutoDispose, GameScriptFunctions, HasAuto
   late final Level level;
   late final Player player;
   late final Weapons weapons;
+  late final Grenades grenades;
   late final Particles particles;
   late final Explosions explosions;
   late final Decals decals;
@@ -100,6 +102,7 @@ class GameModel extends Component with AutoDispose, GameScriptFunctions, HasAuto
     await add(level = Level(atlas, sprites16));
     await add(player = Player(atlas));
     await add(weapons = Weapons(sprites16));
+    await add(grenades = Grenades.make(sprites16));
     await add(particles = Particles(sprites16));
     await add(explosions = Explosions(sprites32));
     await add(decals = Decals(sprites32));
