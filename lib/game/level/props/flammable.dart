@@ -4,12 +4,12 @@ import 'package:commando24/game/player/weapon_type.dart';
 import 'package:flame/components.dart';
 
 class Flammable extends Component {
-  bool _on_fire = false;
+  bool on_fire = false;
 
   double _fire_time = 0;
   double _burn_time_overall = 0;
 
-  void ignite() => _on_fire = true;
+  void ignite() => on_fire = true;
 
   // TODO fire damage
   void on_hit(double fire_damage) => ignite();
@@ -18,7 +18,7 @@ class Flammable extends Component {
   void update(double dt) {
     super.update(dt);
 
-    if (!_on_fire) return;
+    if (!on_fire) return;
 
     _burn_time_overall += dt;
 

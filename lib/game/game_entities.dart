@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:commando24/game/entities/prisoners.dart';
 import 'package:commando24/game/game_context.dart';
 import 'package:commando24/game/level/level_object.dart';
 import 'package:commando24/game/level/level_tiles.dart';
@@ -16,6 +17,7 @@ class GameEntities extends Component {
   final consumables = <LevelProp>[];
   final destructibles = <LevelProp>[];
   final flammables = <LevelProp>[];
+  final prisoners = <Prisoner>[];
 
   Iterable<LevelObject> get obstacles sync* {
     yield* solids;
@@ -32,10 +34,13 @@ class GameEntities extends Component {
       if (component.is_destructible) _manage(component, destructibles);
       if (component.is_flammable) _manage(component, flammables);
     }
+    if (component is Prisoner) {
+      _manage(component, prisoners);
+    }
     return super.add(component);
   }
 
-  void _manage<T extends LevelObject>(T prop, List<T> list) {
+  void _manage<T extends Component>(T prop, List<T> list) {
     if (prop.isMounted) {
       list.add(prop);
     } else {

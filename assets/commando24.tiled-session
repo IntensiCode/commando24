@@ -63,7 +63,7 @@
     "openFiles": [
     ],
     "project": "commando24.tiled-project",
-    "property.type": "int",
+    "property.type": "bool",
     "recentFiles": [
         "tiles/level01.tmx",
         "tiles/tanks_atlas.tsx",

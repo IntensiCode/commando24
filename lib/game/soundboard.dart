@@ -1,11 +1,11 @@
 import 'dart:async';
 
+import 'package:commando24/core/common.dart';
+import 'package:commando24/util/auto_dispose.dart';
 import 'package:dart_minilog/dart_minilog.dart';
 import 'package:flame/components.dart' hide Timer;
 import 'package:flutter/foundation.dart';
 
-import '../core/common.dart';
-import '../util/auto_dispose.dart';
 import 'game_data.dart';
 import 'soundboard_soloud.dart' if (dart.library.html) 'soundboard_web.dart';
 import 'storage.dart';
@@ -23,6 +23,8 @@ enum Sound {
   hit_metal,
   prisoner_death,
   prisoner_freed,
+  prisoner_ouch,
+  prisoner_oh_oh,
   shot_assault_rifle,
   shot_assault_rifle_real,
   shot_bazooka,

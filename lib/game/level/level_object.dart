@@ -50,6 +50,9 @@ mixin LevelObject on SpriteComponent, HasVisibility {
   }
 
   bool is_blocked_for_walking(Rectangle rect) {
+    if (properties['friendly'] == true) {
+      return false;
+    }
     if (properties['walk_behind'] == true) {
       // walk through unless a specific height is given (fences have small height for example):
       if (hit_height == 0 || hit_height == 16) return false;

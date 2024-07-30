@@ -1,17 +1,17 @@
+import 'package:commando24/core/common.dart';
+import 'package:commando24/game/game_context.dart';
+import 'package:commando24/game/game_messages.dart';
+import 'package:commando24/util/auto_dispose.dart';
+import 'package:commando24/util/extensions.dart';
+import 'package:commando24/util/messaging.dart';
+import 'package:commando24/util/on_message.dart';
+import 'package:commando24/util/tiled_extensions.dart';
 import 'package:dart_minilog/dart_minilog.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
-import '../../core/common.dart';
-import '../../util/auto_dispose.dart';
-import '../../util/extensions.dart';
-import '../../util/messaging.dart';
-import '../../util/on_message.dart';
-import '../../util/tiled_extensions.dart';
-import '../game_context.dart';
-import '../game_messages.dart';
 import 'level_props.dart';
 import 'level_state.dart';
 import 'level_tiles.dart';
@@ -29,6 +29,7 @@ class Level extends PositionComponent with AutoDispose, GameContext, HasPaint {
   late final LevelTiles _tiles;
   late final LevelProps _big_props;
   late final LevelProps _small_props;
+  late final LevelProps _prisoners;
 
   int get level_number_starting_at_1 => model.state.level_number_starting_at_1;
 
@@ -49,6 +50,7 @@ class Level extends PositionComponent with AutoDispose, GameContext, HasPaint {
     _tiles.reset();
     _big_props.reset();
     _small_props.reset();
+    _prisoners.reset();
   }
 
   // Component
@@ -60,6 +62,9 @@ class Level extends PositionComponent with AutoDispose, GameContext, HasPaint {
     await add(_tiles = LevelTiles(_atlas, _sprites16, paint));
     await add(_big_props = LevelProps(_atlas, 'props_big', 64, 64, paint));
     await add(_small_props = LevelProps(_atlas, 'props_small', 32, 32, paint));
+    await add(_prisoners = LevelProps(_atlas, 'prisoners', 16, 32, paint));
+
+    _prisoners.tileset_override = 'characters';
 
     onMessage<EnterRound>((_) {
       reset();
@@ -92,6 +97,7 @@ class Level extends PositionComponent with AutoDispose, GameContext, HasPaint {
     await _tiles.load(map!);
     await _big_props.load(map!);
     await _small_props.load(map!);
+    await _prisoners.load(map!);
 
     sendMessage(LevelDataAvailable(map!));
 

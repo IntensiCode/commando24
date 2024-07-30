@@ -72,6 +72,13 @@ class Explosions extends Component {
         it.on_hit(WeaponType.burning);
       }
     }
+    for (final it in entities.prisoners) {
+      final distance = it.position.distanceToSquared(position);
+      if (distance < 800) {
+        it.removeFromParent();
+        soundboard.play(Sound.prisoner_death);
+      }
+    }
   }
 
   void spawn_explosion_for(LevelProp prop) {

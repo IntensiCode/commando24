@@ -42,6 +42,12 @@ class LevelDataAvailable with Message {
   final TiledMap map;
 }
 
+class PrisonerFreed with Message {
+  PrisonerFreed(this.prop);
+
+  final LevelProp prop;
+}
+
 class WeaponBonus with Message {
   WeaponBonus(this.type);
 

@@ -380,7 +380,7 @@
  </objectgroup>
  <objectgroup id="21" name="prisoners_atlas">
   <object id="492" gid="5218" x="160" y="1072" width="16" height="32"/>
-  <object id="493" gid="5218" x="64" y="1136" width="16" height="32"/>
+  <object id="493" gid="5218" x="80" y="1168" width="16" height="32"/>
   <object id="494" gid="5218" x="176" y="1168" width="16" height="32"/>
  </objectgroup>
  <layer id="12" name="above64" width="20" height="80">

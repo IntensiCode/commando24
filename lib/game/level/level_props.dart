@@ -1,7 +1,6 @@
 import 'dart:ui';
 
 import 'package:commando24/game/game_context.dart';
-import 'package:commando24/game/level/props/level_prop_extensions.dart';
 import 'package:commando24/util/functions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
@@ -14,7 +13,9 @@ import 'props/destructible.dart';
 import 'props/explode_on_contact.dart';
 import 'props/explosive.dart';
 import 'props/flammable.dart';
+import 'props/imprisoned.dart';
 import 'props/level_prop.dart';
+import 'props/level_prop_extensions.dart';
 import 'props/smoke_when_hit.dart';
 import 'props/spawn_score.dart';
 import 'props/spawn_when_close.dart';
@@ -31,6 +32,8 @@ class LevelProps extends Component with GameContext, HasVisibility {
 
   late final SpriteSheet _sprites;
 
+  String? tileset_override;
+
   TiledMap? _map;
 
   void reset() {
@@ -41,7 +44,7 @@ class LevelProps extends Component with GameContext, HasVisibility {
   Future load(TiledMap map) async {
     _map = map;
 
-    final tileset = _map!.tilesetByName('${_name}_atlas');
+    final tileset = _map!.tilesetByName(tileset_override ?? '${_name}_atlas');
     final props = _map!.layerByName('${_name}_atlas') as ObjectGroup;
     final pos = Vector2.zero();
     for (final it in props.objects) {
@@ -101,6 +104,7 @@ class LevelProps extends Component with GameContext, HasVisibility {
     if (properties['explode_on_contact'] == true) result.add(ExplodeOnContact());
     if (properties['explosive'] == true) result.add(Explosive());
     if (properties['flammable'] == true) result.add(Flammable());
+    if (properties['imprisoned'] == true) result.add(Imprisoned());
     if (properties['smoke_when_hit'] == true) result.add(SmokeWhenHit());
     if (properties['spawn_score'] == true) result.add(SpawnScore());
     if (properties['spawn_when_close'] == true) result.add(SpawnWhenClose());
