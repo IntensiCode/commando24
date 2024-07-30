@@ -1,6 +1,16 @@
 import 'dart:ui';
 
+import 'package:commando24/game/entities/enemy.dart';
+import 'package:commando24/game/entities/finds_cover.dart';
+import 'package:commando24/game/entities/movement_closes_in.dart';
+import 'package:commando24/game/entities/movement_runs_across.dart';
+import 'package:commando24/game/entities/movement_stationary.dart';
+import 'package:commando24/game/entities/property_behavior.dart';
+import 'package:commando24/game/entities/spawn_late.dart';
+import 'package:commando24/game/entities/spawn_stacked.dart';
+import 'package:commando24/game/entities/throws_grenade.dart';
 import 'package:commando24/game/game_context.dart';
+import 'package:commando24/util/extensions.dart';
 import 'package:commando24/util/functions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
@@ -86,6 +96,8 @@ class LevelProps extends Component with GameContext, HasVisibility {
       prop.visual_width = merged_properties['visual_width']?.toDouble() ?? prop.hit_width;
       prop.visual_height = merged_properties['visual_height']?.toDouble() ?? prop.hit_width;
 
+      _call_post_mount(prop);
+
       await entities.add(prop);
     }
   }
@@ -99,18 +111,39 @@ class LevelProps extends Component with GameContext, HasVisibility {
     if (properties['hits'] != null) destructible = true;
     if (destructible) result.add(Destructible());
 
+    if (properties['closes_in'] == true) result.add(MovementClosesIn());
     if (properties['consumable'] == true) result.add(Consumable());
     if (properties['crack_when_hit'] == true) result.add(CrackWhenHit(_sprites.getSpriteById(414)));
+    if (properties['enemy'] == true) result.add(Enemy(_sprites));
     if (properties['explode_on_contact'] == true) result.add(ExplodeOnContact());
     if (properties['explosive'] == true) result.add(Explosive());
+    if (properties['finds_cover'] == true) result.add(FindsCover());
     if (properties['flammable'] == true) result.add(Flammable());
     if (properties['imprisoned'] == true) result.add(Imprisoned());
+    if (properties['runs_across'] == true) result.add(MovementRunsAcross());
     if (properties['smoke_when_hit'] == true) result.add(SmokeWhenHit());
+    if (properties['spawn_late'] == true) result.add(SpawnLate());
     if (properties['spawn_score'] == true) result.add(SpawnScore());
+    if (properties['spawn_stacked'] == true) result.add(SpawnStacked());
     if (properties['spawn_when_close'] == true) result.add(SpawnWhenClose());
     if (properties['spawned'] == true) result.add(Spawned());
+    if (properties['stationary'] == true) result.add(MovementStationary());
+    if (properties['throws_grenade'] == true) result.add(ThrowsGrenade());
 
     return result;
+  }
+
+  void _call_post_mount(LevelProp prop) {
+    final done = <PropertyBehavior>[];
+    while (true) {
+      final now = [...prop.children.whereType<PropertyBehavior>()];
+      now.removeAll(done);
+      if (now.isEmpty) break;
+      for (final it in now) {
+        it.post_mount();
+      }
+      done.addAll(now);
+    }
   }
 
   @override

@@ -36,6 +36,7 @@ class LevelTiles extends Component with GameContext, HasVisibility {
 
     final which = map.layers.whereType<TileLayer>();
     for (final it in which) {
+      if (it.name == 'advice') continue;
       final tiles = it.tileData;
       if (tiles != null) _cached_tiles.add(tiles);
     }

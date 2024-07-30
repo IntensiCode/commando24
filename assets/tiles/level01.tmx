@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-up" width="20" height="80" tilewidth="16" tileheight="16" infinite="0" nextlayerid="22" nextobjectid="497">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-up" width="20" height="80" tilewidth="16" tileheight="16" infinite="0" nextlayerid="23" nextobjectid="512">
  <properties>
   <property name="name" value="Jungle Camp"/>
  </properties>
@@ -112,7 +112,7 @@
 748,748,748,748,748,748,748,749,0,0,0,0,747,748,748,748,748,748,748,748,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,796,
 844,844,844,844,844,844,844,845,0,0,0,0,843,844,844,844,844,844,844,844,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,607,608,609,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,609,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -260,129 +260,6 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="19" name="props_big_atlas">
-  <object id="405" gid="3230" x="208" y="656" width="64" height="64"/>
-  <object id="406" gid="3229" x="64" y="608" width="64" height="64"/>
-  <object id="407" gid="3244" x="16" y="704" width="64" height="64"/>
-  <object id="413" gid="3253" x="272" y="352" width="64" height="64"/>
-  <object id="414" gid="3253" x="272" y="432" width="64" height="64"/>
-  <object id="415" gid="3254" x="-16" y="384" width="64" height="64"/>
-  <object id="416" gid="3254" x="-16" y="480" width="64" height="64"/>
-  <object id="417" gid="3255" x="128" y="64" width="64" height="64"/>
-  <object id="418" gid="3241" x="288" y="256" width="64" height="64"/>
-  <object id="419" gid="3242" x="-32" y="256" width="64" height="64"/>
-  <object id="421" gid="3217" x="256" y="1024" width="64" height="64"/>
-  <object id="422" gid="3217" x="288" y="912" width="64" height="64"/>
-  <object id="423" gid="3217" x="256" y="928" width="64" height="64"/>
-  <object id="424" gid="3217" x="224" y="896" width="64" height="64"/>
-  <object id="425" gid="3217" x="240" y="848" width="64" height="64"/>
-  <object id="426" gid="3217" x="128" y="864" width="64" height="64"/>
-  <object id="427" gid="3217" x="96" y="880" width="64" height="64"/>
-  <object id="428" gid="3217" x="112" y="912" width="64" height="64"/>
-  <object id="429" gid="3217" x="144" y="944" width="64" height="64"/>
-  <object id="430" gid="3217" x="64" y="992" width="64" height="64"/>
-  <object id="431" gid="3217" x="-16" y="1008" width="64" height="64"/>
-  <object id="432" gid="3217" x="0" y="928" width="64" height="64"/>
-  <object id="433" gid="3217" x="-16" y="864" width="64" height="64"/>
-  <object id="434" gid="3218" x="64" y="1040" width="64" height="64"/>
-  <object id="435" gid="3218" x="128" y="976" width="64" height="64"/>
-  <object id="436" gid="3218" x="240" y="976" width="64" height="64"/>
-  <object id="437" gid="3205" x="-16" y="1264" width="64" height="64"/>
-  <object id="438" gid="3205" x="32" y="1264" width="64" height="64"/>
-  <object id="439" gid="3205" x="-16" y="1296" width="64" height="64"/>
-  <object id="440" gid="3205" x="16" y="1312" width="64" height="64"/>
-  <object id="441" gid="3205" x="16" y="1280" width="64" height="64"/>
-  <object id="442" gid="3205" x="80" y="1280" width="64" height="64"/>
-  <object id="443" gid="3205" x="48" y="1296" width="64" height="64"/>
-  <object id="444" gid="3205" x="80" y="1328" width="64" height="64"/>
-  <object id="445" gid="3205" x="16" y="1344" width="64" height="64"/>
-  <object id="446" gid="3205" x="-16" y="1328" width="64" height="64"/>
-  <object id="447" gid="3205" x="128" y="1312" width="64" height="64"/>
-  <object id="448" gid="3205" x="176" y="1344" width="64" height="64"/>
-  <object id="449" gid="3205" x="160" y="1296" width="64" height="64"/>
-  <object id="450" gid="3205" x="176" y="1280" width="64" height="64"/>
-  <object id="451" gid="3205" x="224" y="1312" width="64" height="64"/>
-  <object id="452" gid="3205" x="192" y="1312" width="64" height="64"/>
-  <object id="453" gid="3205" x="240" y="1280" width="64" height="64"/>
-  <object id="454" gid="3205" x="208" y="1280" width="64" height="64"/>
-  <object id="455" gid="3205" x="240" y="1248" width="64" height="64"/>
-  <object id="456" gid="3205" x="256" y="1232" width="64" height="64"/>
-  <object id="457" gid="3205" x="272" y="1232" width="64" height="64"/>
-  <object id="458" gid="3205" x="288" y="1264" width="64" height="64"/>
-  <object id="459" gid="3205" x="272" y="1296" width="64" height="64"/>
-  <object id="460" gid="3205" x="272" y="1344" width="64" height="64"/>
- </objectgroup>
- <objectgroup id="18" name="props_small_atlas">
-  <object id="378" gid="3698" x="272" y="1136" width="32" height="32"/>
-  <object id="380" gid="3698" x="240" y="1136" width="32" height="32"/>
-  <object id="381" gid="3698" x="224" y="1120" width="32" height="32"/>
-  <object id="382" gid="3698" x="208" y="1104" width="32" height="32"/>
-  <object id="383" gid="3698" x="192" y="1104" width="32" height="32"/>
-  <object id="384" gid="3698" x="176" y="1104" width="32" height="32"/>
-  <object id="385" gid="3698" x="160" y="1104" width="32" height="32"/>
-  <object id="387" gid="3698" x="224" y="976" width="32" height="32"/>
-  <object id="388" gid="3698" x="48" y="896" width="32" height="32"/>
-  <object id="389" gid="3697" x="160" y="864" width="32" height="32"/>
-  <object id="390" gid="3697" x="256" y="864" width="32" height="32"/>
-  <object id="391" gid="3697" x="112" y="1088" width="32" height="32"/>
-  <object id="392" gid="3699" x="32" y="1120" width="32" height="32"/>
-  <object id="393" gid="3699" x="144" y="1008" width="32" height="32"/>
-  <object id="394" gid="3699" x="16" y="880" width="32" height="32"/>
-  <object id="395" gid="3701" x="64" y="1104" width="32" height="32"/>
-  <object id="396" gid="3702" x="192" y="1120" width="32" height="32"/>
-  <object id="397" gid="3703" x="224" y="1152" width="32" height="32"/>
-  <object id="398" gid="3725" x="240" y="1056" width="32" height="32"/>
-  <object id="399" gid="3725" x="240" y="1088" width="32" height="32"/>
-  <object id="400" gid="3651" x="32" y="1120" width="32" height="32"/>
-  <object id="401" gid="3651" x="144" y="1008" width="32" height="32"/>
-  <object id="402" gid="3651" x="16" y="880" width="32" height="32"/>
-  <object id="403" gid="3675" x="192" y="1120" width="32" height="32"/>
-  <object id="404" gid="3674" x="224" y="1152" width="32" height="32"/>
-  <object id="408" gid="3678" x="48" y="704" width="32" height="32"/>
-  <object id="409" gid="3674" x="112" y="608" width="32" height="32"/>
-  <object id="410" gid="3699" x="112" y="608" width="32" height="32"/>
-  <object id="411" gid="3698" x="48" y="608" width="32" height="32"/>
-  <object id="412" gid="3675" x="224" y="656" width="32" height="32"/>
-  <object id="487" gid="3673" x="80" y="1120" width="32" height="32"/>
-  <object id="488" gid="3676" x="48" y="1152" width="32" height="32"/>
-  <object id="489" gid="3677" x="48" y="1184" width="32" height="32"/>
-  <object id="490" gid="3678" x="192" y="1152" width="32" height="32"/>
-  <object id="491" gid="3651" x="208" y="1184" width="32" height="32"/>
- </objectgroup>
- <objectgroup id="20" name="enemies_atlas">
-  <object id="461" gid="4913" x="224" y="656" width="16" height="32"/>
-  <object id="462" gid="4913" x="240" y="656" width="16" height="32"/>
-  <object id="463" gid="4913" x="80" y="608" width="16" height="32"/>
-  <object id="464" gid="4913" x="96" y="592" width="16" height="32"/>
-  <object id="465" gid="5201" x="288" y="416" width="16" height="32"/>
-  <object id="466" gid="5201" x="288" y="336" width="16" height="32"/>
-  <object id="467" gid="5201" x="16" y="368" width="16" height="32"/>
-  <object id="468" gid="5201" x="16" y="464" width="16" height="32"/>
-  <object id="469" gid="4917" x="208" y="80" width="16" height="32"/>
-  <object id="470" gid="4917" x="240" y="80" width="16" height="32"/>
-  <object id="471" gid="4917" x="208" y="64" width="16" height="32"/>
-  <object id="472" gid="4917" x="240" y="64" width="16" height="32"/>
-  <object id="473" gid="4917" x="208" y="48" width="16" height="32"/>
-  <object id="474" gid="4917" x="240" y="48" width="16" height="32"/>
-  <object id="475" gid="4917" x="208" y="32" width="16" height="32"/>
-  <object id="476" gid="4917" x="240" y="32" width="16" height="32"/>
-  <object id="477" gid="4917" x="64" y="80" width="16" height="32"/>
-  <object id="478" gid="4917" x="96" y="80" width="16" height="32"/>
-  <object id="479" gid="4917" x="64" y="64" width="16" height="32"/>
-  <object id="480" gid="4917" x="96" y="64" width="16" height="32"/>
-  <object id="481" gid="4917" x="64" y="48" width="16" height="32"/>
-  <object id="482" gid="4917" x="96" y="48" width="16" height="32"/>
-  <object id="483" gid="4917" x="64" y="32" width="16" height="32"/>
-  <object id="484" gid="4917" x="96" y="32" width="16" height="32"/>
-  <object id="486" gid="5205" x="128" y="48" width="16" height="32"/>
-  <object id="495" gid="4917" x="112" y="1120" width="16" height="32"/>
-  <object id="496" gid="4917" x="96" y="1088" width="16" height="32"/>
- </objectgroup>
- <objectgroup id="21" name="prisoners_atlas">
-  <object id="492" gid="5218" x="160" y="1072" width="16" height="32"/>
-  <object id="493" gid="5218" x="80" y="1168" width="16" height="32"/>
-  <object id="494" gid="5218" x="176" y="1168" width="16" height="32"/>
- </objectgroup>
  <layer id="12" name="above64" width="20" height="80">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -467,4 +344,338 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <layer id="22" name="advice" width="20" height="80" opacity="0.47">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+607,607,607,607,607,607,607,607,0,0,0,0,608,608,608,608,608,608,608,608,
+607,607,607,607,607,607,607,607,0,0,0,0,608,608,608,608,608,608,608,608,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+607,607,607,607,607,607,607,607,0,0,0,608,608,608,608,608,608,608,608,608,
+607,607,607,607,607,607,607,607,0,0,0,608,608,608,608,608,608,608,608,608,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+607,607,607,607,607,607,607,607,607,607,607,607,0,0,608,608,608,608,608,608,
+607,607,607,607,607,607,607,607,607,607,607,607,0,0,608,608,608,608,608,608,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,608,608,607,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,608,607,607,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,608,608,607,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,608,607,607,0,0,608,608,608,
+0,0,607,0,0,0,0,0,0,0,0,0,0,0,0,0,0,608,608,608,
+0,608,607,607,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,607,607,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,607,610,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,607,610,608,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="19" name="props_big_atlas">
+  <object id="405" gid="3230" x="208" y="656" width="64" height="64"/>
+  <object id="406" gid="3229" x="64" y="608" width="64" height="64"/>
+  <object id="407" gid="3244" x="16" y="704" width="64" height="64"/>
+  <object id="413" gid="3253" x="272" y="352" width="64" height="64"/>
+  <object id="414" gid="3253" x="272" y="432" width="64" height="64"/>
+  <object id="415" gid="3254" x="-16" y="384" width="64" height="64"/>
+  <object id="416" gid="3254" x="-16" y="480" width="64" height="64"/>
+  <object id="417" gid="3255" x="128" y="64" width="64" height="64"/>
+  <object id="418" gid="3241" x="288" y="256" width="64" height="64"/>
+  <object id="419" gid="3242" x="-32" y="256" width="64" height="64"/>
+  <object id="421" gid="3217" x="256" y="1024" width="64" height="64"/>
+  <object id="422" gid="3217" x="288" y="912" width="64" height="64"/>
+  <object id="423" gid="3217" x="256" y="928" width="64" height="64"/>
+  <object id="424" gid="3217" x="224" y="896" width="64" height="64"/>
+  <object id="425" gid="3217" x="240" y="848" width="64" height="64"/>
+  <object id="426" gid="3217" x="128" y="864" width="64" height="64"/>
+  <object id="427" gid="3217" x="96" y="880" width="64" height="64"/>
+  <object id="428" gid="3217" x="112" y="912" width="64" height="64"/>
+  <object id="429" gid="3217" x="144" y="944" width="64" height="64"/>
+  <object id="430" gid="3217" x="64" y="992" width="64" height="64"/>
+  <object id="431" gid="3217" x="-16" y="1008" width="64" height="64"/>
+  <object id="432" gid="3217" x="0" y="928" width="64" height="64"/>
+  <object id="433" gid="3217" x="-16" y="864" width="64" height="64"/>
+  <object id="434" gid="3218" x="64" y="1040" width="64" height="64"/>
+  <object id="435" gid="3218" x="128" y="976" width="64" height="64"/>
+  <object id="436" gid="3218" x="240" y="976" width="64" height="64"/>
+  <object id="437" gid="3205" x="-16" y="1264" width="64" height="64"/>
+  <object id="438" gid="3205" x="32" y="1264" width="64" height="64"/>
+  <object id="439" gid="3205" x="-16" y="1296" width="64" height="64"/>
+  <object id="440" gid="3205" x="16" y="1312" width="64" height="64"/>
+  <object id="441" gid="3205" x="16" y="1280" width="64" height="64"/>
+  <object id="442" gid="3205" x="80" y="1280" width="64" height="64"/>
+  <object id="443" gid="3205" x="48" y="1296" width="64" height="64"/>
+  <object id="444" gid="3205" x="80" y="1328" width="64" height="64"/>
+  <object id="445" gid="3205" x="16" y="1344" width="64" height="64"/>
+  <object id="446" gid="3205" x="-16" y="1328" width="64" height="64"/>
+  <object id="447" gid="3205" x="128" y="1312" width="64" height="64"/>
+  <object id="448" gid="3205" x="176" y="1344" width="64" height="64"/>
+  <object id="449" gid="3205" x="160" y="1296" width="64" height="64"/>
+  <object id="450" gid="3205" x="176" y="1280" width="64" height="64"/>
+  <object id="451" gid="3205" x="224" y="1312" width="64" height="64"/>
+  <object id="452" gid="3205" x="192" y="1312" width="64" height="64"/>
+  <object id="453" gid="3205" x="240" y="1280" width="64" height="64"/>
+  <object id="454" gid="3205" x="208" y="1280" width="64" height="64"/>
+  <object id="455" gid="3205" x="240" y="1248" width="64" height="64"/>
+  <object id="456" gid="3205" x="256" y="1232" width="64" height="64"/>
+  <object id="457" gid="3205" x="272" y="1232" width="64" height="64"/>
+  <object id="458" gid="3205" x="288" y="1264" width="64" height="64"/>
+  <object id="459" gid="3205" x="272" y="1296" width="64" height="64"/>
+  <object id="460" gid="3205" x="272" y="1344" width="64" height="64"/>
+ </objectgroup>
+ <objectgroup id="18" name="props_small_atlas">
+  <object id="378" gid="3698" x="280" y="1136" width="32" height="32"/>
+  <object id="380" gid="3698" x="248" y="1136" width="32" height="32"/>
+  <object id="381" gid="3698" x="232" y="1120" width="32" height="32"/>
+  <object id="382" gid="3698" x="216" y="1104" width="32" height="32"/>
+  <object id="383" gid="3698" x="200" y="1104" width="32" height="32"/>
+  <object id="384" gid="3698" x="184" y="1104" width="32" height="32"/>
+  <object id="385" gid="3698" x="160" y="1104" width="32" height="32"/>
+  <object id="387" gid="3698" x="224" y="976" width="32" height="32"/>
+  <object id="388" gid="3698" x="48" y="896" width="32" height="32"/>
+  <object id="389" gid="3697" x="160" y="864" width="32" height="32"/>
+  <object id="390" gid="3697" x="256" y="864" width="32" height="32"/>
+  <object id="391" gid="3697" x="112" y="1088" width="32" height="32"/>
+  <object id="392" gid="3699" x="32" y="1120" width="32" height="32"/>
+  <object id="393" gid="3699" x="144" y="1008" width="32" height="32"/>
+  <object id="394" gid="3699" x="16" y="880" width="32" height="32"/>
+  <object id="395" gid="3701" x="64" y="1104" width="32" height="32"/>
+  <object id="396" gid="3702" x="192" y="1120" width="32" height="32"/>
+  <object id="397" gid="3703" x="224" y="1152" width="32" height="32"/>
+  <object id="398" gid="3725" x="240" y="1056" width="32" height="32"/>
+  <object id="399" gid="3725" x="240" y="1088" width="32" height="32"/>
+  <object id="400" gid="3651" x="32" y="1120" width="32" height="32"/>
+  <object id="401" gid="3651" x="144" y="1008" width="32" height="32"/>
+  <object id="402" gid="3651" x="16" y="880" width="32" height="32"/>
+  <object id="403" gid="3675" x="192" y="1120" width="32" height="32"/>
+  <object id="404" gid="3674" x="224" y="1152" width="32" height="32"/>
+  <object id="408" gid="3678" x="48" y="704" width="32" height="32"/>
+  <object id="409" gid="3674" x="112" y="608" width="32" height="32"/>
+  <object id="410" gid="3699" x="112" y="608" width="32" height="32"/>
+  <object id="411" gid="3698" x="48" y="608" width="32" height="32"/>
+  <object id="412" gid="3675" x="224" y="656" width="32" height="32"/>
+  <object id="487" gid="3673" x="80" y="1120" width="32" height="32"/>
+  <object id="488" gid="3676" x="48" y="1152" width="32" height="32"/>
+  <object id="489" gid="3677" x="48" y="1184" width="32" height="32"/>
+  <object id="490" gid="3678" x="192" y="1152" width="32" height="32"/>
+  <object id="491" gid="3651" x="208" y="1184" width="32" height="32"/>
+  <object id="511" gid="3701" x="112" y="1168" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup id="20" name="enemies_atlas">
+  <object id="465" gid="5201" x="288" y="400" width="16" height="32"/>
+  <object id="466" gid="5201" x="288" y="320" width="16" height="32"/>
+  <object id="467" gid="5201" x="16" y="352" width="16" height="32"/>
+  <object id="468" gid="5201" x="16" y="448" width="16" height="32"/>
+  <object id="469" gid="4917" x="224" y="96" width="16" height="32">
+   <properties>
+    <property name="spawn_late" type="bool" value="true"/>
+    <property name="spawn_stacked" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="470" gid="4917" x="224" y="96" width="16" height="32">
+   <properties>
+    <property name="spawn_late" type="bool" value="true"/>
+    <property name="spawn_stacked" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="471" gid="4917" x="224" y="96" width="16" height="32">
+   <properties>
+    <property name="spawn_late" type="bool" value="true"/>
+    <property name="spawn_stacked" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="472" gid="4917" x="224" y="96" width="16" height="32">
+   <properties>
+    <property name="spawn_late" type="bool" value="true"/>
+    <property name="spawn_stacked" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="473" gid="4917" x="224" y="96" width="16" height="32">
+   <properties>
+    <property name="spawn_late" type="bool" value="true"/>
+    <property name="spawn_stacked" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="474" gid="4917" x="224" y="96" width="16" height="32">
+   <properties>
+    <property name="spawn_late" type="bool" value="true"/>
+    <property name="spawn_stacked" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="475" gid="4917" x="224" y="96" width="16" height="32">
+   <properties>
+    <property name="spawn_late" type="bool" value="true"/>
+    <property name="spawn_stacked" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="476" gid="4917" x="224" y="96" width="16" height="32">
+   <properties>
+    <property name="spawn_late" type="bool" value="true"/>
+    <property name="spawn_stacked" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="477" gid="4917" x="80" y="96" width="16" height="32">
+   <properties>
+    <property name="spawn_late" type="bool" value="true"/>
+    <property name="spawn_stacked" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="478" gid="4917" x="80" y="96" width="16" height="32">
+   <properties>
+    <property name="spawn_late" type="bool" value="true"/>
+    <property name="spawn_stacked" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="479" gid="4917" x="80" y="96" width="16" height="32">
+   <properties>
+    <property name="spawn_late" type="bool" value="true"/>
+    <property name="spawn_stacked" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="480" gid="4917" x="80" y="96" width="16" height="32">
+   <properties>
+    <property name="spawn_late" type="bool" value="true"/>
+    <property name="spawn_stacked" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="481" gid="4917" x="80" y="96" width="16" height="32">
+   <properties>
+    <property name="spawn_late" type="bool" value="true"/>
+    <property name="spawn_stacked" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="482" gid="4917" x="80" y="96" width="16" height="32">
+   <properties>
+    <property name="spawn_late" type="bool" value="true"/>
+    <property name="spawn_stacked" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="483" gid="4917" x="80" y="96" width="16" height="32">
+   <properties>
+    <property name="spawn_late" type="bool" value="true"/>
+    <property name="spawn_stacked" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="484" gid="4917" x="80" y="96" width="16" height="32">
+   <properties>
+    <property name="spawn_late" type="bool" value="true"/>
+    <property name="spawn_stacked" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="486" gid="5205" x="134" y="48" width="16" height="32"/>
+  <object id="496" gid="4917" x="96" y="1088" width="16" height="32"/>
+  <object id="497" gid="4965" x="128" y="992" width="16" height="32"/>
+  <object id="498" gid="5013" x="288" y="1008" width="16" height="32"/>
+  <object id="499" gid="5061" x="192" y="1040" width="16" height="32"/>
+  <object id="500" gid="5109" x="32" y="1184" width="16" height="32"/>
+  <object id="501" gid="5157" x="304" y="1152" width="16" height="32">
+   <properties>
+    <property name="closes_in" type="bool" value="false"/>
+   </properties>
+  </object>
+  <object id="502" gid="5013" x="232" y="672" width="16" height="32">
+   <properties>
+    <property name="spawn_late" type="bool" value="true"/>
+    <property name="spawn_stacked" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="503" gid="5013" x="232" y="672" width="16" height="32">
+   <properties>
+    <property name="spawn_late" type="bool" value="true"/>
+    <property name="spawn_stacked" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="504" gid="4965" x="88" y="624" width="16" height="32">
+   <properties>
+    <property name="spawn_late" type="bool" value="true"/>
+    <property name="spawn_stacked" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="505" gid="4965" x="88" y="624" width="16" height="32">
+   <properties>
+    <property name="spawn_late" type="bool" value="true"/>
+    <property name="spawn_stacked" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="508" gid="5013" x="48" y="1024" width="16" height="32">
+   <properties>
+    <property name="spawn_late" type="bool" value="true"/>
+    <property name="spawn_stacked" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="509" gid="5013" x="64" y="1024" width="16" height="32">
+   <properties>
+    <property name="spawn_late" type="bool" value="true"/>
+    <property name="spawn_stacked" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="510" gid="5157" x="-16" y="1168" width="16" height="32">
+   <properties>
+    <property name="closes_in" type="bool" value="false"/>
+    <property name="runs_across" type="bool" value="true"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="21" name="prisoners_atlas">
+  <object id="492" gid="5218" x="160" y="1072" width="16" height="32"/>
+  <object id="493" gid="5218" x="80" y="1168" width="16" height="32"/>
+  <object id="494" gid="5218" x="176" y="1168" width="16" height="32"/>
+ </objectgroup>
 </map>

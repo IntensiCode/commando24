@@ -62,10 +62,9 @@ class Weapons extends Component with AutoDispose, GameContext, HasAutoDisposeSho
 
   void _handle_weapons(Collected it) {
     final type = WeaponType.by_name(it.consumable.properties['type']);
-    if (type == null) return;
+    if (type == null || type == WeaponType.grenades) return;
     player.active_weapon = weapons[type];
     player.active_weapon?.ammo += type.pickup_ammo;
-    sendMessage(WeaponPickedUp(type));
   }
 
   void _reset({bool reset_weapons = false}) {

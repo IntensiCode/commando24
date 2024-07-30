@@ -30,6 +30,7 @@ class Level extends PositionComponent with AutoDispose, GameContext, HasPaint {
   late final LevelProps _big_props;
   late final LevelProps _small_props;
   late final LevelProps _prisoners;
+  late final LevelProps _enemies;
 
   int get level_number_starting_at_1 => model.state.level_number_starting_at_1;
 
@@ -53,6 +54,31 @@ class Level extends PositionComponent with AutoDispose, GameContext, HasPaint {
     _prisoners.reset();
   }
 
+  List<List<Gid>>? _advice;
+
+  final _advice_dir = Vector2.zero();
+
+  Vector2? advice_for(Vector2 position) {
+    _advice ??= (map?.layerByName('advice') as TileLayer?)?.tileData;
+
+    final it = _advice;
+    if (it == null) return null;
+
+    final x = position.x ~/ 16;
+    if (x < 0 || x >= map!.width) return null;
+
+    final y = (position.y - (15 - map!.height) * 16) ~/ 16;
+    if (y < 0 || y >= map!.height) return null;
+
+    _advice_dir.setZero();
+    final advice = it[y][position.x ~/ 16];
+    if (advice.tile == 607) _advice_dir.x = 1;
+    if (advice.tile == 608) _advice_dir.x = -1;
+    if (advice.tile == 609) _advice_dir.y = -1;
+    if (advice.tile == 610) _advice_dir.y = 1;
+    return _advice_dir.isZero() ? null : _advice_dir;
+  }
+
   // Component
 
   @override
@@ -63,8 +89,10 @@ class Level extends PositionComponent with AutoDispose, GameContext, HasPaint {
     await add(_big_props = LevelProps(_atlas, 'props_big', 64, 64, paint));
     await add(_small_props = LevelProps(_atlas, 'props_small', 32, 32, paint));
     await add(_prisoners = LevelProps(_atlas, 'prisoners', 16, 32, paint));
+    await add(_enemies = LevelProps(_atlas, 'enemies', 16, 32, paint));
 
     _prisoners.tileset_override = 'characters';
+    _enemies.tileset_override = 'characters';
 
     onMessage<EnterRound>((_) {
       reset();
@@ -98,6 +126,7 @@ class Level extends PositionComponent with AutoDispose, GameContext, HasPaint {
     await _big_props.load(map!);
     await _small_props.load(map!);
     await _prisoners.load(map!);
+    await _enemies.load(map!);
 
     sendMessage(LevelDataAvailable(map!));
 

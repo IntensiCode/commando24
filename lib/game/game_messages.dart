@@ -31,9 +31,9 @@ class Collected with Message {
 }
 
 class GamePhaseUpdate with Message {
-  final GamePhase phase;
-
   GamePhaseUpdate(this.phase);
+
+  final GamePhase phase;
 }
 
 class LevelDataAvailable with Message {
@@ -56,12 +56,6 @@ class WeaponBonus with Message {
 
 class WeaponEmpty with Message {
   WeaponEmpty(this.type);
-
-  WeaponType type;
-}
-
-class WeaponPickedUp with Message {
-  WeaponPickedUp(this.type);
 
   WeaponType type;
 }

@@ -7,6 +7,7 @@ class GameConfiguration {
 
   final double player_move_speed = 75;
   final double player_run_speed = 125;
+  final double enemy_move_speed = 60;
 
   late int projectile_hits_per_grenade = 10;
   late int grenade_hits_per_bazooka = 3;

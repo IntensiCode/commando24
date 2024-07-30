@@ -7,6 +7,7 @@ import 'package:commando24/game/game_context.dart';
 import 'package:commando24/game/level/level_state.dart';
 import 'package:commando24/game/level/props/destructible.dart';
 import 'package:commando24/game/level/props/flammable.dart';
+import 'package:commando24/game/level/props/level_prop_extensions.dart';
 import 'package:commando24/game/player/weapon_type.dart';
 import 'package:commando24/util/extensions.dart';
 import 'package:commando24/util/random.dart';
@@ -32,6 +33,15 @@ mixin LevelObject on SpriteComponent, HasVisibility {
   final when_hit = <Hook>{};
   final when_removed = <Hook>{};
 
+  bool? force_visible;
+  double? force_opacity;
+
+  Rectangle<double> get hit_bounds => _hit_bounds;
+
+  Rectangle<double> get visual_bounds => _visual_bounds;
+
+  Rectangle<double> get walk_bounds => _walk_bounds;
+
   void update_bounds() {
     _hit_bounds.left = position.x - hit_width / 2;
     _hit_bounds.top = position.y - hit_height;
@@ -49,8 +59,11 @@ mixin LevelObject on SpriteComponent, HasVisibility {
     _walk_bounds.height = hit_height;
   }
 
-  bool is_blocked_for_walking(Rectangle rect) {
+  bool is_blocked_for_walking(Rectangle rect, {bool enemy = false}) {
     if (properties['friendly'] == true) {
+      return false;
+    }
+    if (enemy && this.enemy != null) {
       return false;
     }
     if (properties['walk_behind'] == true) {
@@ -89,6 +102,7 @@ mixin LevelObject on SpriteComponent, HasVisibility {
 
   @override
   bool get isVisible {
+    if (force_visible != null) return force_visible!;
     final visible = game.camera.visibleWorldRect;
     return position.y < visible.bottom + height && position.y > visible.top;
   }
@@ -122,7 +136,12 @@ mixin LevelObject on SpriteComponent, HasVisibility {
   }
 
   void _update(double dt) {
-    if (++_frame_check < 10) return;
+    if (force_opacity != null) {
+      opacity = force_opacity!;
+      return;
+    }
+
+    if (++_frame_check < 6) return;
     _frame_check = 0;
 
     final player_close = _visual_bounds.intersects(player.bounds);
