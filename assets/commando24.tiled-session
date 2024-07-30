@@ -18,10 +18,10 @@
         },
         "tiles/level01.tmx": {
             "scale": 2,
-            "selectedLayer": 3,
+            "selectedLayer": 5,
             "viewCenter": {
-                "x": 153.25,
-                "y": 1004.75
+                "x": 152.25,
+                "y": 1064.25
             }
         },
         "tiles/props_big.tsx": {

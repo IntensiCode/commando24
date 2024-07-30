@@ -1,10 +1,12 @@
 import 'dart:ui';
 
+import 'package:commando24/core/common.dart';
+import 'package:commando24/game/level/level_object.dart';
+import 'package:dart_minilog/dart_minilog.dart';
 import 'package:flame/components.dart';
+import 'package:flame/events.dart';
 
-import '../level_object.dart';
-
-class LevelProp extends SpriteComponent with HasVisibility, LevelObject {
+class LevelProp extends SpriteComponent with HasVisibility, LevelObject, TapCallbacks {
   LevelProp({
     required super.sprite,
     required Paint paint,
@@ -17,5 +19,15 @@ class LevelProp extends SpriteComponent with HasVisibility, LevelObject {
   }
 
   @override
-  String toString() => '$properties with $children at $position';
+  void onTapUp(TapUpEvent event) {
+    super.onTapUp(event);
+    if (dev) logInfo(this);
+  }
+
+  @override
+  String toString() => '''
+${super.toString()}
+- traits: $children
+- props: $properties
+    ''';
 }

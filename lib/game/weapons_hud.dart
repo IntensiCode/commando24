@@ -3,14 +3,12 @@ import 'dart:math';
 import 'dart:ui';
 
 import 'package:commando24/game/game_context.dart';
-import 'package:commando24/game/game_messages.dart';
 import 'package:commando24/game/player/base_weapon.dart';
 import 'package:commando24/game/player/player_state.dart';
 import 'package:commando24/util/auto_dispose.dart';
 import 'package:commando24/util/extensions.dart';
 import 'package:commando24/util/fonts.dart';
 import 'package:commando24/util/functions.dart';
-import 'package:commando24/util/on_message.dart';
 import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
 
@@ -28,12 +26,7 @@ class WeaponsHud extends PositionComponent with AutoDispose, HasPaint {
   @override
   FutureOr<void> onLoad() async {
     _slot = await sprite('weapon_slot.png');
-
-    onMessage<WeaponPickedUp>((it) {});
-    onMessage<WeaponSwitched>((it) {});
-
     paint.opacity = 0;
-
     return super.onLoad();
   }
 

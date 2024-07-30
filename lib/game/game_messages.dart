@@ -60,12 +60,6 @@ class WeaponEmpty with Message {
   WeaponType type;
 }
 
-class WeaponPickedUp with Message {
-  WeaponPickedUp(this.type);
-
-  WeaponType type;
-}
-
 class WeaponSwitched with Message {
   WeaponSwitched(this.type);
 

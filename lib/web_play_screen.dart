@@ -1,3 +1,4 @@
+import 'package:commando24/util/extensions.dart';
 import 'package:flame/components.dart';
 
 import '../../util/auto_dispose.dart';
@@ -27,7 +28,8 @@ class WebPlayScreen extends AutoDisposeComponent with HasAutoDisposeShortcuts {
   }
 
   void _leave() {
-    showScreen(Screen.title, skip_fade_out: true, skip_fade_in: true);
+    fadeOutDeep();
+    showScreen(Screen.splash, skip_fade_out: true, skip_fade_in: true);
     removeFromParent();
   }
 }
