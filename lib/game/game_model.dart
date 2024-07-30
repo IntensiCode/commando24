@@ -2,10 +2,10 @@ import 'dart:async';
 
 import 'package:commando24/core/common.dart';
 import 'package:commando24/game/decals.dart';
+import 'package:commando24/game/entities/prisoners.dart';
 import 'package:commando24/game/explosions.dart';
+import 'package:commando24/game/game_entities.dart';
 import 'package:commando24/game/hud.dart';
-import 'package:commando24/game/level/level_object.dart';
-import 'package:commando24/game/level/level_tiles.dart';
 import 'package:commando24/game/particles.dart';
 import 'package:commando24/game/player/grenades.dart';
 import 'package:commando24/game/player/weapons.dart';
@@ -24,8 +24,6 @@ import 'game_messages.dart';
 import 'game_phase.dart';
 import 'game_state.dart';
 import 'level/level.dart';
-import 'level/props/level_prop.dart';
-import 'level/props/level_prop_extensions.dart';
 import 'player/player.dart';
 
 class GameModel extends Component with AutoDispose, GameScriptFunctions, HasAutoDisposeShortcuts, HasVisibility {
@@ -37,7 +35,9 @@ class GameModel extends Component with AutoDispose, GameScriptFunctions, HasAuto
 
   final state = GameState.instance;
 
+  late final GameEntities entities;
   late final Level level;
+  late final Prisoners prisoners;
   late final Player player;
   late final Weapons weapons;
   late final Grenades grenades;
@@ -58,54 +58,34 @@ class GameModel extends Component with AutoDispose, GameScriptFunctions, HasAuto
   @override
   bool get is_active => phase == GamePhase.game_on;
 
-  final solids = <StackedTile>[];
-  final consumables = <LevelProp>[];
-  final destructibles = <LevelProp>[];
-  final flammables = <LevelProp>[];
-
-  Iterable<LevelObject> get obstacles sync* {
-    yield* solids;
-    yield* destructibles;
-  }
-
   // Component
+
+  bool closed = false;
 
   @override
   FutureOr<void> add(Component component) {
-    if (component is StackedTile) {
-      _manage(component, solids);
-    }
-    if (component is LevelProp) {
-      if (component.is_consumable) _manage(component, consumables);
-      if (component.is_destructible) _manage(component, destructibles);
-      if (component.is_flammable) _manage(component, flammables);
-    }
+    if (closed) throw 'no no: $component';
     return super.add(component);
-  }
-
-  void _manage<T extends LevelObject>(T prop, List<T> list) {
-    if (prop.isMounted) {
-      list.add(prop);
-    } else {
-      prop.mounted.then((_) => list.add(prop));
-    }
-    prop.removed.then((_) => list.remove(prop));
   }
 
   @override
   onLoad() async {
     final atlas = await image('tileset.png');
     final sprites16 = sheetWH(atlas, 16, 16);
+    final sprites1632 = sheetWH(atlas, 16, 32);
     final sprites32 = sheetWH(atlas, 32, 32);
 
     await add(state);
+    await add(entities = GameEntities());
     await add(level = Level(atlas, sprites16));
-    await add(player = Player(atlas));
+    await add(prisoners = Prisoners(sprites1632));
     await add(weapons = Weapons(sprites16));
     await add(grenades = Grenades.make(sprites16));
     await add(particles = Particles(sprites16));
     await add(explosions = Explosions(sprites32));
     await add(decals = Decals(sprites32));
+
+    await entities.add(player = Player(sprites1632));
 
     final weapons_hud = WeaponsHud(sprites32);
     await hud.add(weapons_hud);
@@ -118,6 +98,8 @@ class GameModel extends Component with AutoDispose, GameScriptFunctions, HasAuto
     // });
 
     if (dev) _dev_keys();
+
+    closed = true;
   }
 
   void _dev_keys() {

@@ -27,17 +27,17 @@ class Particles extends Component {
   late final SpriteAnimation _sparkle;
 
   void spawn_fire(Vector2 position, double variance) =>
-      model.add(_fire_pool.acquire()..init(position: position, animation: _fire, variance: variance));
+      entities.add(_fire_pool.acquire()..init(position: position, animation: _fire, variance: variance));
 
   void spawn_smoke(Vector2 position, double variance) =>
-      model.add(_smoke_pool.acquire()..init(position: position, animation: _smoke, variance: variance));
+      entities.add(_smoke_pool.acquire()..init(position: position, animation: _smoke, variance: variance));
 
   void spawn_sparkles_for(LevelProp prop) {
     final v = prop.width / 2;
     repeat(4, (i) {
       final it = _sparkle_pool.acquire();
       it.init(position: prop.position, animation: _sparkle, variance: v);
-      add(Delayed(i * 0.1, () => model.add(it)));
+      add(Delayed(i * 0.1, () => entities.add(it)));
     });
   }
 }

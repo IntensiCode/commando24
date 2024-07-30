@@ -83,7 +83,7 @@ class LevelProps extends Component with GameContext, HasVisibility {
       prop.visual_width = merged_properties['visual_width']?.toDouble() ?? prop.hit_width;
       prop.visual_height = merged_properties['visual_height']?.toDouble() ?? prop.hit_width;
 
-      await model.add(prop);
+      await entities.add(prop);
     }
   }
 

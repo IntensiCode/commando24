@@ -76,7 +76,7 @@ class LevelTiles extends Component with GameContext, HasVisibility {
             position: _render_pos,
             priority: _render_pos.y.toInt() + t * 16 - 16 + priority,
           );
-          await model.add(it);
+          await entities.add(it);
 
           it.properties = merged_properties;
 

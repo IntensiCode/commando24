@@ -12,7 +12,7 @@ class Decals extends Component {
     final big = prop.hit_width > 16;
     final which = big ? 192 : 193;
     final sprite = _sprites32.getSpriteById(which);
-    model.add(SpriteComponent(
+    entities.add(SpriteComponent(
       sprite: sprite,
       anchor: Anchor.bottomCenter,
       position: prop.position,

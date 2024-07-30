@@ -18,10 +18,10 @@
         },
         "tiles/level01.tmx": {
             "scale": 2,
-            "selectedLayer": 6,
+            "selectedLayer": 3,
             "viewCenter": {
-                "x": 149.25,
-                "y": 181.25
+                "x": 153.25,
+                "y": 1004.75
             }
         },
         "tiles/props_big.tsx": {
@@ -65,11 +65,11 @@
     "project": "commando24.tiled-project",
     "property.type": "int",
     "recentFiles": [
+        "tiles/level01.tmx",
         "tiles/tanks_atlas.tsx",
         "tiles/characters_atlas.tsx",
         "tiles/props_small_atlas.tsx",
         "tiles/props_small.tsx",
-        "tiles/level01.tmx",
         "tiles/tanks.tsx",
         "tiles/characters.tsx",
         "tiles/tileset.tsx",

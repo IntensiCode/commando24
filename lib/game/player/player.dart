@@ -9,7 +9,6 @@ import 'package:commando24/game/player/base_weapon.dart';
 import 'package:commando24/game/player/player_state.dart';
 import 'package:commando24/game/soundboard.dart';
 import 'package:commando24/util/auto_dispose.dart';
-import 'package:commando24/util/functions.dart';
 import 'package:commando24/util/keys.dart';
 import 'package:commando24/util/messaging.dart';
 import 'package:commando24/util/on_message.dart';
@@ -20,11 +19,11 @@ import 'package:flame/sprite.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
 class Player extends SpriteComponent with AutoDispose, GameContext, HasAutoDisposeShortcuts, HasVisibility {
-  Player(this._atlas) : super(anchor: const Anchor(0.5, 0.8)) {
+  Player(this._sprites1632) : super(anchor: const Anchor(0.5, 0.8)) {
     player = this;
   }
 
-  final Image _atlas;
+  final SpriteSheet _sprites1632;
 
   final bounds = MutableRectangle(0.0, 0.0, 0.0, 0.0);
 
@@ -35,7 +34,6 @@ class Player extends SpriteComponent with AutoDispose, GameContext, HasAutoDispo
   final _last_free = Vector2.zero();
 
   late final Keys _keys;
-  late final SpriteSheet _sprites;
 
   late TiledMap _map;
 
@@ -65,8 +63,7 @@ class Player extends SpriteComponent with AutoDispose, GameContext, HasAutoDispo
     paint.style = PaintingStyle.stroke;
 
     _keys = keys;
-    _sprites = sheetWH(_atlas, 16, 32);
-    this.sprite = _sprites.getSpriteById(0);
+    this.sprite = _sprites1632.getSpriteById(0);
 
     onMessage<EnterRound>((_) => reset(PlayerState.gone));
     onMessage<GameComplete>((_) => _on_level_complete());
@@ -148,7 +145,7 @@ class Player extends SpriteComponent with AutoDispose, GameContext, HasAutoDispo
     bounds.width = 14;
     bounds.height = height * 1.5;
 
-    for (final it in model.consumables) {
+    for (final it in entities.consumables) {
       if (it.isRemoving || it.isRemoved) continue;
       if (!it.is_hit_by(position)) continue;
       model.particles.spawn_sparkles_for(it);
@@ -172,7 +169,7 @@ class Player extends SpriteComponent with AutoDispose, GameContext, HasAutoDispo
 
     final weapon = active_weapon?.type.index ?? 0;
     final firing = show_firing > 0 ? 16 : 0;
-    this.sprite = _sprites.getSprite(12 + weapon, 16 + offset + frame + firing);
+    this.sprite = _sprites1632.getSprite(12 + weapon, 16 + offset + frame + firing);
   }
 
   void _on_leaving(double dt) {
@@ -217,7 +214,7 @@ class Player extends SpriteComponent with AutoDispose, GameContext, HasAutoDispo
     bounds.width = 14;
     bounds.height = height * 0.125;
 
-    for (final it in model.obstacles) {
+    for (final it in entities.obstacles) {
       if (it.is_blocked_for_walking(bounds)) {
         if (move_dir.x != 0 && move_dir.y != 0) {
           final remember_y = move_dir.y;

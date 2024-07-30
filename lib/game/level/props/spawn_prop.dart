@@ -14,7 +14,7 @@ class SpawnProp extends Component {
     super.onMount();
     my_prop.when_removed.add(() {
       removeFromParent();
-      model.add(consumable);
+      entities.add(consumable);
       consumable.add(JumpEffect());
     });
   }

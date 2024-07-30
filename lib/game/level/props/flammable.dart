@@ -36,7 +36,7 @@ class Flammable extends Component {
       }
 
       if (_burn_time_overall.toInt() == 1) {
-        for (final it in model.flammables) {
+        for (final it in entities.flammables) {
           if (it == my_prop) continue;
           if (it.position.distanceTo(my_prop.position) > 24) continue;
           it.flammable?.ignite();

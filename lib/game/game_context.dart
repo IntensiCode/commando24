@@ -1,17 +1,19 @@
+import 'package:commando24/game/game_entities.dart';
+import 'package:commando24/game/level/level.dart';
+import 'package:commando24/game/player/player.dart';
+import 'package:commando24/game/visual_configuration.dart';
+import 'package:commando24/util/keys.dart';
 import 'package:flame/components.dart';
 
-import '../util/keys.dart';
 import 'game_configuration.dart';
 import 'game_model.dart';
 import 'game_phase.dart';
 import 'game_screen.dart';
 import 'game_state.dart';
-import 'level/level.dart';
-import 'player/player.dart';
-import 'visual_configuration.dart';
 
 // to make these available to the tiny components, singletons are just fine:
 
+late GameEntities entities;
 late GameModel model;
 late Level level;
 late Player player;
@@ -40,11 +42,9 @@ mixin GameContext on Component {
 
   Keys get keys => _keys ??= model.keys;
 
+  GameEntities get entities => model.entities;
+
   Level get level => _level ??= model.level;
 
   Player get player => _player ??= model.player;
-
-  Iterable<T> top_level_children<T extends Component>() => model.children.whereType<T>();
-
-  spawn_top_level<T extends Component>(T component) => model.add(component);
 }

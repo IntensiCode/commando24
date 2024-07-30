@@ -4,9 +4,9 @@ Inspired by Commando as seen on the C64 in 1985
 
 ### To Do
 
-- [ ] health
-- [ ] enemies
 - [ ] prisoners
+- [ ] enemies
+- [ ] health
 
 - [ ] level complete
 - [ ] top level game logic

@@ -91,7 +91,7 @@ class BaseWeapon extends Component with AutoDispose, GameContext {
       projectile.behaviors.addAll(projectile_behaviors);
     }
     projectile.init(animation: _animation, position: temp_pos, velocity: velocity);
-    model.add(projectile);
+    entities.add(projectile);
 
     if (sound) soundboard.play(_sound);
   }

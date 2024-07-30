@@ -94,7 +94,7 @@ class RecycleOnSolidHit extends ProjectileBehavior {
     _check_pos.setFrom(projectile.position);
     _check_pos.y += 6; // TODO wtf :-D ‾\_('')_/‾
 
-    for (final solid in model.solids) {
+    for (final solid in entities.solids) {
       if (solid.is_hit_by(_check_pos)) {
         if (solid.properties['walk_behind'] == true) continue;
         projectile.recycle();
@@ -112,7 +112,7 @@ class RecycleOnTargetHit extends ProjectileBehavior {
     _check_pos.setFrom(projectile.position);
     _check_pos.y += 6;
 
-    for (final target in model.destructibles) {
+    for (final target in entities.destructibles) {
       if (target.is_hit_by(_check_pos)) {
         target.on_hit(projectile.type);
 

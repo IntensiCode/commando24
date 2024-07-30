@@ -58,12 +58,12 @@ class Explosions extends Component {
   }
 
   void _explode(Vector2 position, SpriteAnimation which, {LevelObject? origin}) {
-    model.add(_pool.acquire()..init(position: position, animation: which));
+    entities.add(_pool.acquire()..init(position: position, animation: which));
     _affect_area(origin?.position ?? position, origin);
   }
 
   void _affect_area(Vector2 position, LevelObject? prop) {
-    for (final it in model.destructibles) {
+    for (final it in entities.destructibles) {
       if (it == prop) continue;
       final distance = it.position.distanceToSquared(position);
       if (distance < 800) {

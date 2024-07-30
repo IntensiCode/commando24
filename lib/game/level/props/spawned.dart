@@ -13,7 +13,7 @@ class Spawned extends Component {
   }
 
   void _move_into_container() {
-    final containers = model.children.whereType<LevelProp>();
+    final containers = entities.children.whereType<LevelProp>();
     for (final it in containers) {
       if (it.properties['consumable'] == true) continue;
       if (it.properties['spawned'] == true) continue;

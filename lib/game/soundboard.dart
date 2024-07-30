@@ -21,6 +21,8 @@ enum Sound {
   flamethrower(limit: 1),
   hit_crack,
   hit_metal,
+  prisoner_death,
+  prisoner_freed,
   shot_assault_rifle,
   shot_assault_rifle_real,
   shot_bazooka,

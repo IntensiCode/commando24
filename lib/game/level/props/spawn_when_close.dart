@@ -14,10 +14,10 @@ class SpawnWhenClose extends Component {
 
   void _replace_with_proximity_sensor() {
     final it = my_prop;
-    model.add(ProximitySensor(
+    entities.add(ProximitySensor(
       center: it.center,
       radius: 32,
-      when_triggered: () => model.add(it),
+      when_triggered: () => entities.add(it),
     ));
     it.removeFromParent();
   }
