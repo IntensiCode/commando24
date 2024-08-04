@@ -1,5 +1,6 @@
 import 'package:commando24/game/entities/enemy.dart';
 import 'package:commando24/game/entities/enemy_behavior.dart';
+import 'package:commando24/game/game_configuration.dart';
 import 'package:commando24/game/game_context.dart';
 import 'package:commando24/game/level/props/level_prop_extensions.dart';
 import 'package:flame/components.dart';
@@ -7,14 +8,52 @@ import 'package:flame/components.dart';
 class MovementClosesIn extends Component with EnemyBehavior, MovementMode {
   late Enemy enemy;
 
-  double reaction = 0;
-
   @override
-  void attach(Enemy enemy) => this.enemy = enemy;
+  void attach(Enemy enemy) {
+    this.enemy = enemy;
+    this.enemy.use_advice = false;
+  }
+
+  final _path_segment = List.generate(8, (_) => Vector2.zero());
+
+  bool _finding = false;
 
   @override
   void offer_reaction() {
-    enemy.move_dir.x = (player.position.x - my_prop.position.x).sign;
-    enemy.move_dir.y = (player.position.y - my_prop.position.y).sign;
+    if (my_prop.position.distanceToSquared(_path_segment.first) < 16) {
+      for (var i = 1; i < _path_segment.length; i++) {
+        _path_segment[i - 1].setFrom(_path_segment[i]);
+      }
+      _path_segment.last.setZero();
+    }
+
+    if (_path_segment[3].isZero() && !_finding) {
+      model.path_finder.find_path_to_player(my_prop, _path_segment);
+      _finding = true;
+    }
+
+    if (!_path_segment[3].isZero() && _finding) {
+      _finding = false;
+    }
+  }
+
+  final _temp = Vector2.zero();
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+
+    if (_path_segment.first.isZero()) return;
+
+    if (my_prop.position != _path_segment.first) {
+      _temp.setFrom(_path_segment.first);
+      _temp.sub(my_prop.position);
+      _temp.normalize();
+      _temp.scale(configuration.enemy_move_speed * dt);
+      my_prop.position.add(_temp);
+    }
+
+    enemy.fire_dir.setFrom(player.position);
+    enemy.fire_dir.sub(my_prop.position);
   }
 }

@@ -56,7 +56,9 @@ class Level extends PositionComponent with AutoDispose, GameContext, HasPaint {
 
   List<List<Gid>>? _advice;
 
-  double? advice_for(Vector2 position) {
+  final _advice_dir = Vector2.zero();
+
+  Vector2? advice_for(Vector2 position) {
     _advice ??= (map?.layerByName('advice') as TileLayer?)?.tileData;
 
     final it = _advice;
@@ -68,10 +70,13 @@ class Level extends PositionComponent with AutoDispose, GameContext, HasPaint {
     final y = (position.y - (15 - map!.height) * 16) ~/ 16;
     if (y < 0 || y >= map!.height) return null;
 
+    _advice_dir.setZero();
     final advice = it[y][position.x ~/ 16];
-    if (advice.tile == 607) return 1;
-    if (advice.tile == 608) return -1;
-    return null;
+    if (advice.tile == 607) _advice_dir.x = 1;
+    if (advice.tile == 608) _advice_dir.x = -1;
+    if (advice.tile == 609) _advice_dir.y = -1;
+    if (advice.tile == 610) _advice_dir.y = 1;
+    return _advice_dir.isZero() ? null : _advice_dir;
   }
 
   // Component

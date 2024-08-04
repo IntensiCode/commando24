@@ -7,8 +7,6 @@ import 'package:flame/components.dart';
 class MovementDownOnly extends Component with MovementMode, EnemyBehavior {
   late Enemy enemy;
 
-  double reaction = 0;
-
   @override
   void attach(Enemy enemy) => this.enemy = enemy;
 

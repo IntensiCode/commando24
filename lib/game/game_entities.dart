@@ -16,8 +16,10 @@ class GameEntities extends Component {
   final solids = <StackedTile>[];
   final consumables = <LevelProp>[];
   final destructibles = <LevelProp>[];
+  final explosives = <LevelProp>[];
   final flammables = <LevelProp>[];
   final prisoners = <Prisoner>[];
+  final enemies = <LevelObject>[];
 
   Iterable<LevelObject> get obstacles sync* {
     yield* solids;
@@ -32,7 +34,9 @@ class GameEntities extends Component {
     if (component is LevelProp) {
       if (component.is_consumable) _manage(component, consumables);
       if (component.is_destructible) _manage(component, destructibles);
+      if (component.is_explosive) _manage(component, explosives);
       if (component.is_flammable) _manage(component, flammables);
+      if (component.is_enemy) _manage(component, enemies);
     }
     if (component is Prisoner) {
       _manage(component, prisoners);

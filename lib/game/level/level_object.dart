@@ -36,6 +36,12 @@ mixin LevelObject on SpriteComponent, HasVisibility {
   bool? force_visible;
   double? force_opacity;
 
+  Rectangle<double> get hit_bounds => _hit_bounds;
+
+  Rectangle<double> get visual_bounds => _visual_bounds;
+
+  Rectangle<double> get walk_bounds => _walk_bounds;
+
   void update_bounds() {
     _hit_bounds.left = position.x - hit_width / 2;
     _hit_bounds.top = position.y - hit_height;

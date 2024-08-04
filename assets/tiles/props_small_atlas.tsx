@@ -106,7 +106,7 @@
    <property name="metal" type="bool" value="true"/>
    <property name="smoke_when_hit" type="bool" value="true"/>
    <property name="visual_height" type="int" value="25"/>
-   <property name="width" type="int" value="16"/>
+   <property name="width" type="int" value="14"/>
   </properties>
  </tile>
  <tile id="433" type="barrel">
@@ -114,12 +114,12 @@
    <property name="destructible" type="bool" value="true"/>
    <property name="explosive" type="bool" value="true"/>
    <property name="flammable" type="bool" value="true"/>
-   <property name="height" type="int" value="16"/>
+   <property name="height" type="int" value="12"/>
    <property name="hits" type="int" value="8"/>
    <property name="metal" type="bool" value="true"/>
    <property name="smoke_when_hit" type="bool" value="true"/>
    <property name="visual_height" type="int" value="25"/>
-   <property name="width" type="int" value="16"/>
+   <property name="width" type="int" value="14"/>
   </properties>
  </tile>
  <tile id="434" type="box">
@@ -128,10 +128,10 @@
    <property name="crack_when_hit" type="bool" value="true"/>
    <property name="destructible" type="bool" value="true"/>
    <property name="flammable" type="bool" value="true"/>
-   <property name="height" type="int" value="16"/>
+   <property name="height" type="int" value="12"/>
    <property name="hits" type="int" value="1"/>
    <property name="visual_height" type="int" value="25"/>
-   <property name="width" type="int" value="16"/>
+   <property name="width" type="int" value="14"/>
   </properties>
  </tile>
  <tile id="435" type="box">
@@ -140,43 +140,43 @@
    <property name="crack_when_hit" type="bool" value="true"/>
    <property name="destructible" type="bool" value="true"/>
    <property name="flammable" type="bool" value="true"/>
-   <property name="height" type="int" value="14"/>
+   <property name="height" type="int" value="10"/>
    <property name="hits" type="int" value="1"/>
    <property name="visual_height" type="int" value="20"/>
-   <property name="width" type="int" value="16"/>
+   <property name="width" type="int" value="14"/>
   </properties>
  </tile>
  <tile id="436" type="score_500">
   <properties>
    <property name="crack_when_hit" type="bool" value="true"/>
    <property name="destructible" type="bool" value="true"/>
-   <property name="height" type="int" value="14"/>
+   <property name="height" type="int" value="10"/>
    <property name="hits" type="int" value="2"/>
    <property name="spawn_score" type="int" value="1000"/>
    <property name="visual_height" type="int" value="20"/>
-   <property name="width" type="int" value="16"/>
+   <property name="width" type="int" value="14"/>
   </properties>
  </tile>
  <tile id="437" type="container">
   <properties>
    <property name="crack_when_hit" type="bool" value="true"/>
    <property name="destructible" type="bool" value="true"/>
-   <property name="height" type="int" value="16"/>
+   <property name="height" type="int" value="12"/>
    <property name="hits" type="int" value="3"/>
    <property name="metal" type="bool" value="true"/>
    <property name="visual_height" type="int" value="25"/>
-   <property name="width" type="int" value="16"/>
+   <property name="width" type="int" value="14"/>
   </properties>
  </tile>
  <tile id="438" type="container">
   <properties>
    <property name="crack_when_hit" type="bool" value="true"/>
    <property name="destructible" type="bool" value="true"/>
-   <property name="height" type="int" value="14"/>
+   <property name="height" type="int" value="10"/>
    <property name="hits" type="int" value="3"/>
    <property name="metal" type="bool" value="true"/>
    <property name="visual_height" type="int" value="20"/>
-   <property name="width" type="int" value="16"/>
+   <property name="width" type="int" value="14"/>
   </properties>
  </tile>
  <tile id="460" type="mine">

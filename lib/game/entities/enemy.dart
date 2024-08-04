@@ -28,7 +28,9 @@ class Enemy extends Component with PropertyBehavior {
 
   double reaction_time = 0.25;
   final move_dir = Vector2.zero();
+  bool use_advice = true;
   final fire_dir = Vector2.zero();
+  bool auto_fire_dir = true;
 
   double _react_time = 0;
   final _temp_move = Vector2.zero();
@@ -41,6 +43,7 @@ class Enemy extends Component with PropertyBehavior {
     if (!my_properties.keys.any((it) => it == 'spawn_late')) {
       await my_prop.add(SpawnWhenVisible());
     }
+    active_weapon = WeaponType.by_name(my_properties['weapon']);
     return super.onLoad();
   }
 
@@ -71,10 +74,11 @@ class Enemy extends Component with PropertyBehavior {
       _react_time -= min(_react_time, dt);
     }
 
-    final advice = level.advice_for(my_prop.position);
-    if (advice != null) move_dir.setValues(advice, 0);
-
-    _try_move(dt);
+    if (use_advice) {
+      final advice = level.advice_for(my_prop.position);
+      if (advice != null) move_dir.setFrom(advice);
+      _try_move(dt);
+    }
 
     _temp_move.setFrom(move_dir);
     _temp_move.scale(configuration.enemy_move_speed * dt);
@@ -82,7 +86,7 @@ class Enemy extends Component with PropertyBehavior {
     my_prop.priority = my_prop.position.y.toInt() + (stationary ? 16 : 0);
     my_prop.update_bounds();
 
-    if (!move_dir.isZero()) fire_dir.setFrom(move_dir);
+    if (auto_fire_dir && !move_dir.isZero()) fire_dir.setFrom(move_dir);
   }
 
   void _offer_reaction() {

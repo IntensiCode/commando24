@@ -6,6 +6,7 @@ import 'package:commando24/game/entities/prisoners.dart';
 import 'package:commando24/game/explosions.dart';
 import 'package:commando24/game/game_entities.dart';
 import 'package:commando24/game/hud.dart';
+import 'package:commando24/game/level/path_finder.dart';
 import 'package:commando24/game/particles.dart';
 import 'package:commando24/game/player/grenades.dart';
 import 'package:commando24/game/player/weapons.dart';
@@ -44,6 +45,7 @@ class GameModel extends Component with AutoDispose, GameScriptFunctions, HasAuto
   late final Particles particles;
   late final Explosions explosions;
   late final Decals decals;
+  late final PathFinder path_finder;
 
   GamePhase _phase = GamePhase.game_over;
 
@@ -84,6 +86,7 @@ class GameModel extends Component with AutoDispose, GameScriptFunctions, HasAuto
     await add(particles = Particles(sprites16));
     await add(explosions = Explosions(sprites32));
     await add(decals = Decals(sprites32));
+    await add(path_finder = PathFinder());
 
     await entities.add(player = Player(sprites1632));
 

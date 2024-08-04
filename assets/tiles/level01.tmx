@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-up" width="20" height="80" tilewidth="16" tileheight="16" infinite="0" nextlayerid="23" nextobjectid="510">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-up" width="20" height="80" tilewidth="16" tileheight="16" infinite="0" nextlayerid="23" nextobjectid="512">
  <properties>
   <property name="name" value="Jungle Camp"/>
  </properties>
@@ -414,8 +414,8 @@
 0,0,607,0,0,0,0,0,0,0,0,0,0,0,0,0,0,608,608,608,
 0,608,607,607,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,607,607,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,607,610,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,607,610,608,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -481,12 +481,12 @@
   <object id="460" gid="3205" x="272" y="1344" width="64" height="64"/>
  </objectgroup>
  <objectgroup id="18" name="props_small_atlas">
-  <object id="378" gid="3698" x="272" y="1136" width="32" height="32"/>
-  <object id="380" gid="3698" x="240" y="1136" width="32" height="32"/>
-  <object id="381" gid="3698" x="224" y="1120" width="32" height="32"/>
-  <object id="382" gid="3698" x="208" y="1104" width="32" height="32"/>
-  <object id="383" gid="3698" x="192" y="1104" width="32" height="32"/>
-  <object id="384" gid="3698" x="176" y="1104" width="32" height="32"/>
+  <object id="378" gid="3698" x="280" y="1136" width="32" height="32"/>
+  <object id="380" gid="3698" x="248" y="1136" width="32" height="32"/>
+  <object id="381" gid="3698" x="232" y="1120" width="32" height="32"/>
+  <object id="382" gid="3698" x="216" y="1104" width="32" height="32"/>
+  <object id="383" gid="3698" x="200" y="1104" width="32" height="32"/>
+  <object id="384" gid="3698" x="184" y="1104" width="32" height="32"/>
   <object id="385" gid="3698" x="160" y="1104" width="32" height="32"/>
   <object id="387" gid="3698" x="224" y="976" width="32" height="32"/>
   <object id="388" gid="3698" x="48" y="896" width="32" height="32"/>
@@ -516,6 +516,7 @@
   <object id="489" gid="3677" x="48" y="1184" width="32" height="32"/>
   <object id="490" gid="3678" x="192" y="1152" width="32" height="32"/>
   <object id="491" gid="3651" x="208" y="1184" width="32" height="32"/>
+  <object id="511" gid="3701" x="112" y="1168" width="32" height="32"/>
  </objectgroup>
  <objectgroup id="20" name="enemies_atlas">
   <object id="465" gid="5201" x="288" y="400" width="16" height="32"/>
@@ -623,7 +624,7 @@
   <object id="497" gid="4965" x="128" y="992" width="16" height="32"/>
   <object id="498" gid="5013" x="288" y="1008" width="16" height="32"/>
   <object id="499" gid="5061" x="192" y="1040" width="16" height="32"/>
-  <object id="500" gid="5109" x="16" y="1136" width="16" height="32"/>
+  <object id="500" gid="5109" x="32" y="1184" width="16" height="32"/>
   <object id="501" gid="5157" x="304" y="1152" width="16" height="32">
    <properties>
     <property name="closes_in" type="bool" value="false"/>
@@ -663,6 +664,12 @@
    <properties>
     <property name="spawn_late" type="bool" value="true"/>
     <property name="spawn_stacked" type="bool" value="true"/>
+   </properties>
+  </object>
+  <object id="510" gid="5157" x="-16" y="1168" width="16" height="32">
+   <properties>
+    <property name="closes_in" type="bool" value="false"/>
+    <property name="runs_across" type="bool" value="true"/>
    </properties>
   </object>
  </objectgroup>

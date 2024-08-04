@@ -31,9 +31,9 @@ class Collected with Message {
 }
 
 class GamePhaseUpdate with Message {
-  final GamePhase phase;
-
   GamePhaseUpdate(this.phase);
+
+  final GamePhase phase;
 }
 
 class LevelDataAvailable with Message {

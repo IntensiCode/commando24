@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:commando24/game/entities/enemy.dart';
 import 'package:commando24/game/entities/finds_cover.dart';
 import 'package:commando24/game/entities/movement_closes_in.dart';
+import 'package:commando24/game/entities/movement_runs_across.dart';
 import 'package:commando24/game/entities/movement_stationary.dart';
 import 'package:commando24/game/entities/property_behavior.dart';
 import 'package:commando24/game/entities/spawn_late.dart';
@@ -119,6 +120,7 @@ class LevelProps extends Component with GameContext, HasVisibility {
     if (properties['finds_cover'] == true) result.add(FindsCover());
     if (properties['flammable'] == true) result.add(Flammable());
     if (properties['imprisoned'] == true) result.add(Imprisoned());
+    if (properties['runs_across'] == true) result.add(MovementRunsAcross());
     if (properties['smoke_when_hit'] == true) result.add(SmokeWhenHit());
     if (properties['spawn_late'] == true) result.add(SpawnLate());
     if (properties['spawn_score'] == true) result.add(SpawnScore());

@@ -2,6 +2,7 @@ import 'package:commando24/game/entities/enemy.dart';
 import 'package:commando24/game/entities/enemy_behavior.dart';
 import 'package:commando24/game/entities/spawn_mode.dart';
 import 'package:commando24/game/level/level_object.dart';
+import 'package:commando24/game/level/props/explosive.dart';
 import 'package:commando24/game/level/props/flammable.dart';
 import 'package:commando24/game/level/props/level_prop.dart';
 import 'package:flame/components.dart';
@@ -18,7 +19,11 @@ extension ComponentExtensions on Component {
 
   bool get is_destructible => children.any((it) => it is Destructible);
 
+  bool get is_explosive => children.any((it) => it is Explosive);
+
   bool get is_flammable => children.any((it) => it is Flammable);
+
+  bool get is_enemy => children.any((it) => it is Enemy);
 }
 
 extension LevelObjectExtensions on LevelObject {
