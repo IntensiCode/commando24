@@ -1,8 +1,7 @@
 import 'package:commando24/core/common.dart';
 import 'package:commando24/game/entities/spawn_mode.dart';
-import 'package:commando24/game/entities/spawn_when_visible.dart';
 import 'package:commando24/game/level/props/level_prop_extensions.dart';
-import 'package:dart_minilog/dart_minilog.dart';
+import 'package:commando24/util/log.dart';
 import 'package:flame/components.dart';
 
 class SpawnStacked extends Component {
@@ -19,7 +18,7 @@ class SpawnStacked extends Component {
       my_prop.removeAll(pending);
       if (pending.isNotEmpty) return;
       if (dev) throw 'no spawns on $my_prop';
-      logError('no spawns on $my_prop');
+      log_error('no spawns on $my_prop');
       removeFromParent();
     } else {
       final which = pending.where((it) => it.should_spawn(my_prop));
@@ -30,7 +29,7 @@ class SpawnStacked extends Component {
 
       last_spawn = now;
 
-      logInfo('activate ${which.first}');
+      log_info('activate ${which.first}');
       my_prop.add(which.first);
       pending.remove(which.first);
       if (pending.isEmpty) removeFromParent();

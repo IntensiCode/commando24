@@ -3,10 +3,10 @@ import 'package:commando24/game/game_context.dart';
 import 'package:commando24/game/game_messages.dart';
 import 'package:commando24/util/auto_dispose.dart';
 import 'package:commando24/util/extensions.dart';
+import 'package:commando24/util/log.dart';
 import 'package:commando24/util/messaging.dart';
 import 'package:commando24/util/on_message.dart';
 import 'package:commando24/util/tiled_extensions.dart';
-import 'package:dart_minilog/dart_minilog.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame/sprite.dart';
@@ -110,14 +110,14 @@ class Level extends PositionComponent with AutoDispose, GameContext, HasPaint {
       }
       return true;
     } catch (e) {
-      logError('failed to load level $level_number_starting_at_1: $e');
+      log_error('failed to load level $level_number_starting_at_1: $e');
       sendMessage(GameOver());
       return false;
     }
   }
 
   Future _load_level() async {
-    logInfo('load level $level_number_starting_at_1');
+    log_info('load level $level_number_starting_at_1');
 
     final ok = await preload_level();
     if (!ok) return;

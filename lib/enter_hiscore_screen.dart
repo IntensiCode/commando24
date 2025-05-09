@@ -1,11 +1,11 @@
-import 'core/common.dart';
-import 'core/screens.dart';
-import 'game/game_state.dart';
-import 'game/hiscore.dart';
-import 'util/fonts.dart';
-import 'util/functions.dart';
-import 'util/game_script.dart';
-import 'util/shortcuts.dart';
+import 'package:commando24/core/common.dart';
+import 'package:commando24/core/screens.dart';
+import 'package:commando24/game/game_state.dart';
+import 'package:commando24/game/hiscore.dart';
+import 'package:commando24/util/fonts.dart';
+import 'package:commando24/util/functions.dart';
+import 'package:commando24/util/game_script.dart';
+import 'package:commando24/util/shortcuts.dart';
 
 class EnterHiscoreScreen extends GameScriptComponent with HasAutoDisposeShortcuts {
   @override

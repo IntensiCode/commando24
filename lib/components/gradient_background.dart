@@ -1,9 +1,8 @@
 import 'dart:ui';
 
+import 'package:commando24/core/common.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
-
-import '../core/common.dart';
 
 class GradientBackground extends PositionComponent with HasPaint, HasVisibility {
   GradientBackground({Vector2? position, Vector2? size, Anchor? anchor}) {

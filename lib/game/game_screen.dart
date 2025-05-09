@@ -1,24 +1,24 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:commando24/components/military_text.dart';
+import 'package:commando24/core/common.dart';
+import 'package:commando24/core/screens.dart';
 import 'package:commando24/game/player/player_state.dart';
-import 'package:dart_minilog/dart_minilog.dart';
+import 'package:commando24/util/bitmap_button.dart';
+import 'package:commando24/util/bitmap_text.dart';
+import 'package:commando24/util/delayed.dart';
+import 'package:commando24/util/extensions.dart';
+import 'package:commando24/util/fonts.dart';
+import 'package:commando24/util/functions.dart';
+import 'package:commando24/util/game_script.dart';
+import 'package:commando24/util/keys.dart';
+import 'package:commando24/util/log.dart';
+import 'package:commando24/util/messaging.dart';
+import 'package:commando24/util/on_message.dart';
+import 'package:commando24/util/shortcuts.dart';
 import 'package:flame/components.dart';
 
-import '../components/military_text.dart';
-import '../core/common.dart';
-import '../core/screens.dart';
-import '../util/bitmap_button.dart';
-import '../util/bitmap_text.dart';
-import '../util/delayed.dart';
-import '../util/extensions.dart';
-import '../util/fonts.dart';
-import '../util/functions.dart';
-import '../util/game_script.dart';
-import '../util/keys.dart';
-import '../util/messaging.dart';
-import '../util/on_message.dart';
-import '../util/shortcuts.dart';
 import 'game_messages.dart';
 import 'game_model.dart';
 import 'game_phase.dart';
@@ -77,7 +77,7 @@ class GameScreen extends GameScriptComponent with HasAutoDisposeShortcuts {
     onMessage<PlayerDied>((_) => _on_vaus_lost());
 
     onMessage<GamePhaseUpdate>((it) {
-      logInfo('game phase update: ${it.phase}');
+      log_info('game phase update: ${it.phase}');
       _temp_block_keys = false;
       _phase_handler(it.phase).call();
     });
@@ -228,7 +228,7 @@ class GameScreen extends GameScriptComponent with HasAutoDisposeShortcuts {
     _switch_overlay(LevelBonus(() {
       add(Delayed(0.5, () async {
         model.state.level_number_starting_at_1++;
-        logInfo('next round: ${model.state.level_number_starting_at_1}');
+        log_info('next round: ${model.state.level_number_starting_at_1}');
         await model.state.save_checkpoint();
         if (model.state.level_number_starting_at_1 == 2) {
           await save_not_first_time();

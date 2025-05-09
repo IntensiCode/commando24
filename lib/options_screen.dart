@@ -1,18 +1,17 @@
-import 'package:dart_minilog/dart_minilog.dart';
+import 'package:commando24/components/basic_menu.dart';
+import 'package:commando24/components/basic_menu_button.dart';
+import 'package:commando24/components/flow_text.dart';
+import 'package:commando24/components/soft_keys.dart';
+import 'package:commando24/core/common.dart';
+import 'package:commando24/core/screens.dart';
+import 'package:commando24/util/extensions.dart';
+import 'package:commando24/util/fonts.dart';
+import 'package:commando24/util/functions.dart';
+import 'package:commando24/util/game_keys.dart';
+import 'package:commando24/util/game_script.dart';
+import 'package:commando24/util/log.dart';
+import 'package:commando24/util/shortcuts.dart';
 import 'package:flame/components.dart';
-
-import '../util/extensions.dart';
-import 'components/basic_menu.dart';
-import 'components/basic_menu_button.dart';
-import 'components/flow_text.dart';
-import 'components/soft_keys.dart';
-import 'core/common.dart';
-import 'core/screens.dart';
-import 'util/fonts.dart';
-import 'util/functions.dart';
-import 'util/game_keys.dart';
-import 'util/game_script.dart';
-import 'util/shortcuts.dart';
 
 enum OptionsMenuEntry {
   pixelate,
@@ -73,7 +72,7 @@ class OptionsScreen extends GameScriptComponent with HasAutoDisposeShortcuts, Ke
   }
 
   void _selected(OptionsMenuEntry it) {
-    logInfo('Selected: $it');
+    log_info('Selected: $it');
     switch (it) {
       case OptionsMenuEntry.pixelate:
       // visual.pixelate = !visual.pixelate;

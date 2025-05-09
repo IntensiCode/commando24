@@ -1,10 +1,9 @@
+import 'package:commando24/components/basic_menu_button.dart';
+import 'package:commando24/util/auto_dispose.dart';
+import 'package:commando24/util/bitmap_font.dart';
+import 'package:commando24/util/shortcuts.dart';
 import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
-
-import '../util/auto_dispose.dart';
-import '../util/bitmap_font.dart';
-import '../util/shortcuts.dart';
-import 'basic_menu_button.dart';
 
 class BasicMenu<T> extends PositionComponent with AutoDispose, HasAutoDisposeShortcuts {
   final SpriteSheet button;

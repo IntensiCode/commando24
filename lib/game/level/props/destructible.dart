@@ -1,7 +1,7 @@
 import 'package:commando24/game/game_configuration.dart';
 import 'package:commando24/game/game_context.dart';
 import 'package:commando24/game/player/weapon_type.dart';
-import 'package:dart_minilog/dart_minilog.dart';
+import 'package:commando24/util/log.dart';
 import 'package:flame/components.dart';
 
 import 'level_prop_extensions.dart';
@@ -46,7 +46,7 @@ class Destructible extends Component {
       }
     }
     if (hit_points == 0) {
-      logWarn('default hit points for $parent');
+      log_warn('default hit points for $parent');
       hit_points = 1;
     }
 

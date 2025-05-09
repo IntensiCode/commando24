@@ -15,9 +15,9 @@ import 'package:commando24/util/auto_dispose.dart';
 import 'package:commando24/util/functions.dart';
 import 'package:commando24/util/game_script_functions.dart';
 import 'package:commando24/util/keys.dart';
+import 'package:commando24/util/log.dart';
 import 'package:commando24/util/messaging.dart';
 import 'package:commando24/util/shortcuts.dart';
-import 'package:dart_minilog/dart_minilog.dart';
 import 'package:flame/components.dart';
 
 import 'game_context.dart';
@@ -106,7 +106,7 @@ class GameModel extends Component with AutoDispose, GameScriptFunctions, HasAuto
   }
 
   void _dev_keys() {
-    logInfo('DEV KEYS');
+    log_info('DEV KEYS');
     // onKey('x', () => sendMessage(WeaponBonus(WeaponType.assault_rifle)));
     // onKey('<A-2>', () => sendMessage(WeaponBonus(WeaponType.bazooka)));
     // onKey('<A-3>', () => sendMessage(WeaponBonus(WeaponType.flame_thrower)));

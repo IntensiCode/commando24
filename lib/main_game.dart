@@ -1,19 +1,16 @@
 import 'dart:async';
 
+import 'package:commando24/core/common.dart';
 import 'package:commando24/game/hud.dart';
-import 'package:dart_minilog/dart_minilog.dart';
+import 'package:commando24/game/soundboard.dart';
+import 'package:commando24/main_controller.dart';
+import 'package:commando24/util/fonts.dart';
+import 'package:commando24/util/messaging.dart';
+import 'package:commando24/util/performance.dart';
+import 'package:commando24/util/shortcuts.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
-import 'package:flutter/foundation.dart';
-
-import 'core/common.dart';
-import 'game/soundboard.dart';
-import 'main_controller.dart';
-import 'util/fonts.dart';
-import 'util/messaging.dart';
-import 'util/performance.dart';
-import 'util/shortcuts.dart';
 
 class MainGame extends FlameGame<MainController>
     with HasKeyboardHandlerComponents, Messaging, Shortcuts, HasPerformanceTracker, ScrollDetector {
@@ -23,7 +20,6 @@ class MainGame extends FlameGame<MainController>
   MainGame() : super(world: MainController()) {
     game = this;
     images = this.images;
-    if (kIsWeb) logAnsi = false;
   }
 
   @override

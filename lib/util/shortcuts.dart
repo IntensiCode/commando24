@@ -1,4 +1,4 @@
-import 'package:dart_minilog/dart_minilog.dart';
+import 'package:commando24/util/log.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/services.dart';
@@ -39,7 +39,7 @@ mixin Shortcuts<T extends World> on HasKeyboardHandlerComponents<T> {
 
   Disposable onKey(String pattern, void Function() callback, {bool Function()? is_active}) {
     is_active ??= () => true;
-    logVerbose('onKey $pattern');
+    log_verbose('onKey $pattern');
     final handler = (pattern, callback, is_active);
     handlers.add(handler);
     return Disposable.wrap(() => handlers.remove(handler));
@@ -70,7 +70,7 @@ mixin Shortcuts<T extends World> on HasKeyboardHandlerComponents<T> {
       if (handled) {
         return KeyEventResult.skipRemainingHandlers;
       } else {
-        logVerbose('not handled: $pattern');
+        log_verbose('not handled: $pattern');
       }
     } else if (event is KeyDownEvent) {
       final pattern = _make_shortcut(event);
@@ -87,7 +87,7 @@ mixin Shortcuts<T extends World> on HasKeyboardHandlerComponents<T> {
       if (handled) {
         return KeyEventResult.skipRemainingHandlers;
       } else {
-        logVerbose('not handled: $pattern');
+        log_verbose('not handled: $pattern');
       }
     }
     return super.onKeyEvent(event, keysPressed);

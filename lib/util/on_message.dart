@@ -1,4 +1,5 @@
-import '../core/common.dart';
+import 'package:commando24/core/common.dart';
+
 import 'auto_dispose.dart';
 import 'messaging.dart';
 

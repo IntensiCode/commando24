@@ -1,28 +1,27 @@
 import 'dart:ui';
 
 import 'package:collection/collection.dart';
-import 'package:dart_minilog/dart_minilog.dart';
+import 'package:commando24/audio_menu_screen.dart';
+import 'package:commando24/core/common.dart';
+import 'package:commando24/core/screens.dart';
+import 'package:commando24/credits_screen.dart';
+import 'package:commando24/enter_hiscore_screen.dart';
+import 'package:commando24/game/game_screen.dart';
+import 'package:commando24/game/visual_configuration.dart';
+import 'package:commando24/help_screen.dart';
+import 'package:commando24/hiscore_screen.dart';
+import 'package:commando24/options_screen.dart';
+import 'package:commando24/splash_screen.dart';
+import 'package:commando24/the_end_screen.dart';
+import 'package:commando24/title_screen.dart';
+import 'package:commando24/util/auto_dispose.dart';
+import 'package:commando24/util/extensions.dart';
+import 'package:commando24/util/log.dart';
+import 'package:commando24/util/messaging.dart';
+import 'package:commando24/util/shortcuts.dart';
+import 'package:commando24/web_play_screen.dart';
 import 'package:flame/components.dart';
 import 'package:flutter/foundation.dart';
-
-import 'audio_menu_screen.dart';
-import 'core/common.dart';
-import 'core/screens.dart';
-import 'credits_screen.dart';
-import 'enter_hiscore_screen.dart';
-import 'game/game_screen.dart';
-import 'game/visual_configuration.dart';
-import 'help_screen.dart';
-import 'hiscore_screen.dart';
-import 'options_screen.dart';
-import 'splash_screen.dart';
-import 'the_end_screen.dart';
-import 'title_screen.dart';
-import 'util/auto_dispose.dart';
-import 'util/extensions.dart';
-import 'util/messaging.dart';
-import 'util/shortcuts.dart';
-import 'web_play_screen.dart';
 
 class MainController extends World with AutoDispose, HasAutoDisposeShortcuts implements ScreenNavigation {
   final _stack = <Screen>[];
@@ -50,14 +49,14 @@ class MainController extends World with AutoDispose, HasAutoDisposeShortcuts imp
 
   @override
   void popScreen() {
-    logVerbose('pop screen with stack=$_stack and children=${children.map((it) => it.runtimeType)}');
+    log_verbose('pop screen with stack=$_stack and children=${children.map((it) => it.runtimeType)}');
     _stack.removeLastOrNull();
     showScreen(_stack.lastOrNull ?? Screen.title);
   }
 
   @override
   void pushScreen(Screen it) {
-    logVerbose('push screen $it with stack=$_stack and children=${children.map((it) => it.runtimeType)}');
+    log_verbose('push screen $it with stack=$_stack and children=${children.map((it) => it.runtimeType)}');
     if (_stack.lastOrNull == it) throw 'stack already contains $it';
     _stack.add(it);
     showScreen(it);
@@ -69,16 +68,16 @@ class MainController extends World with AutoDispose, HasAutoDisposeShortcuts imp
   @override
   void showScreen(Screen screen, {bool skip_fade_out = false, bool skip_fade_in = false}) {
     if (_triggered == screen) {
-      logError('duplicate trigger ignored: $screen', StackTrace.current);
-      logError('previous trigger', _previous);
+      log_error('duplicate trigger ignored: $screen', StackTrace.current);
+      log_error('previous trigger', _previous);
       return;
     }
     _triggered = screen;
     _previous = StackTrace.current;
 
-    if (skip_fade_out) logInfo('show $screen');
-    logVerbose('screen stack: $_stack');
-    logVerbose('children: ${children.map((it) => it.runtimeType)}');
+    if (skip_fade_out) log_info('show $screen');
+    log_verbose('screen stack: $_stack');
+    log_verbose('children: ${children.map((it) => it.runtimeType)}');
 
     if (!skip_fade_out && children.isNotEmpty) {
       children.last.fadeOutDeep(and_remove: true);
@@ -88,7 +87,7 @@ class MainController extends World with AutoDispose, HasAutoDisposeShortcuts imp
         } else if (_triggered != screen) {
           return;
         }
-        logInfo('show $screen');
+        log_info('show $screen');
         showScreen(screen, skip_fade_out: skip_fade_out, skip_fade_in: skip_fade_in);
       });
     } else {

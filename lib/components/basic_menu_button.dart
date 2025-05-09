@@ -1,13 +1,12 @@
+import 'package:commando24/core/common.dart';
+import 'package:commando24/util/bitmap_font.dart';
+import 'package:commando24/util/bitmap_text.dart';
+import 'package:commando24/util/effects.dart';
+import 'package:commando24/util/extensions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
 import 'package:flame/sprite.dart';
-
-import '../core/common.dart';
-import '../util/bitmap_font.dart';
-import '../util/bitmap_text.dart';
-import '../util/effects.dart';
-import '../util/extensions.dart';
 
 class BasicMenuButton extends SpriteComponent with HasVisibility, TapCallbacks {
   final SpriteSheet sheet;

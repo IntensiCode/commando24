@@ -103,7 +103,7 @@ extension on Projectile {
     base_z += speed_z * dt;
     if (base_z < 0) {
       active = true;
-      
+
       speed_z = -speed_z;
       base_z += speed_z * dt;
       speed_z *= 0.6;

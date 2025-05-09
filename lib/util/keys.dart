@@ -1,7 +1,7 @@
+import 'package:commando24/core/common.dart';
 import 'package:flame/components.dart';
 import 'package:supercharged/supercharged.dart';
 
-import '../core/common.dart';
 import 'game_keys.dart';
 
 export 'game_keys.dart';

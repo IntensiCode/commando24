@@ -1,15 +1,13 @@
 import 'dart:async';
 
 import 'package:commando24/core/common.dart';
+import 'package:commando24/game/game_data.dart';
+import 'package:commando24/game/soundboard_soloud.dart';
+import 'package:commando24/game/storage.dart';
 import 'package:commando24/util/auto_dispose.dart';
-import 'package:dart_minilog/dart_minilog.dart';
+import 'package:commando24/util/log.dart';
 import 'package:flame/components.dart' hide Timer;
 import 'package:flutter/foundation.dart';
-
-import 'game_data.dart';
-import 'soundboard_soloud.dart' if (dart.library.html) 'soundboard_web.dart';
-import 'storage.dart';
-// import 'soundboard_mixed.dart' if (dart.library.html) 'soundboard_web.dart';
 
 enum Sound {
   burst_machine_gun,
@@ -64,7 +62,7 @@ abstract class Soundboard extends Component {
   set audio_mode(AudioMode mode) {
     if (_audio_mode == mode) return;
     _audio_mode = mode;
-    logInfo('change audio mode: $mode');
+    log_info('change audio mode: $mode');
     _update_volumes(mode);
     _save();
     do_update_volume();
@@ -179,13 +177,13 @@ abstract class Soundboard extends Component {
 
   Future preload() async {
     if (_blocked) {
-      logWarn('blocked preload');
+      log_warn('blocked preload');
       return;
     }
     _blocked = true;
     await do_preload();
     _blocked = false;
-    logInfo('preload done');
+    log_info('preload done');
   }
 
   void trigger(Sound sound) => _triggered.add(sound);
@@ -211,12 +209,12 @@ abstract class Soundboard extends Component {
   Future play_music(String filename, {bool loop = true, Hook? on_end}) async {
     // TODO check is_playing_music, too?
     if (fade_out_volume != null) {
-      logInfo('schedule music $filename');
+      log_info('schedule music $filename');
       pending_music = (filename, loop, on_end);
     } else if (active_music_name == filename) {
-      logInfo('music already playing: $filename');
+      log_info('music already playing: $filename');
     } else {
-      logInfo('play music $filename loop=$loop');
+      log_info('play music $filename loop=$loop');
       do_stop_active_music();
       active_music_name = filename;
       await do_play_music(filename, loop: loop, on_end: on_end);
@@ -224,14 +222,14 @@ abstract class Soundboard extends Component {
   }
 
   void stop_active_music() {
-    logInfo('stop active music $active_music_name');
+    log_info('stop active music $active_music_name');
     fade_out_volume = null;
     active_music_name = null;
     do_stop_active_music();
   }
 
   void fade_out_music() {
-    logInfo('fade out music $active_music_volume');
+    log_info('fade out music $active_music_volume');
     fade_out_volume = active_music_volume;
   }
 
@@ -281,7 +279,7 @@ abstract class Soundboard extends Component {
   }
 
   void load_state(Map<String, dynamic> data) {
-    logInfo('load soundboard: $data');
+    log_info('load soundboard: $data');
     _audio_mode = AudioMode.from_name(data['audio_mode'] ?? audio_mode.name);
     _master = data['master'] ?? _master;
     _music = data['music'] ?? _music;

@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:dart_minilog/dart_minilog.dart';
+import 'package:commando24/util/log.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'game_data.dart';
@@ -16,7 +16,7 @@ extension on String {
 Future clear(String name) async {
   final preferences = await _prefs;
   preferences.remove(name.key);
-  logVerbose('cleared $name data');
+  log_verbose('cleared $name data');
 }
 
 Future save(String name, HasGameData it) async => save_data(name, it.save_state({}));
@@ -30,9 +30,9 @@ Future save_data(String name, GameData data) async {
   try {
     final preferences = await _prefs;
     preferences.setString(name.key, jsonEncode(data));
-    logVerbose('saved $name data');
+    log_verbose('saved $name data');
   } catch (it, trace) {
-    logError('Failed to store $name: $it', trace);
+    log_error('Failed to store $name: $it', trace);
   }
 }
 
@@ -40,20 +40,20 @@ Future<GameData?> load_data(String name) async {
   try {
     final preferences = await _prefs;
     if (!preferences.containsKey(name.key)) {
-      logVerbose('no data for $name');
+      log_verbose('no data for $name');
       return null;
     }
 
     final json = preferences.getString(name.key);
     if (json == null) {
-      logError('invalid data for $name');
+      log_error('invalid data for $name');
       return null;
     }
 
-    logVerbose(json);
+    log_verbose(json);
     return jsonDecode(json);
   } catch (it, trace) {
-    logError('Failed to restore $name: $it', trace);
+    log_error('Failed to restore $name: $it', trace);
     return null;
   }
 }

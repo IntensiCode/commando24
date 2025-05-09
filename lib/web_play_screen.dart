@@ -1,12 +1,11 @@
+import 'package:commando24/core/common.dart';
+import 'package:commando24/core/screens.dart';
+import 'package:commando24/util/auto_dispose.dart';
+import 'package:commando24/util/bitmap_button.dart';
 import 'package:commando24/util/extensions.dart';
+import 'package:commando24/util/fonts.dart';
+import 'package:commando24/util/shortcuts.dart';
 import 'package:flame/components.dart';
-
-import '../../util/auto_dispose.dart';
-import '../util/bitmap_button.dart';
-import '../util/fonts.dart';
-import 'core/common.dart';
-import 'core/screens.dart';
-import 'util/shortcuts.dart';
 
 class WebPlayScreen extends AutoDisposeComponent with HasAutoDisposeShortcuts {
   @override

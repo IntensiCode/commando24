@@ -1,22 +1,21 @@
 import 'dart:async';
 import 'dart:ui';
 
-import 'package:dart_minilog/dart_minilog.dart';
+import 'package:commando24/core/common.dart';
+import 'package:commando24/util/auto_dispose.dart';
+import 'package:commando24/util/bitmap_button.dart';
+import 'package:commando24/util/bitmap_font.dart';
+import 'package:commando24/util/bitmap_text.dart';
+import 'package:commando24/util/debug.dart';
+import 'package:commando24/util/extensions.dart';
+import 'package:commando24/util/fonts.dart';
+import 'package:commando24/util/functions.dart';
+import 'package:commando24/util/log.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:signals_core/signals_core.dart';
-
-import '../core/common.dart';
-import '../util/auto_dispose.dart';
-import '../util/bitmap_button.dart';
-import '../util/bitmap_font.dart';
-import '../util/bitmap_text.dart';
-import '../util/debug.dart';
-import '../util/extensions.dart';
-import '../util/fonts.dart';
-import 'functions.dart';
 
 // don't look here. at least not initially. none of this you should reuse. this
 // is a mess. but the mess works for the case of this demo game. all of this
@@ -31,7 +30,7 @@ mixin GameScriptFunctions on Component, AutoDispose {
       effect(
         () => callback(),
         debugLabel: hint,
-        onDispose: () => logVerbose('effect disposed: $hint'),
+        onDispose: () => log_verbose('effect disposed: $hint'),
       ),
     );
     _autoDisposeCount++;

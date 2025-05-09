@@ -1,15 +1,14 @@
 import 'dart:math';
 
 import 'package:collection/collection.dart';
+import 'package:commando24/util/auto_dispose.dart';
+import 'package:commando24/util/bitmap_font.dart';
+import 'package:commando24/util/bitmap_text.dart';
+import 'package:commando24/util/extensions.dart';
+import 'package:commando24/util/functions.dart';
+import 'package:commando24/util/game_script_functions.dart';
+import 'package:commando24/util/nine_patch_image.dart';
 import 'package:flame/components.dart';
-
-import '../util/auto_dispose.dart';
-import '../util/bitmap_font.dart';
-import '../util/bitmap_text.dart';
-import '../util/extensions.dart';
-import '../util/functions.dart';
-import '../util/game_script_functions.dart';
-import '../util/nine_patch_image.dart';
 
 class FlowText extends PositionComponent with AutoDispose, GameScriptFunctions, HasVisibility {
   //

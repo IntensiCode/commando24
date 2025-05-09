@@ -1,8 +1,8 @@
+import 'package:commando24/util/auto_dispose.dart';
+import 'package:commando24/util/game_script_functions.dart';
 import 'package:flame/components.dart';
 import 'package:signals_core/signals_core.dart';
 
-import '../util/auto_dispose.dart';
-import '../util/game_script_functions.dart';
 import 'game_context.dart';
 
 class Scoreboard extends PositionComponent with AutoDispose, GameContext, HasPaint, HasVisibility, GameScriptFunctions {

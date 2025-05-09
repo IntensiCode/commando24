@@ -1,18 +1,17 @@
+import 'package:commando24/components/soft_keys.dart';
+import 'package:commando24/core/common.dart';
+import 'package:commando24/core/screens.dart';
+import 'package:commando24/game/hiscore.dart';
+import 'package:commando24/util/bitmap_font.dart';
+import 'package:commando24/util/bitmap_text.dart';
+import 'package:commando24/util/effects.dart';
+import 'package:commando24/util/extensions.dart';
+import 'package:commando24/util/fonts.dart';
+import 'package:commando24/util/functions.dart';
+import 'package:commando24/util/game_keys.dart';
+import 'package:commando24/util/game_script.dart';
+import 'package:commando24/util/shortcuts.dart';
 import 'package:flame/components.dart';
-
-import 'components/soft_keys.dart';
-import 'core/common.dart';
-import 'core/screens.dart';
-import 'game/hiscore.dart';
-import 'util/bitmap_font.dart';
-import 'util/bitmap_text.dart';
-import 'util/effects.dart';
-import 'util/extensions.dart';
-import 'util/fonts.dart';
-import 'util/functions.dart';
-import 'util/game_keys.dart';
-import 'util/game_script.dart';
-import 'util/shortcuts.dart';
 
 class HiscoreScreen extends GameScriptComponent with HasAutoDisposeShortcuts, KeyboardHandler, HasGameKeys {
   final _entry_size = Vector2(game_width, default_line_height);

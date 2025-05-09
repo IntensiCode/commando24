@@ -1,16 +1,15 @@
 import 'dart:ui';
 
+import 'package:commando24/components/soft_keys.dart';
+import 'package:commando24/core/common.dart';
+import 'package:commando24/util/auto_dispose.dart';
+import 'package:commando24/util/extensions.dart';
+import 'package:commando24/util/functions.dart';
+import 'package:commando24/util/game_script_functions.dart';
+import 'package:commando24/util/keys.dart';
+import 'package:commando24/util/nine_patch_image.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
-
-import '../components/soft_keys.dart';
-import '../core/common.dart';
-import '../util/auto_dispose.dart';
-import '../util/extensions.dart';
-import '../util/functions.dart';
-import '../util/game_script_functions.dart';
-import '../util/keys.dart';
-import '../util/nine_patch_image.dart';
 
 class DialogKeys extends Component {
   DialogKeys({required this.handlers, this.tap_key, this.left, this.right, this.shortcuts = true});

@@ -1,17 +1,16 @@
 import 'package:collection/collection.dart';
+import 'package:commando24/core/common.dart';
+import 'package:commando24/util/auto_dispose.dart';
+import 'package:commando24/util/bitmap_font.dart';
+import 'package:commando24/util/bitmap_text.dart';
+import 'package:commando24/util/effects.dart';
+import 'package:commando24/util/extensions.dart';
+import 'package:commando24/util/game_script_functions.dart';
+import 'package:commando24/util/keys.dart';
+import 'package:commando24/util/mouse_wheel_scrolling.dart';
+import 'package:commando24/util/on_message.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
-
-import '../core/common.dart';
-import '../util/auto_dispose.dart';
-import '../util/bitmap_font.dart';
-import '../util/bitmap_text.dart';
-import '../util/effects.dart';
-import '../util/extensions.dart';
-import '../util/game_script_functions.dart';
-import '../util/keys.dart';
-import '../util/mouse_wheel_scrolling.dart';
-import '../util/on_message.dart';
 
 class ScrolledText extends PositionComponent with AutoDispose, GameScriptFunctions, DragCallbacks, MouseWheelScrolling {
   //

@@ -1,11 +1,10 @@
+import 'package:commando24/util/bitmap_font.dart';
+import 'package:commando24/util/delayed.dart';
+import 'package:commando24/util/extensions.dart';
+import 'package:commando24/util/random.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/animation.dart';
-
-import '../util/bitmap_font.dart';
-import '../util/delayed.dart';
-import '../util/extensions.dart';
-import '../util/random.dart';
 
 class FallingText extends PositionComponent {
   static double time_per_page = 4.0;

@@ -1,7 +1,7 @@
-import 'package:dart_minilog/dart_minilog.dart';
+import 'package:commando24/util/auto_dispose.dart';
+import 'package:commando24/util/log.dart';
 import 'package:flame/components.dart';
 
-import '../util/auto_dispose.dart';
 import 'game_data.dart';
 import 'hiscore.dart';
 import 'storage.dart';
@@ -9,7 +9,7 @@ import 'storage.dart';
 Future<bool> first_time() async {
   final map = await load_data('first_time');
   if (map == null) return true;
-  logInfo('first time data: $map');
+  log_info('first time data: $map');
   return map['first_time'] != false;
 }
 
@@ -50,7 +50,7 @@ class GameState extends Component with AutoDispose, HasGameData {
   hack_hiscore() => _score = hiscore.entries.last.score + 1;
 
   reset() async {
-    logInfo('reset game state');
+    log_info('reset game state');
     level_number_starting_at_1 = 1;
     _last_extra_at = 0;
     _score = 0;
@@ -61,16 +61,16 @@ class GameState extends Component with AutoDispose, HasGameData {
 
   preload() async {
     await load('game_state', this);
-    logInfo('loaded game state: $level_number_starting_at_1');
+    log_info('loaded game state: $level_number_starting_at_1');
   }
 
   delete() async {
-    logInfo('delete game state');
+    log_info('delete game state');
     await clear('game_state');
   }
 
   save_checkpoint() async {
-    logInfo('save game state');
+    log_info('save game state');
     await save('game_state', this);
   }
 

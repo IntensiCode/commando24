@@ -1,11 +1,10 @@
 import 'dart:async';
 
-import 'package:dart_minilog/dart_minilog.dart';
+import 'package:commando24/core/common.dart';
+import 'package:commando24/game/soundboard.dart';
+import 'package:commando24/util/auto_dispose.dart';
+import 'package:commando24/util/log.dart';
 import 'package:flutter_soloud/flutter_soloud.dart';
-
-import '../core/common.dart';
-import '../util/auto_dispose.dart';
-import 'soundboard.dart';
 
 class SoundboardImpl extends Soundboard {
   late final SoLoud soloud;
@@ -20,7 +19,7 @@ class SoundboardImpl extends Soundboard {
     super.onLoad();
     soloud = SoLoud.instance;
     await soloud.init();
-    logInfo('soloud initialized');
+    log_info('soloud initialized');
   }
 
   @override
@@ -52,14 +51,14 @@ class SoundboardImpl extends Soundboard {
       try {
         _sounds[it] = await soloud.loadAsset('assets/audio/sound/${it.name}.ogg');
       } catch (e) {
-        logError('failed loading $it: $e');
+        log_error('failed loading $it: $e');
       }
     }
   }
 
   @override
   void do_update_volume() {
-    logInfo('update volume $music');
+    log_info('update volume $music');
     active_music_volume = music;
   }
 
@@ -67,7 +66,7 @@ class SoundboardImpl extends Soundboard {
   Future do_play(Sound sound, double volume_factor) async {
     final it = _sounds[sound];
     if (it == null) {
-      logError('null sound: $sound');
+      log_error('null sound: $sound');
       preload();
       return;
     }
@@ -106,7 +105,7 @@ class SoundboardImpl extends Soundboard {
     try {
       await _do_play_music(filename, loop: loop, on_end: on_end);
     } catch (e) {
-      logError('failed playing $filename: $e');
+      log_error('failed playing $filename: $e');
       await Future.delayed(const Duration(seconds: 1));
       await _do_play_music(filename, loop: loop, on_end: on_end);
     }
@@ -124,7 +123,7 @@ class SoundboardImpl extends Soundboard {
     final handle = await soloud.play(source, volume: music, looping: loop);
     _active_music = (source, handle);
 
-    logInfo('playing music via soloud: $filename');
+    log_info('playing music via soloud: $filename');
 
     if (on_end != null) source.allInstancesFinished.listen((_) => on_end());
   }
@@ -134,7 +133,7 @@ class SoundboardImpl extends Soundboard {
     final active = _active_music;
     if (active == null) return;
 
-    logInfo('stopping active music');
+    log_info('stopping active music');
 
     _active_music = null;
     await soloud.stop(active.$2);

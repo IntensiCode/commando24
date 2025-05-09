@@ -1,7 +1,6 @@
-import 'package:dart_minilog/dart_minilog.dart';
+import 'package:commando24/game/game_context.dart';
+import 'package:commando24/util/log.dart';
 import 'package:flame/components.dart';
-
-import '../../game_context.dart';
 
 class ProximitySensor extends Component {
   ProximitySensor({
@@ -22,10 +21,10 @@ class ProximitySensor extends Component {
     if (isRemoved || isRemoving) return;
 
     if (player.center.distanceToSquared(center) < radius * radius) {
-      logInfo('proximity triggered');
+      log_info('proximity triggered');
       when_triggered();
       if (single_shot) {
-        logInfo('proximity removed');
+        log_info('proximity removed');
         removeFromParent();
       }
     }

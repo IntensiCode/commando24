@@ -1,9 +1,8 @@
 import 'dart:ui';
 
+import 'package:commando24/core/common.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
-
-import '../core/common.dart';
 
 class NinePatchComponent extends PositionComponent with HasPaint {
   final Image image;

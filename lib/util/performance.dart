@@ -1,9 +1,8 @@
 import 'dart:ui';
 
+import 'package:commando24/core/common.dart';
 import 'package:flame/components.dart';
 import 'package:flame/text.dart';
-
-import '../core/common.dart';
 
 class Ticker {
   Ticker({int ticks = 60}) : _step = 1 / ticks;

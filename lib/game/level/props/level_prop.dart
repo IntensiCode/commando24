@@ -2,7 +2,7 @@ import 'dart:ui';
 
 import 'package:commando24/core/common.dart';
 import 'package:commando24/game/level/level_object.dart';
-import 'package:dart_minilog/dart_minilog.dart';
+import 'package:commando24/util/log.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 
@@ -21,7 +21,7 @@ class LevelProp extends SpriteComponent with HasVisibility, LevelObject, TapCall
   @override
   void onTapUp(TapUpEvent event) {
     super.onTapUp(event);
-    if (dev) logInfo(this);
+    if (dev) log_info(this);
   }
 
   @override

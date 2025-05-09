@@ -1,12 +1,12 @@
+import 'package:commando24/components/flow_text.dart';
+import 'package:commando24/core/common.dart';
+import 'package:commando24/util/bitmap_text.dart';
+import 'package:commando24/util/extensions.dart';
+import 'package:commando24/util/fonts.dart';
+import 'package:commando24/util/game_script.dart';
+import 'package:commando24/util/keys.dart';
 import 'package:flame/components.dart';
 
-import '../components/flow_text.dart';
-import '../core/common.dart';
-import '../util/bitmap_text.dart';
-import '../util/extensions.dart';
-import '../util/fonts.dart';
-import '../util/game_script.dart';
-import '../util/keys.dart';
 import 'game_dialog.dart';
 
 class Credits extends GameScriptComponent {

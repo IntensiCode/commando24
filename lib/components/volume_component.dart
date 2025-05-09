@@ -1,13 +1,12 @@
+import 'package:commando24/util/auto_dispose.dart';
+import 'package:commando24/util/bitmap_text.dart';
+import 'package:commando24/util/extensions.dart';
+import 'package:commando24/util/fonts.dart';
+import 'package:commando24/util/nine_patch_image.dart';
+import 'package:commando24/util/shortcuts.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/extensions.dart';
-
-import '../util/auto_dispose.dart';
-import '../util/bitmap_text.dart';
-import '../util/extensions.dart';
-import '../util/fonts.dart';
-import '../util/nine_patch_image.dart';
-import '../util/shortcuts.dart';
 
 class VolumeComponent extends PositionComponent
     with AutoDispose, HasAutoDisposeShortcuts, HasPaint, DragCallbacks, TapCallbacks, HasVisibility {

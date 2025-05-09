@@ -10,10 +10,10 @@ import 'package:commando24/game/player/player_state.dart';
 import 'package:commando24/game/soundboard.dart';
 import 'package:commando24/util/auto_dispose.dart';
 import 'package:commando24/util/keys.dart';
+import 'package:commando24/util/log.dart';
 import 'package:commando24/util/messaging.dart';
 import 'package:commando24/util/on_message.dart';
 import 'package:commando24/util/shortcuts.dart';
-import 'package:dart_minilog/dart_minilog.dart';
 import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame_tiled/flame_tiled.dart';
@@ -46,7 +46,7 @@ class Player extends SpriteComponent with AutoDispose, GameContext, HasAutoDispo
   BaseWeapon? active_weapon;
 
   void reset(PlayerState reset_state) {
-    logInfo('reset player: $reset_state');
+    log_info('reset player: $reset_state');
     state = reset_state;
     _state_progress = 0.0;
     position.setValues(center_x, game_height + height);

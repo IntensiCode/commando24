@@ -8,8 +8,8 @@ import 'package:commando24/game/level/level_object.dart';
 import 'package:commando24/game/level/micro_star_finder.dart';
 import 'package:commando24/game/level/props/level_prop.dart';
 import 'package:commando24/util/auto_dispose.dart';
+import 'package:commando24/util/log.dart';
 import 'package:commando24/util/on_message.dart';
-import 'package:dart_minilog/dart_minilog.dart';
 import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
@@ -65,13 +65,13 @@ class PathFinder extends Component with AutoDispose {
   }
 
   void find_path_to_player(LevelProp from, List<Vector2> out_segment) {
-    logInfo('find path');
+    log_info('find path');
     if (_pending.any((it) => identical(it.$2, out_segment))) {
-      logWarn('ignore duplicate find request');
+      log_warn('ignore duplicate find request');
       return;
     }
     _pending.add((from, out_segment));
-    logInfo('pending size: ${_pending.length}');
+    log_info('pending size: ${_pending.length}');
   }
 
   @override
@@ -175,5 +175,5 @@ void timed(String hint, void Function() block) {
   final start = DateTime.timestamp().millisecondsSinceEpoch;
   block();
   final end = DateTime.timestamp().millisecondsSinceEpoch;
-  if (end - start > 5) logInfo('$hint time: ${end - start} ms');
+  if (end - start > 5) log_info('$hint time: ${end - start} ms');
 }

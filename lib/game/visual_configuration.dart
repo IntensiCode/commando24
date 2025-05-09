@@ -1,6 +1,6 @@
+import 'package:commando24/core/common.dart' as common;
 import 'package:flame/components.dart';
 
-import '../core/common.dart' as common;
 import 'game_data.dart';
 import 'storage.dart';
 

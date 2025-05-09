@@ -21,7 +21,7 @@ the following restrictions:
 */
 
 import 'package:commando24/util/extensions.dart';
-import 'package:dart_minilog/dart_minilog.dart';
+import 'package:commando24/util/log.dart';
 
 class MicroStarFinder {
   static const PATH_FINDER_MASK_PASSABLE = 0x01;
@@ -55,11 +55,11 @@ class MicroStarFinder {
         g_score = List<int>.filled(cols * rows, 0),
         f_score = List<int>.filled(cols * rows, 0),
         path = List<int>.filled(cols * rows, -1) {
-    logInfo('grid size: $cols x $rows = ${cols * rows}');
+    log_info('grid size: $cols x $rows = ${cols * rows}');
   }
 
   void update(int col_from, int row_from, int col_to, int row_to, void Function(int, int, bool) on_blocked) {
-    logInfo('update $col_from $row_from $col_to $row_to');
+    log_info('update $col_from $row_from $col_to $row_to');
     for (int y = row_from; y < row_to; y++) {
       if (y < 0 || y >= rows) continue;
       for (int x = col_from; x < col_to; x++) {

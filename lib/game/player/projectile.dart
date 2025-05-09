@@ -4,12 +4,12 @@ import 'package:commando24/game/level/level_object.dart';
 import 'package:commando24/game/player/weapon_type.dart';
 import 'package:commando24/game/soundboard.dart';
 import 'package:commando24/util/component_recycler.dart';
-import 'package:dart_minilog/dart_minilog.dart';
+import 'package:commando24/util/log.dart';
 import 'package:flame/components.dart';
 
 class Projectile extends SpriteAnimationComponent with Recyclable {
   Projectile(this.type, {this.hit_metal = true}) {
-    if (dev) logWarn('NEW PROJECTILE');
+    if (dev) log_warn('NEW PROJECTILE');
   }
 
   final behaviors = <ProjectileBehavior>[];

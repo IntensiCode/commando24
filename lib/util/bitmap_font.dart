@@ -3,12 +3,11 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:collection/collection.dart';
-import 'package:dart_minilog/dart_minilog.dart';
+import 'package:commando24/core/common.dart';
+import 'package:commando24/util/log.dart';
 import 'package:flame/cache.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
-
-import '../core/common.dart';
 
 extension BitmapFontExtensions on BitmapFont {
   void tint(Color color) {
@@ -63,7 +62,7 @@ abstract class BitmapFont {
     try {
       dst = await _loadDst(assets, filename);
     } catch (e, trace) {
-      logError('Failed to load bitmap font dst: $e', trace);
+      log_error('Failed to load bitmap font dst: $e', trace);
       dst = await _createDst(image, charWidth, charHeight, columns, rows);
     }
     return DstBitmapFont(image, dst, charWidth, charHeight);
@@ -96,7 +95,7 @@ abstract class BitmapFont {
     });
 
     final dump = result.slices(columns).map((row) => (row.map((it) => it.toRadixString(16).padLeft(2, '0')).join(' ')));
-    logInfo('\n${dump.join('\n')}\n');
+    log_info('\n${dump.join('\n')}\n');
 
     return Uint8List.fromList(result);
   }

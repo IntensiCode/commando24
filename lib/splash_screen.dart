@@ -1,10 +1,10 @@
-import '../../util/auto_dispose.dart';
-import '../util/fonts.dart';
-import 'components/military_text.dart';
-import 'core/common.dart';
-import 'core/screens.dart';
-import 'game/soundboard.dart';
-import 'util/shortcuts.dart';
+import 'package:commando24/components/military_text.dart';
+import 'package:commando24/core/common.dart';
+import 'package:commando24/core/screens.dart';
+import 'package:commando24/game/soundboard.dart';
+import 'package:commando24/util/auto_dispose.dart';
+import 'package:commando24/util/fonts.dart';
+import 'package:commando24/util/shortcuts.dart';
 
 class SplashScreen extends AutoDisposeComponent with HasAutoDisposeShortcuts {
   final _text = '''

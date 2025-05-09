@@ -1,10 +1,10 @@
 import 'dart:ui';
 
+import 'package:commando24/util/auto_dispose.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame/extensions.dart';
 
-import '../util/auto_dispose.dart';
 import 'bitmap_font.dart';
 import 'fonts.dart';
 import 'functions.dart';

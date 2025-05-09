@@ -1,16 +1,15 @@
-import 'package:dart_minilog/dart_minilog.dart';
+import 'package:commando24/game/storage.dart';
+import 'package:commando24/main_game.dart';
+import 'package:commando24/util/log.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:signals_core/signals_core.dart';
 
-import 'game/storage.dart';
-import 'main_game.dart';
-
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SignalsObserver.instance = null;
-  logLevel = kDebugMode ? LogLevel.debug : LogLevel.none;
+  log_level = kDebugMode ? LogLevel.debug : LogLevel.none;
   storage_prefix = 'commando24';
   runApp(GameWidget(game: MainGame()));
 }

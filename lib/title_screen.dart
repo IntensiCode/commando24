@@ -1,18 +1,18 @@
-import 'package:dart_minilog/dart_minilog.dart';
+import 'package:commando24/core/common.dart';
+import 'package:commando24/core/screens.dart';
+import 'package:commando24/game/game_dialog.dart';
+import 'package:commando24/game/game_state.dart';
+import 'package:commando24/game/soundboard.dart';
+import 'package:commando24/util/bitmap_button.dart';
+import 'package:commando24/util/delayed.dart';
+import 'package:commando24/util/effects.dart';
+import 'package:commando24/util/extensions.dart';
+import 'package:commando24/util/game_script.dart';
+import 'package:commando24/util/log.dart';
+import 'package:commando24/util/shortcuts.dart';
 import 'package:flame/components.dart';
 
-import 'core/common.dart';
-import 'core/screens.dart';
-import 'game/game_dialog.dart';
-import 'game/game_state.dart';
-import 'game/soundboard.dart';
 import 'help_screen.dart';
-import 'util/bitmap_button.dart';
-import 'util/delayed.dart';
-import 'util/effects.dart';
-import 'util/extensions.dart';
-import 'util/game_script.dart';
-import 'util/shortcuts.dart';
 
 class TitleScreen extends GameScriptComponent with HasAutoDisposeShortcuts {
   static const x = game_width;
@@ -43,18 +43,18 @@ class TitleScreen extends GameScriptComponent with HasAutoDisposeShortcuts {
     try {
       await state.preload();
     } catch (ignored) {
-      logError('error loading game state: $ignored');
+      log_error('error loading game state: $ignored');
     }
 
     try {
       first_time_playing = await first_time();
-      logInfo('first time playing? $first_time_playing');
+      log_info('first time playing? $first_time_playing');
       if (first_time_playing || state.level_number_starting_at_1 == 1) {
         await state.delete();
         state.reset();
       }
     } catch (ignored) {
-      logError('error loading first time playing state: $ignored');
+      log_error('error loading first time playing state: $ignored');
     }
   }
 

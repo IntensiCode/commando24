@@ -1,19 +1,18 @@
-import 'package:dart_minilog/dart_minilog.dart';
+import 'package:commando24/components/basic_menu.dart';
+import 'package:commando24/components/flow_text.dart';
+import 'package:commando24/components/soft_keys.dart';
+import 'package:commando24/components/volume_component.dart';
+import 'package:commando24/core/common.dart';
+import 'package:commando24/core/screens.dart';
+import 'package:commando24/game/soundboard.dart';
+import 'package:commando24/util/extensions.dart';
+import 'package:commando24/util/fonts.dart';
+import 'package:commando24/util/functions.dart';
+import 'package:commando24/util/game_script.dart';
+import 'package:commando24/util/log.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flutter/foundation.dart';
-
-import 'components/basic_menu.dart';
-import 'components/flow_text.dart';
-import 'components/soft_keys.dart';
-import 'components/volume_component.dart';
-import 'core/common.dart';
-import 'core/screens.dart';
-import 'game/soundboard.dart';
-import 'util/extensions.dart';
-import 'util/fonts.dart';
-import 'util/functions.dart';
-import 'util/game_script.dart';
 
 enum AudioMenuEntry {
   music_and_sound,
@@ -93,7 +92,7 @@ class AudioMenuScreen extends GameScriptComponent {
 
     softkeys('Back', null, (_) => popScreen());
 
-    logInfo('initial audio mode: ${soundboard.audio_mode}');
+    log_info('initial audio mode: ${soundboard.audio_mode}');
     final preselected = switch (soundboard.audio_mode) {
       AudioMode.music_and_sound => AudioMenuEntry.music_and_sound,
       AudioMode.music_only => AudioMenuEntry.music_only,
@@ -121,7 +120,7 @@ class AudioMenuScreen extends GameScriptComponent {
   _selected(AudioMenuEntry it) => menu.preselectEntry(it);
 
   _preselected(AudioMenuEntry? it) {
-    logVerbose('audio menu preselected: $it');
+    log_verbose('audio menu preselected: $it');
     switch (it) {
       case AudioMenuEntry.music_and_sound:
         soundboard.audio_mode = AudioMode.music_and_sound;

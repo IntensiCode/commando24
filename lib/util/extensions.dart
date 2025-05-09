@@ -51,10 +51,6 @@ extension ComponentExtension on Component {
   }
 }
 
-extension ComponentSetExtensions on ComponentSet {
-  operator -(Component component) => where((it) => it != component);
-}
-
 extension DynamicListExtensions on List<dynamic> {
   List<T> mapToType<T>() => map((it) => it as T).toList();
 

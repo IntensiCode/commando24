@@ -1,14 +1,13 @@
 import 'package:collection/collection.dart';
+import 'package:commando24/core/common.dart';
+import 'package:commando24/game/soundboard.dart';
 import 'package:commando24/util/auto_dispose.dart';
+import 'package:commando24/util/bitmap_font.dart';
+import 'package:commando24/util/delayed.dart';
+import 'package:commando24/util/extensions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/animation.dart';
-
-import '../core/common.dart';
-import '../game/soundboard.dart';
-import '../util/bitmap_font.dart';
-import '../util/delayed.dart';
-import '../util/extensions.dart';
 
 enum _State {
   fall_down,

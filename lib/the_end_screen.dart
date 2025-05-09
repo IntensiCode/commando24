@@ -1,15 +1,14 @@
+import 'package:commando24/components/flow_text.dart';
+import 'package:commando24/components/soft_keys.dart';
+import 'package:commando24/core/common.dart';
+import 'package:commando24/core/screens.dart';
+import 'package:commando24/game/game_state.dart';
+import 'package:commando24/game/hiscore.dart';
+import 'package:commando24/game/soundboard.dart';
+import 'package:commando24/util/fonts.dart';
+import 'package:commando24/util/functions.dart';
+import 'package:commando24/util/game_script.dart';
 import 'package:flame/components.dart';
-
-import 'components/flow_text.dart';
-import 'components/soft_keys.dart';
-import 'core/common.dart';
-import 'core/screens.dart';
-import 'game/game_state.dart';
-import 'game/hiscore.dart';
-import 'game/soundboard.dart';
-import 'util/fonts.dart';
-import 'util/functions.dart';
-import 'util/game_script.dart';
 
 class TheEndScreen extends GameScriptComponent {
   @override

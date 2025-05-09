@@ -1,8 +1,7 @@
-import 'package:dart_minilog/dart_minilog.dart';
+import 'package:commando24/core/common.dart';
+import 'package:commando24/util/auto_dispose.dart';
+import 'package:commando24/util/log.dart';
 import 'package:flame/components.dart';
-
-import '../core/common.dart';
-import 'auto_dispose.dart';
 
 extension ComponentExtension on Component {
   Messaging get messaging {
@@ -12,10 +11,10 @@ extension ComponentExtension on Component {
       if (probed == null) {
         Component? log = this;
         while (log != null) {
-          logWarn('no messaging mixin found in $log');
+          log_warn('no messaging mixin found in $log');
           log = log.parent;
         }
-        logWarn('=> no messaging mixin found in $this');
+        log_warn('=> no messaging mixin found in $this');
         throw 'no messaging mixin found';
       }
     }
@@ -39,9 +38,9 @@ mixin Messaging on Component {
   void send<T extends Message>(T message) {
     final listener = listeners[message.runtimeType];
     if (listener == null || listener.isEmpty) {
-      if (debug) logWarn('no listener for ${message.runtimeType} in $listeners');
+      if (debug) log_warn('no listener for ${message.runtimeType} in $listeners');
     } else {
-      logInfo('sending ${message.runtimeType} to ${listener.length} listeners');
+      log_info('sending ${message.runtimeType} to ${listener.length} listeners');
       listener.forEach((it) => it(message));
     }
   }

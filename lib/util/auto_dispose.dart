@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:dart_minilog/dart_minilog.dart';
+import 'package:commando24/util/log.dart';
 import 'package:flame/components.dart';
 import 'package:signals_core/signals_core.dart';
 
@@ -73,15 +73,15 @@ mixin AutoDispose on Component {
   @override
   void onRemove() {
     super.onRemove();
-    logVerbose('onRemove for $runtimeType');
+    log_verbose('onRemove for $runtimeType');
     disposeAllDeep();
   }
 
   /// Dispose all [Disposable]s currently registered with this [AutoDispose] instance.
   void disposeAll() {
-    logVerbose('dispose all on $runtimeType');
+    log_verbose('dispose all on $runtimeType');
     if (_disposables.isNotEmpty) {
-      logVerbose('disposing ${_disposables.keys}');
+      log_verbose('disposing ${_disposables.keys}');
     }
     for (var it in _disposables.values) {
       it.dispose();
@@ -93,7 +93,7 @@ mixin AutoDispose on Component {
   /// tag.
   void dispose(String tag) {
     final disposable = _disposables.remove(tag);
-    if (disposable != null) logVerbose('disposing $tag');
+    if (disposable != null) log_verbose('disposing $tag');
     disposable?.dispose();
   }
 
@@ -104,7 +104,7 @@ mixin AutoDispose on Component {
   /// has an unsupported type. In that case, wrap it into a [Disposable] before passing it to
   /// [autoDispose].
   T autoDispose<T>(String tag, T something) {
-    logVerbose('register $tag on $runtimeType');
+    log_verbose('register $tag on $runtimeType');
     dispose(tag);
     _disposables[tag] = _wrap(something);
     return something;

@@ -1,11 +1,10 @@
 import 'dart:ui';
 
-import 'package:dart_minilog/dart_minilog.dart';
+import 'package:commando24/core/common.dart';
+import 'package:commando24/util/log.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame/sprite.dart';
-
-import '../core/common.dart';
 
 RectangleComponent rect(double x, double y, double w, double h, Paint paint) =>
     RectangleComponent(position: Vector2(x, y), size: Vector2(w, h), paint: paint);
@@ -34,7 +33,7 @@ Future<SpriteSheet> sheetIWH(
   var img = await image(filename);
   final columns = img.width ~/ frameWidth;
   final rows = img.height ~/ frameHeight;
-  logVerbose('$filename: size ${img.size} $columns x $rows');
+  log_verbose('$filename: size ${img.size} $columns x $rows');
   return SpriteSheet.fromColumnsAndRows(image: img, columns: columns, rows: rows, spacing: spacing, margin: margin);
 }
 
