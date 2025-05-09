@@ -15,8 +15,8 @@ import 'package:commando24/util/random.dart';
 import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
 
-class Enemy extends Component with PropertyBehavior {
-  Enemy(this.sprites);
+class Enemy extends PositionComponent with PropertyBehavior {
+  Enemy(this.sprites) : super(anchor: const Anchor(0.5, 0.8));
 
   final SpriteSheet sprites;
 
