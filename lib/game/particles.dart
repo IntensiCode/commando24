@@ -23,9 +23,9 @@ class Particles extends Component with GameContext {
     _sparkle = sprites.createAnimation(row: 22, stepTime: 0.1, loop: false, from: 35, to: 38);
   }
 
-  final _fire_pool = ComponentRecycler(() => _Rising());
-  final _smoke_pool = ComponentRecycler(() => _Rising());
-  final _sparkle_pool = ComponentRecycler(() => _Static());
+  final _fire_pool = ComponentRecycler(() => _Rising())..precreate(64);
+  final _smoke_pool = ComponentRecycler(() => _Rising())..precreate(64);
+  final _sparkle_pool = ComponentRecycler(() => _Static())..precreate(16);
 
   late final SpriteAnimation _smoke;
   late final SpriteAnimation _fire;
