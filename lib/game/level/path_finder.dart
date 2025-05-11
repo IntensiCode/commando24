@@ -30,6 +30,7 @@ class PathFinder extends Component with AutoDispose, GameContext {
 
   DistanceField? _distances;
 
+  late List<List<bool>> _solids;
   var _snapshot = <LevelObject>{};
 
   final _temp_rect = MutableRectangle<double>(0, 0, 0, 0);
@@ -38,6 +39,7 @@ class PathFinder extends Component with AutoDispose, GameContext {
   void onMount() {
     super.onMount();
     on_message<LevelDataAvailable>((it) => _init(it.map));
+    on_message<LevelReady>((it) => _init_solids());
   }
 
   double _to_x(int col) => col * grid_size + half_size;
@@ -50,20 +52,40 @@ class PathFinder extends Component with AutoDispose, GameContext {
   // Because the camera moves "up" along the negative y axis, this hack:
   int _to_row(double y) => (game_height - grid_size + half_size - y) ~/ grid_size;
 
-  void _init(TiledMap map) {
-    bool is_blocked(int col, int row) {
-      _temp_rect.left = _to_x(col) - half_size + 0.5;
-      _temp_rect.top = _to_y(row) - half_size + 0.5;
-      _temp_rect.width = grid_size - 1;
-      _temp_rect.height = grid_size - 1;
-      return _snapshot.firstWhereOrNull((it) => it.is_blocked_for_walking(_temp_rect)) != null;
-    }
+  bool is_blocked(int col, int row) {
+    if (_solids[row][col]) return true;
+    _temp_rect.left = _to_x(col) - half_size + 0.5;
+    _temp_rect.top = _to_y(row) - half_size + 0.5;
+    _temp_rect.width = grid_size - 1;
+    _temp_rect.height = grid_size - 1;
+    return _snapshot.firstWhereOrNull((it) => it.is_blocked_for_walking(_temp_rect)) != null;
+  }
 
+  bool _is_blocked(Set<LevelObject> objects, int col, int row) {
+    _temp_rect.left = _to_x(col) - half_size + 0.5;
+    _temp_rect.top = _to_y(row) - half_size + 0.5;
+    _temp_rect.width = grid_size - 1;
+    _temp_rect.height = grid_size - 1;
+    return objects.firstWhereOrNull((it) => it.is_blocked_for_walking(_temp_rect)) != null;
+  }
+
+  void _init(TiledMap map) {
     final cols = map.width * tile_size ~/ grid_size;
     final rows = map.height * tile_size ~/ grid_size;
     log_info('init distance field: $cols x $rows');
     _distances = DistanceField(cols: cols, rows: rows, is_blocked: is_blocked);
+    _solids = List.generate(rows, (_) => List.generate(cols, (_) => false, growable: false), growable: false);
   }
+
+  void _init_blocked(List<List<bool>> target, Set<LevelObject> objects) {
+    for (int row = 0; row < target.length; ++row) {
+      for (int col = 0; col < target[0].length; ++col) {
+        target[row][col] = _is_blocked(objects, col, row);
+      }
+    }
+  }
+
+  void _init_solids() => _init_blocked(_solids, entities.solids.toSet());
 
   final debug_paths = <List<Vector2>>{};
 
@@ -72,7 +94,6 @@ class PathFinder extends Component with AutoDispose, GameContext {
 
     final col = _to_col(from.position.x);
     final row = _to_row(from.position.y);
-
     _distances?.find_path_to_player(col, row, out_segment);
 
     for (final it in out_segment) {
@@ -87,7 +108,7 @@ class PathFinder extends Component with AutoDispose, GameContext {
     super.update(dt);
 
     // Update snapshot of obstacles TODO: Optimize - only when something changed
-    _snapshot = entities.obstacles.toSet();
+    _snapshot = entities.destructibles.toSet();
 
     // Notify distance field if player moved
     final col = _to_col(player.position.x);
