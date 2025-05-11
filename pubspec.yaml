@@ -17,6 +17,7 @@ dependencies:
   flame: ^1.28.1
   flame_audio: ^2.11.5
   flame_forge2d: ^0.19.0+1
+  flame_texturepacker: ^4.3.0
   flame_tiled: ^3.0.2
   flutter_animate: ^4.5.2
   flutter_soloud: ^3.1.8
