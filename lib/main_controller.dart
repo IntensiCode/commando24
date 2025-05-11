@@ -40,6 +40,7 @@ class MainController extends World with AutoDispose, HasAutoDisposeShortcuts imp
     }
     onKey('<A-a>', () => showScreen(Screen.audio_menu));
     onKey('<A-c>', () => showScreen(Screen.credits));
+    onKey('<A-d>', () => debug = !debug);
     onKey('<A-e>', () => showScreen(Screen.the_end));
     onKey('<A-h>', () => showScreen(Screen.hiscore));
     onKey('<A-s>', () => showScreen(Screen.splash, skip_fade_in: true));
