@@ -30,7 +30,7 @@ class SplashScreen extends AutoDisposeComponent with HasAutoDisposeShortcuts {
   }
 
   void _leave() {
-    showScreen(Screen.title, skip_fade_out: true, skip_fade_in: true);
+    show_screen(Screen.title, skip_fade_out: true, skip_fade_in: true);
     removeFromParent();
   }
 }

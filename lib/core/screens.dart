@@ -1,5 +1,3 @@
-import 'package:flame/game.dart';
-
 import 'common.dart';
 
 enum Screen {
@@ -22,24 +20,24 @@ class ShowScreen with Message {
 }
 
 abstract interface class ScreenNavigation {
-  void popScreen();
+  void pop_screen();
 
-  void pushScreen(Screen screen);
+  void push_screen(Screen screen);
 
-  void showScreen(Screen screen, {bool skip_fade_out = false, bool skip_fade_in = false});
+  void show_screen(Screen screen, {bool skip_fade_out = false, bool skip_fade_in = false});
 }
 
-void popScreen() {
-  final world = (game as FlameGame).world;
-  (world as ScreenNavigation).popScreen();
+void pop_screen() {
+  final world = game.world;
+  (world as ScreenNavigation).pop_screen();
 }
 
-void pushScreen(Screen it) {
-  final world = (game as FlameGame).world;
-  (world as ScreenNavigation).pushScreen(it);
+void push_screen(Screen it) {
+  final world = game.world;
+  (world as ScreenNavigation).push_screen(it);
 }
 
-void showScreen(Screen it, {bool skip_fade_out = false, bool skip_fade_in = false}) {
-  final world = (game as FlameGame).world;
-  (world as ScreenNavigation).showScreen(it, skip_fade_out: skip_fade_out, skip_fade_in: skip_fade_in);
+void show_screen(Screen it, {bool skip_fade_out = false, bool skip_fade_in = false}) {
+  final world = game.world;
+  (world as ScreenNavigation).show_screen(it, skip_fade_out: skip_fade_out, skip_fade_in: skip_fade_in);
 }

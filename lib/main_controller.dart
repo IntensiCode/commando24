@@ -27,47 +27,47 @@ class MainController extends World with AutoDispose, HasAutoDisposeShortcuts imp
   final _stack = <Screen>[];
 
   @override
-  onLoad() async => messaging.listen<ShowScreen>((it) => showScreen(it.screen));
+  onLoad() async => messaging.listen<ShowScreen>((it) => show_screen(it.screen));
 
   @override
   void onMount() {
     if (dev && !kIsWeb) {
-      showScreen(Screen.game);
+      show_screen(Screen.game);
     } else if (kIsWeb) {
       add(WebPlayScreen());
     } else {
       add(SplashScreen());
     }
-    onKey('<A-a>', () => showScreen(Screen.audio_menu));
-    onKey('<A-c>', () => showScreen(Screen.credits));
+    onKey('<A-a>', () => show_screen(Screen.audio_menu));
+    onKey('<A-c>', () => show_screen(Screen.credits));
     onKey('<A-d>', () => debug = !debug);
-    onKey('<A-e>', () => showScreen(Screen.the_end));
-    onKey('<A-h>', () => showScreen(Screen.hiscore));
-    onKey('<A-s>', () => showScreen(Screen.splash, skip_fade_in: true));
-    onKey('<A-l>', () => showScreen(Screen.splash, skip_fade_in: true));
-    onKey('<A-t>', () => showScreen(Screen.title));
+    onKey('<A-e>', () => show_screen(Screen.the_end));
+    onKey('<A-h>', () => show_screen(Screen.hiscore));
+    onKey('<A-s>', () => show_screen(Screen.splash, skip_fade_in: true));
+    onKey('<A-l>', () => show_screen(Screen.splash, skip_fade_in: true));
+    onKey('<A-t>', () => show_screen(Screen.title));
   }
 
   @override
-  void popScreen() {
+  void pop_screen() {
     log_verbose('pop screen with stack=$_stack and children=${children.map((it) => it.runtimeType)}');
     _stack.removeLastOrNull();
-    showScreen(_stack.lastOrNull ?? Screen.title);
+    show_screen(_stack.lastOrNull ?? Screen.title);
   }
 
   @override
-  void pushScreen(Screen it) {
+  void push_screen(Screen it) {
     log_verbose('push screen $it with stack=$_stack and children=${children.map((it) => it.runtimeType)}');
     if (_stack.lastOrNull == it) throw 'stack already contains $it';
     _stack.add(it);
-    showScreen(it);
+    show_screen(it);
   }
 
   Screen? _triggered;
   StackTrace? _previous;
 
   @override
-  void showScreen(Screen screen, {bool skip_fade_out = false, bool skip_fade_in = false}) {
+  void show_screen(Screen screen, {bool skip_fade_out = false, bool skip_fade_in = false}) {
     if (_triggered == screen) {
       log_error('duplicate trigger ignored: $screen', StackTrace.current);
       log_error('previous trigger', _previous);
@@ -89,7 +89,7 @@ class MainController extends World with AutoDispose, HasAutoDisposeShortcuts imp
           return;
         }
         log_info('show $screen');
-        showScreen(screen, skip_fade_out: skip_fade_out, skip_fade_in: skip_fade_in);
+        show_screen(screen, skip_fade_out: skip_fade_out, skip_fade_in: skip_fade_in);
       });
     } else {
       final it = added(_makeScreen(screen));

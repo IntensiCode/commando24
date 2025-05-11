@@ -90,7 +90,7 @@ class AudioMenuScreen extends GameScriptComponent {
 
     menu.onPreselected = (it) => _preselected(it);
 
-    softkeys('Back', null, (_) => popScreen());
+    softkeys('Back', null, (_) => pop_screen());
 
     log_info('initial audio mode: ${soundboard.audio_mode}');
     final preselected = switch (soundboard.audio_mode) {

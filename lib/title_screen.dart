@@ -26,7 +26,7 @@ class TitleScreen extends GameScriptComponent with HasAutoDisposeShortcuts {
     if (help_triggered_at_first_start) {
       help_triggered_at_first_start = false;
       if (music) soundboard.fade_out_music();
-      showScreen(Screen.game);
+      show_screen(Screen.game);
       return;
     }
 
@@ -102,13 +102,13 @@ class TitleScreen extends GameScriptComponent with HasAutoDisposeShortcuts {
         // return;
       } else if (false && first_time_playing) {
         help_triggered_at_first_start = true;
-        showScreen(Screen.help);
+        show_screen(Screen.help);
         return;
       }
     }
 
     if (it == Screen.game) if (music) soundboard.fade_out_music();
-    showScreen(it);
+    show_screen(it);
   }
 
   Future<BitmapButton> _hiscore() => button(

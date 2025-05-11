@@ -28,7 +28,7 @@ class WebPlayScreen extends AutoDisposeComponent with HasAutoDisposeShortcuts {
 
   void _leave() {
     fadeOutDeep();
-    showScreen(Screen.splash, skip_fade_out: true, skip_fade_in: true);
+    show_screen(Screen.splash, skip_fade_out: true, skip_fade_in: true);
     removeFromParent();
   }
 }

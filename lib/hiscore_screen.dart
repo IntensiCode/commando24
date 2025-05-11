@@ -14,8 +14,8 @@ import 'package:commando24/util/shortcuts.dart';
 import 'package:flame/components.dart';
 
 class HiscoreScreen extends GameScriptComponent with HasAutoDisposeShortcuts, KeyboardHandler, HasGameKeys {
-  final _entry_size = Vector2(game_width, default_line_height);
-  final _position = Vector2(0, default_line_height * 4);
+  final _entry_size = Vector2(game_width, line_height);
+  final _position = Vector2(0, line_height * 4);
 
   @override
   onLoad() async {
@@ -32,7 +32,7 @@ class HiscoreScreen extends GameScriptComponent with HasAutoDisposeShortcuts, Ke
       }
     }
 
-    softkeys('Back', null, (_) => popScreen());
+    softkeys('Back', null, (_) => pop_screen());
   }
 
   _HiscoreEntry _add(String score, String level, String name) {
@@ -44,7 +44,7 @@ class HiscoreScreen extends GameScriptComponent with HasAutoDisposeShortcuts, Ke
       size: _entry_size,
       position: _position,
     ));
-    _position.y += default_line_height;
+    _position.y += line_height;
     return it;
   }
 }

@@ -248,7 +248,7 @@ class GameScreen extends GameScriptComponent with HasAutoDisposeShortcuts {
   void _on_game_complete() {
     _switch_overlay(LevelBonus(() {
       add(Delayed(0.5, () async {
-        showScreen(Screen.the_end);
+        show_screen(Screen.the_end);
       }));
     }, game_complete: true));
   }
@@ -273,7 +273,7 @@ class GameScreen extends GameScriptComponent with HasAutoDisposeShortcuts {
   Map<GameKey, Function> _key_handlers() => switch (model.phase) {
         GamePhase.confirm_exit => {
             GameKey.soft1: () => model.phase = GamePhase.game_on,
-            GameKey.soft2: () => showScreen(Screen.title),
+            GameKey.soft2: () => show_screen(Screen.title),
           },
         GamePhase.enter_round => {},
         GamePhase.game_complete => {},
@@ -288,7 +288,7 @@ class GameScreen extends GameScriptComponent with HasAutoDisposeShortcuts {
         GamePhase.game_over => {
             GameKey.soft1: () {
               _clear_game_state();
-              showScreen(Screen.title);
+              show_screen(Screen.title);
             },
             GameKey.soft2: () {
               _clear_game_state();
@@ -296,10 +296,10 @@ class GameScreen extends GameScriptComponent with HasAutoDisposeShortcuts {
             },
           },
         GamePhase.game_over_hiscore => {
-            GameKey.soft2: () => showScreen(Screen.enter_hiscore),
+            GameKey.soft2: () => show_screen(Screen.enter_hiscore),
           },
         GamePhase.game_paused => {
-            GameKey.soft1: () => showScreen(Screen.title),
+            GameKey.soft1: () => show_screen(Screen.title),
             GameKey.soft2: () => model.phase = GamePhase.game_on,
             GameKey.fire1: () => model.phase = GamePhase.game_on,
           },

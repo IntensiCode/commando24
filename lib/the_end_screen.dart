@@ -26,10 +26,10 @@ class TheEndScreen extends GameScriptComponent {
     ));
 
     if (hiscore.isHiscoreRank(state.score)) {
-      softkeys('Hiscore', null, (_) => showScreen(Screen.enter_hiscore));
+      softkeys('Hiscore', null, (_) => show_screen(Screen.enter_hiscore));
     } else {
       clear_game_state();
-      softkeys('Back', null, (_) => popScreen());
+      softkeys('Back', null, (_) => pop_screen());
     }
 
     soundboard.play_music('music/theme.mp3');

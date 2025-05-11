@@ -22,6 +22,6 @@ class CreditsScreen extends GameScriptComponent {
       size: Vector2(320, 160 - 16),
     ));
 
-    softkeys('Back', null, (_) => popScreen());
+    softkeys('Back', null, (_) => pop_screen());
   }
 }

@@ -55,7 +55,7 @@ class OptionsScreen extends GameScriptComponent with HasAutoDisposeShortcuts, Ke
     menu.preselectEntry(rememberSelection);
     menu.onPreselected = (it) => rememberSelection = it;
 
-    softkeys('Back', null, (_) => popScreen());
+    softkeys('Back', null, (_) => pop_screen());
 
     add(FlowText(
       text: '"Pixelate Screen" is a bit '

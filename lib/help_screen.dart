@@ -33,7 +33,7 @@ class HelpScreen extends GameScriptComponent {
     ));
 
     final label = help_triggered_at_first_start ? 'Start' : 'Back';
-    softkeys(label, null, (_) => popScreen());
+    softkeys(label, null, (_) => pop_screen());
 
     add(keys);
   }
@@ -44,7 +44,7 @@ class HelpScreen extends GameScriptComponent {
   void update(double dt) {
     super.update(dt);
     if (keys.check_and_consume(GameKey.fire1)) {
-      popScreen();
+      pop_screen();
     }
   }
 }
