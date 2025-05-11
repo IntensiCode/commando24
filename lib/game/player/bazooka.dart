@@ -1,12 +1,12 @@
+import 'package:commando24/aural/audio_system.dart';
+import 'package:commando24/game/explosions.dart';
 import 'package:commando24/game/game_configuration.dart';
-import 'package:commando24/game/game_context.dart';
 import 'package:commando24/game/level/level_object.dart';
+import 'package:commando24/game/particles.dart';
 import 'package:commando24/game/player/base_weapon.dart';
 import 'package:commando24/game/player/projectile.dart';
 import 'package:commando24/game/player/weapon_type.dart';
-import 'package:commando24/game/soundboard.dart';
-import 'package:commando24/util/extensions.dart';
-import 'package:commando24/util/game_keys.dart';
+import 'package:commando24/input/game_keys.dart';
 import 'package:commando24/util/random.dart';
 import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
@@ -33,7 +33,7 @@ class Bazooka extends BaseWeapon {
   @override
   void on_fire(double dt, {bool sound = true, bool show_firing = true}) {
     super.on_fire(dt, sound: sound);
-    keys.consume(GameKey.fire1);
+    keys.consume(GameKey.a_button);
   }
 }
 
@@ -44,7 +44,7 @@ class ExplodeOnImpact extends ProjectileBehavior {
   void target_hit(Projectile projectile, LevelObject target) {
     _temp_pos.setFrom(projectile.position);
     _temp_pos.y += 16;
-    model.explosions.spawn_big_explosion(position: _temp_pos);
+    projectile.explosions.spawn_big_explosion(position: _temp_pos);
   }
 }
 
@@ -58,6 +58,6 @@ class SmokeTrail extends ProjectileBehavior {
     _emit_time += dt;
     if (_emit_time < emit_interval) return;
     _emit_time -= emit_interval + rng.nextDoubleLimit(emit_interval / 3);
-    model.particles.spawn_smoke(projectile.position, rng.nextDoubleLimit(4));
+    projectile.particles.spawn_smoke(projectile.position, rng.nextDoubleLimit(4));
   }
 }

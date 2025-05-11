@@ -1,50 +1,32 @@
-import 'package:commando24/game/game_entities.dart';
-import 'package:commando24/game/level/level.dart';
-import 'package:commando24/game/player/player.dart';
-import 'package:commando24/game/visual_configuration.dart';
-import 'package:commando24/util/keys.dart';
+import 'package:commando24/core/common.dart';
+import 'package:commando24/game/game_phase.dart';
+import 'package:commando24/game/game_screen.dart';
+import 'package:commando24/game/stage_cache.dart';
+import 'package:commando24/input/keys.dart';
+import 'package:commando24/util/messaging.dart';
 import 'package:flame/components.dart';
 
-import 'game_configuration.dart';
-import 'game_model.dart';
-import 'game_phase.dart';
-import 'game_screen.dart';
-import 'game_state.dart';
-
-// to make these available to the tiny components, singletons are just fine:
-
-late GameEntities entities;
-late GameModel model;
-late Level level;
-late Player player;
-
+/// Easy access to all primary components via GameScreen -> StageCache.
+/// Primary components are expected to provide an extension on GameContext.
+/// Direct cache access is discouraged for component access.
 mixin GameContext on Component {
-  GameModel? _model;
-  Keys? _keys;
-  Level? _level;
-  Player? _player;
+  GameScreen? _stage;
 
-  GameModel get model {
-    final it = _model ??
-        findParent<GameModel>(includeSelf: true) ?? //
-        findParent<GameScreen>(includeSelf: true)?.model;
-    if (it != null) return it;
-    throw 'no game found in $this';
+  GameScreen get stage => _stage ??= findParent<GameScreen>(includeSelf: true)!;
+
+  StageCache get cache => stage.stage_cache;
+
+  GamePhase get phase => stage.phase;
+
+  Keys get keys => stage.stage_keys;
+
+  Messaging get _messaging => cache.putIfAbsent('messaging', () => stage.messaging);
+
+  void send_message<T extends Message>(T message) => _messaging.send(message);
+
+  @override
+  void onMount() {
+    super.onMount();
+    stage; // to fix remove and re-mount scenarios (collectibles)
   }
-
-  GameConfiguration get configuration => GameConfiguration.instance;
-
-  VisualConfiguration get visual => VisualConfiguration.instance;
-
-  GamePhase get phase => model.phase;
-
-  GameState get game_state => model.state;
-
-  Keys get keys => _keys ??= model.keys;
-
-  GameEntities get entities => model.entities;
-
-  Level get level => _level ??= model.level;
-
-  Player get player => _player ??= model.player;
 }

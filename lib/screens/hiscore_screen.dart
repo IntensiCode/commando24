@@ -1,16 +1,16 @@
-import 'package:commando24/components/soft_keys.dart';
 import 'package:commando24/core/common.dart';
 import 'package:commando24/core/screens.dart';
 import 'package:commando24/game/hiscore.dart';
+import 'package:commando24/input/game_keys.dart';
+import 'package:commando24/input/shortcuts.dart';
+import 'package:commando24/ui/fonts.dart';
+import 'package:commando24/ui/soft_keys.dart';
 import 'package:commando24/util/bitmap_font.dart';
 import 'package:commando24/util/bitmap_text.dart';
 import 'package:commando24/util/effects.dart';
 import 'package:commando24/util/extensions.dart';
-import 'package:commando24/util/fonts.dart';
 import 'package:commando24/util/functions.dart';
-import 'package:commando24/util/game_keys.dart';
 import 'package:commando24/util/game_script.dart';
-import 'package:commando24/util/shortcuts.dart';
 import 'package:flame/components.dart';
 
 class HiscoreScreen extends GameScriptComponent with HasAutoDisposeShortcuts, KeyboardHandler, HasGameKeys {
@@ -19,9 +19,9 @@ class HiscoreScreen extends GameScriptComponent with HasAutoDisposeShortcuts, Ke
 
   @override
   onLoad() async {
-    add(await sprite_comp('background.png'));
+    add(sprite_comp('background.png'));
 
-    fontSelect(tiny_font, scale: 1);
+    font_select(tiny_font, scale: 1);
     textXY('Hiscore', center_x, 16, scale: 2);
 
     _add('Score', 'Round', 'Name');

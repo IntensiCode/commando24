@@ -1,19 +1,28 @@
+import 'package:commando24/core/atlas.dart';
 import 'package:commando24/game/game_context.dart';
+import 'package:commando24/game/game_entities.dart';
 import 'package:commando24/game/game_messages.dart';
 import 'package:commando24/util/auto_dispose.dart';
 import 'package:commando24/util/on_message.dart';
 import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
 
-class Prisoners extends Component with AutoDispose {
-  Prisoners(this._sprites1632);
+extension GameContextExtensions on GameContext {
+  Prisoners get prisoners => cache.putIfAbsent('prisoners', () => Prisoners());
+}
 
-  final SpriteSheet _sprites1632;
+class Prisoners extends Component with AutoDispose, GameContext {
+  late final SpriteSheet _sprites1632;
+
+  @override
+  onLoad() {
+    _sprites1632 = atlas.sheetIWH('tileset', 16, 32);
+  }
 
   @override
   void onMount() {
     super.onMount();
-    onMessage<PrisonerFreed>((it) => entities.add(Prisoner(it.prop.position, _sprites1632)));
+    on_message<PrisonerFreed>((it) => entities.add(Prisoner(it.prop.position, _sprites1632)));
   }
 }
 

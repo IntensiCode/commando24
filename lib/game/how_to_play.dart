@@ -1,13 +1,12 @@
-import 'package:commando24/components/flow_text.dart';
 import 'package:commando24/core/common.dart';
+import 'package:commando24/game/game_dialog.dart';
+import 'package:commando24/input/game_keys.dart';
+import 'package:commando24/ui/flow_text.dart';
+import 'package:commando24/ui/fonts.dart';
 import 'package:commando24/util/bitmap_text.dart';
 import 'package:commando24/util/extensions.dart';
-import 'package:commando24/util/fonts.dart';
 import 'package:commando24/util/game_script.dart';
-import 'package:commando24/util/keys.dart';
 import 'package:flame/components.dart';
-
-import 'game_dialog.dart';
 
 class HowToPlay extends GameScriptComponent {
   static final _dialog_size = Vector2(640, 400);

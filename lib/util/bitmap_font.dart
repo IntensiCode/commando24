@@ -3,8 +3,10 @@ import 'dart:typed_data';
 import 'dart:ui';
 
 import 'package:collection/collection.dart';
+import 'package:commando24/core/atlas.dart';
 import 'package:commando24/core/common.dart';
 import 'package:commando24/util/log.dart';
+import 'package:commando24/util/mutable.dart';
 import 'package:flame/cache.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
@@ -43,7 +45,7 @@ abstract class BitmapFont {
     required int charWidth,
     required int charHeight,
   }) async {
-    final image = await images.load(filename);
+    final image = atlas.sprite(filename);
     return MonospacedBitmapFont(image, charWidth, charHeight);
   }
 
@@ -54,29 +56,30 @@ abstract class BitmapFont {
     required int columns,
     required int rows,
   }) async {
-    final image = await images.load(filename);
-    final charWidth = image.width ~/ columns;
-    final charHeight = image.height ~/ rows;
+    final sprite = atlas.sprite(filename);
+    final charWidth = sprite.src.width ~/ columns;
+    final charHeight = sprite.src.height ~/ rows;
 
     late final Uint8List dst;
     try {
       dst = await _loadDst(assets, filename);
     } catch (e, trace) {
       log_error('Failed to load bitmap font dst: $e', trace);
-      dst = await _createDst(image, charWidth, charHeight, columns, rows);
+      dst = await _createDst(sprite, charWidth, charHeight, columns, rows);
     }
-    return DstBitmapFont(image, dst, charWidth, charHeight);
+    return DstBitmapFont(sprite, dst, charWidth, charHeight);
   }
 
   static Future<Uint8List> _loadDst(AssetsCache assets, String filename) async {
-    final hex = await assets.readFile(filename.replaceFirst('.png', '.dst'));
+    final hex = await assets.readFile(filename.replaceFirst('.png', '.dst').replaceFirst('fonts', 'data'));
     final all = hex.split(RegExp(r'[\r\n ]+'));
     all.removeLast();
     final widths = all.map((it) => int.parse('0x$it'.trim()));
     return Uint8List.fromList(widths.toList());
   }
 
-  static Future<Uint8List> _createDst(Image image, int charWidth, int charHeight, int columns, int rows) async {
+  static Future<Uint8List> _createDst(Sprite sprite, int charWidth, int charHeight, int columns, int rows) async {
+    final image = sprite.toImageSync();
     final pixels = await image.pixelsInUint8();
     final result = List.generate(columns * rows, (i) {
       if (i == 0) return charWidth ~/ 4;
@@ -93,6 +96,7 @@ abstract class BitmapFont {
       }
       return width;
     });
+    image.dispose();
 
     final dump = result.slices(columns).map((row) => (row.map((it) => it.toRadixString(16).padLeft(2, '0')).join(' ')));
     log_info('\n${dump.join('\n')}\n');
@@ -132,7 +136,7 @@ abstract class BitmapFont {
 }
 
 class MonospacedBitmapFont extends BitmapFont {
-  final Image _image;
+  final Sprite _sprite;
   final int _charWidth;
   final int _charHeight;
   final int _charsPerRow;
@@ -140,11 +144,14 @@ class MonospacedBitmapFont extends BitmapFont {
   @override
   late double spacing;
 
-  MonospacedBitmapFont(this._image, this._charWidth, this._charHeight) : _charsPerRow = _image.width ~/ _charWidth {
+  MonospacedBitmapFont(this._sprite, this._charWidth, this._charHeight)
+      : _charsPerRow = _sprite.srcSize.x ~/ _charWidth {
     spacing = (_charWidth * 0.1).roundToDouble();
   }
 
   final _cache = <int, Rect>{};
+
+  final _src = MutableRect.fromRect(Rect.zero);
 
   Rect _cachedSrc(int charCode) => _cache.putIfAbsent(charCode, () {
         final x = (charCode - 32) % _charsPerRow;
@@ -165,10 +172,16 @@ class MonospacedBitmapFont extends BitmapFont {
         _charHeight.toDouble() * scale,
       );
 
+  final _sprites = <int, Sprite>{};
+
   @override
   Sprite sprite(int charCode) {
     final rect = _cachedSrc(charCode);
-    return Sprite(_image, srcPosition: rect.topLeft.toVector2(), srcSize: rect.size.toVector2());
+    return _sprites[charCode] ??= Sprite(
+      _sprite.image,
+      srcPosition: _sprite.srcPosition + rect.topLeft.toVector2(),
+      srcSize: rect.size.toVector2(),
+    );
   }
 
   @override
@@ -185,7 +198,9 @@ class MonospacedBitmapFont extends BitmapFont {
     for (final c in string.codeUnits) {
       final src = _cachedSrc(c);
       final dst = _dst(x, y);
-      canvas.drawImageRect(_image, src, dst, paint);
+      _src.copy(src);
+      _src.add(_sprite.srcPosition);
+      canvas.drawImageRect(_sprite.image, _src, dst, paint);
       x += _charWidth * scale + spacing * scale;
     }
   }
@@ -201,7 +216,7 @@ class MonospacedBitmapFont extends BitmapFont {
 }
 
 class DstBitmapFont extends BitmapFont {
-  final Image _image;
+  final Sprite _sprite;
   final Uint8List _dst;
   final int _charWidth;
   final int _charHeight;
@@ -210,9 +225,13 @@ class DstBitmapFont extends BitmapFont {
   @override
   late double spacing;
 
-  DstBitmapFont(this._image, this._dst, this._charWidth, this._charHeight) : _charsPerRow = _image.width ~/ _charWidth {
-    spacing = (_charWidth * 0.1).roundToDouble();
-  }
+  DstBitmapFont(
+    this._sprite,
+    this._dst,
+    this._charWidth,
+    this._charHeight,
+  )   : _charsPerRow = _sprite.src.width ~/ _charWidth,
+        spacing = (_charWidth * 0.1).roundToDouble();
 
   final _cache = <int, Rect>{};
 
@@ -237,10 +256,16 @@ class DstBitmapFont extends BitmapFont {
         _charHeight.toDouble() * scale,
       );
 
+  final _sprites = <int, Sprite>{};
+
   @override
   Sprite sprite(int charCode) {
     final rect = _cachedSrc(charCode);
-    return Sprite(_image, srcPosition: rect.topLeft.toVector2(), srcSize: rect.size.toVector2());
+    return _sprites[charCode] ??= Sprite(
+      _sprite.image,
+      srcPosition: _sprite.srcPosition + rect.topLeft.toVector2(),
+      srcSize: rect.size.toVector2(),
+    );
   }
 
   @override
@@ -259,12 +284,17 @@ class DstBitmapFont extends BitmapFont {
     return x - spacing * scale;
   }
 
+  final _src = MutableRect.fromRect(Rect.zero);
+
   @override
   drawString(Canvas canvas, double x, double y, String string) {
+    final image = _sprite.image;
     for (final c in string.codeUnits) {
       final src = _cachedSrc(c);
       final dst = _dstRect(x, y, src.width);
-      canvas.drawImageRect(_image, src, dst, paint);
+      _src.copy(src);
+      _src.add(_sprite.srcPosition);
+      canvas.drawImageRect(image, _src, dst, paint);
       x += src.width * scale + spacing * scale;
     }
   }

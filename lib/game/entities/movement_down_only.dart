@@ -2,9 +2,10 @@ import 'package:commando24/game/entities/enemy.dart';
 import 'package:commando24/game/entities/enemy_behavior.dart';
 import 'package:commando24/game/game_context.dart';
 import 'package:commando24/game/level/props/level_prop_extensions.dart';
+import 'package:commando24/game/player/player.dart';
 import 'package:flame/components.dart';
 
-class MovementDownOnly extends Component with MovementMode, EnemyBehavior {
+class MovementDownOnly extends Component with GameContext, MovementMode, EnemyBehavior {
   late Enemy enemy;
 
   @override

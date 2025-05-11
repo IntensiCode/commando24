@@ -1,10 +1,10 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:collection/collection.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/sprite.dart';
-import 'package:kart/kart.dart';
 
 extension ComponentExtension on Component {
   PositionComponent get ppc => parent! as PositionComponent;
@@ -78,7 +78,7 @@ extension ListExtensions<T> on List<T> {
   List<R> mapList<R>(R Function(T) f) => map(f).toList();
 
   T? nextAfter(T? it) {
-    if (it == null) return firstOrNull();
+    if (it == null) return firstOrNull;
     final index = indexOf(it);
     if (index == -1) return null;
     return this[(index + 1) % length];
@@ -96,23 +96,23 @@ extension ListExtensions<T> on List<T> {
   }
 
   List<T> operator -(List<T> other) => whereNot((it) => other.contains(it)).toList();
-}
 
-extension RandomExtensions on Random {
-  double nextDoubleLimit(double limit) => nextDouble() * limit;
-
-  double nextDoublePM(double limit) => (nextDouble() - nextDouble()) * limit;
+  void ensureSize(int size, T Function() generator) {
+    if (length < size) {
+      addAll(List.generate(size - length, (_) => generator()));
+    }
+  }
 }
 
 extension FragmentShaderExtensions on FragmentShader {
   setVec4(int index, Color color) {
-    final r = color.red / 255 * color.opacity;
-    final g = color.green / 255 * color.opacity;
-    final b = color.blue / 255 * color.opacity;
+    final r = color.r * color.a;
+    final g = color.g * color.a;
+    final b = color.b * color.a;
     setFloat(index + 0, r);
     setFloat(index + 1, g);
     setFloat(index + 2, b);
-    setFloat(index + 3, color.opacity);
+    setFloat(index + 3, color.a);
   }
 }
 
@@ -125,7 +125,7 @@ extension IntExtensions on int {
 }
 
 extension PaintExtensions on Paint {
-  double get opacity => color.opacity;
+  double get opacity => color.a;
 
   set opacity(double progress) {
     color = Color.fromARGB((255 * progress).toInt(), 255, 255, 255);
@@ -159,4 +159,41 @@ extension SpriteSheetExtensions on SpriteSheet {
   Sprite by_row(int row, double progress) => getSprite(row, ((columns - 1) * progress).toInt());
 
   Sprite by_progress(double progress) => getSpriteById(((columns - 1) * progress).toInt());
+}
+
+extension SetExtensions<T> on Set<T> {
+  T random(Random rng) => elementAt(rng.nextInt(length));
+
+  Set<T> operator +(T it) => <T>{...this, it};
+}
+
+extension MapExtensions on Map {
+  bool deepEquals(Map other) => MapEquality().equals(this, other);
+}
+
+extension PositionComponentExtensions on PositionComponent {
+  /// Apply parent anchor position to this component.
+  /// Any relative existing position will be preserved if [preserve_current] is true.
+  void anchor_to_parent({bool preserve_current = true}) => relative_to_parent(0, 0, preserve_current: preserve_current);
+
+  /// Apply parent anchor position to this component.
+  /// Any relative existing position will be preserved if [preserve_current] is true.
+  /// [dx] and [dy] will be added to the final position.
+  void relative_to_parent(double dx, double dy, {bool preserve_current = true}) {
+    if (!isMounted) {
+      mounted.then((_) => relative_to_parent(dx, dy, preserve_current: preserve_current));
+      return;
+    }
+
+    final size = ppc.size;
+    if (preserve_current) {
+      position.setValues(x += dx + anchor.x * size.x, y += dy + anchor.y * size.y);
+    } else {
+      position.setValues(x = dx + anchor.x * size.x, y = dy + anchor.y * size.y);
+    }
+  }
+}
+
+extension RectExtensions on Rect {
+  Rect operator +(Vector2 offset) => Rect.fromLTWH(left + offset.x, top + offset.y, width, height);
 }

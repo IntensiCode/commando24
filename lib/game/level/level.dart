@@ -1,10 +1,14 @@
+import 'package:commando24/core/atlas.dart';
 import 'package:commando24/core/common.dart';
 import 'package:commando24/game/game_context.dart';
 import 'package:commando24/game/game_messages.dart';
+import 'package:commando24/game/game_state.dart';
+import 'package:commando24/game/level/level_props.dart';
+import 'package:commando24/game/level/level_state.dart';
+import 'package:commando24/game/level/level_tiles.dart';
 import 'package:commando24/util/auto_dispose.dart';
 import 'package:commando24/util/extensions.dart';
 import 'package:commando24/util/log.dart';
-import 'package:commando24/util/messaging.dart';
 import 'package:commando24/util/on_message.dart';
 import 'package:commando24/util/tiled_extensions.dart';
 import 'package:flame/components.dart';
@@ -12,27 +16,24 @@ import 'package:flame/extensions.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
-import 'level_props.dart';
-import 'level_state.dart';
-import 'level_tiles.dart';
+extension GameContextExtensions on GameContext {
+  Level get level => cache.putIfAbsent('level', () => Level());
+}
 
 class Level extends PositionComponent with AutoDispose, GameContext, HasPaint {
-  Level(this._atlas, this._sprites16) {
-    level = this;
+  Level() {
     priority = -1000;
     paint = pixel_paint();
   }
 
-  final Image _atlas;
-  final SpriteSheet _sprites16;
-
+  late final SpriteSheet _sprites16;
   late final LevelTiles _tiles;
   late final LevelProps _big_props;
   late final LevelProps _small_props;
   late final LevelProps _prisoners;
   late final LevelProps _enemies;
 
-  int get level_number_starting_at_1 => model.state.level_number_starting_at_1;
+  int get level_number_starting_at_1 => game_state.level_number_starting_at_1;
 
   (int, TiledComponent)? _level_data;
 
@@ -85,20 +86,21 @@ class Level extends PositionComponent with AutoDispose, GameContext, HasPaint {
   Future onLoad() async {
     super.onLoad();
 
-    await add(_tiles = LevelTiles(_atlas, _sprites16, paint));
-    await add(_big_props = LevelProps(_atlas, 'props_big', 64, 64, paint));
-    await add(_small_props = LevelProps(_atlas, 'props_small', 32, 32, paint));
-    await add(_prisoners = LevelProps(_atlas, 'prisoners', 16, 32, paint));
-    await add(_enemies = LevelProps(_atlas, 'enemies', 16, 32, paint));
+    _sprites16 = atlas.sheetIWH('tileset', 16, 16);
+    await add(_tiles = LevelTiles(_sprites16, paint));
+    await add(_big_props = LevelProps('props_big', 64, 64, paint));
+    await add(_small_props = LevelProps('props_small', 32, 32, paint));
+    await add(_prisoners = LevelProps('prisoners', 16, 32, paint));
+    await add(_enemies = LevelProps('enemies', 16, 32, paint));
 
     _prisoners.tileset_override = 'characters';
     _enemies.tileset_override = 'characters';
 
-    onMessage<EnterRound>((_) {
+    on_message<EnterRound>((_) {
       reset();
       preload_level();
     });
-    onMessage<LoadLevel>((_) => _load_level());
+    on_message<LoadLevel>((_) => _load_level());
   }
 
   Future<bool> preload_level() async {
@@ -111,7 +113,7 @@ class Level extends PositionComponent with AutoDispose, GameContext, HasPaint {
       return true;
     } catch (e) {
       log_error('failed to load level $level_number_starting_at_1: $e');
-      sendMessage(GameOver());
+      send_message(GameOver());
       return false;
     }
   }
@@ -128,7 +130,7 @@ class Level extends PositionComponent with AutoDispose, GameContext, HasPaint {
     await _prisoners.load(map!);
     await _enemies.load(map!);
 
-    sendMessage(LevelDataAvailable(map!));
+    send_message(LevelDataAvailable(map!));
 
     state = LevelState.appearing;
     state_progress = 0;
@@ -154,7 +156,7 @@ class Level extends PositionComponent with AutoDispose, GameContext, HasPaint {
     if (state_progress >= 1.0) {
       state_progress = 1.0;
       state = LevelState.active;
-      sendMessage(LevelReady());
+      send_message(LevelReady());
       paint.opacity = 1;
     } else {
       paint.opacity = state_progress;

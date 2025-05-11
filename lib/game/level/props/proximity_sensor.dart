@@ -1,8 +1,9 @@
 import 'package:commando24/game/game_context.dart';
+import 'package:commando24/game/player/player.dart';
 import 'package:commando24/util/log.dart';
 import 'package:flame/components.dart';
 
-class ProximitySensor extends Component {
+class ProximitySensor extends Component with GameContext {
   ProximitySensor({
     required this.center,
     required this.radius,

@@ -1,12 +1,12 @@
 import 'dart:ui';
 
-import 'package:commando24/components/soft_keys.dart';
+import 'package:commando24/core/atlas.dart';
 import 'package:commando24/core/common.dart';
+import 'package:commando24/input/keys.dart';
+import 'package:commando24/ui/soft_keys.dart';
 import 'package:commando24/util/auto_dispose.dart';
 import 'package:commando24/util/extensions.dart';
-import 'package:commando24/util/functions.dart';
 import 'package:commando24/util/game_script_functions.dart';
-import 'package:commando24/util/keys.dart';
 import 'package:commando24/util/nine_patch_image.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
@@ -37,7 +37,7 @@ class DialogKeys extends Component {
     super.update(dt);
     if (keys?.check_and_consume(GameKey.soft1) == true) handlers[GameKey.soft1]!();
     if (keys?.check_and_consume(GameKey.soft2) == true) handlers[GameKey.soft2]!();
-    if (keys?.check_and_consume(GameKey.fire1) == true) handlers[GameKey.soft2]!();
+    if (keys?.check_and_consume(GameKey.a_button) == true) handlers[GameKey.soft2]!();
   }
 }
 
@@ -83,7 +83,7 @@ class GameDialog extends PositionComponent
   onLoad() async {
     super.onLoad();
 
-    final bg = await image('button_plain.png');
+    final bg = atlas.sprite('button_plain.png');
 
     if (background) {
       parent!.add(_background = BackgroundCatcher(() => removeFromParent()));
@@ -95,10 +95,10 @@ class GameDialog extends PositionComponent
     if (keys != null) {
       add(keys!);
       if (keys?.left != null) {
-        await add_button(bg, keys!.left!, 0, size.y, Anchor.topLeft, () => keys!.handle(SoftKey.left));
+        await add_single_button(bg, keys!.left!, 0, size.y, Anchor.topLeft, () => keys!.handle(SoftKey.left));
       }
       if (keys?.right != null) {
-        await add_button(bg, keys!.right!, size.x, size.y, Anchor.topRight, () => keys!.handle(SoftKey.right));
+        await add_single_button(bg, keys!.right!, size.x, size.y, Anchor.topRight, () => keys!.handle(SoftKey.right));
       }
     }
 

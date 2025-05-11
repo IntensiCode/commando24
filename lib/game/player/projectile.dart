@@ -1,13 +1,15 @@
+import 'package:commando24/aural/audio_system.dart';
 import 'package:commando24/core/common.dart';
 import 'package:commando24/game/game_context.dart';
+import 'package:commando24/game/game_entities.dart';
 import 'package:commando24/game/level/level_object.dart';
+import 'package:commando24/game/player/player.dart';
 import 'package:commando24/game/player/weapon_type.dart';
-import 'package:commando24/game/soundboard.dart';
 import 'package:commando24/util/component_recycler.dart';
 import 'package:commando24/util/log.dart';
 import 'package:flame/components.dart';
 
-class Projectile extends SpriteAnimationComponent with Recyclable {
+class Projectile extends SpriteAnimationComponent with GameContext, Recyclable {
   Projectile(this.type, {this.hit_metal = true}) {
     if (dev) log_warn('NEW PROJECTILE');
   }
@@ -81,8 +83,8 @@ class RecycleOutOfBounds extends ProjectileBehavior {
   void update(Projectile projectile, double dt) {
     if (projectile.position.x < -100) projectile.recycle();
     if (projectile.position.x > game_width + 100) projectile.recycle();
-    if (projectile.position.y < player.y - game_height) projectile.recycle();
-    if (projectile.position.y > player.y + game_height) projectile.recycle();
+    if (projectile.position.y < projectile.player.y - game_height) projectile.recycle();
+    if (projectile.position.y > projectile.player.y + game_height) projectile.recycle();
   }
 }
 
@@ -94,7 +96,7 @@ class RecycleOnSolidHit extends ProjectileBehavior {
     _check_pos.setFrom(projectile.position);
     _check_pos.y += 6; // TODO wtf :-D ‾\_('')_/‾
 
-    for (final solid in entities.solids) {
+    for (final solid in projectile.entities.solids) {
       if (solid.is_hit_by(_check_pos)) {
         if (solid.properties['walk_behind'] == true) continue;
         projectile.recycle();
@@ -112,7 +114,7 @@ class RecycleOnTargetHit extends ProjectileBehavior {
     _check_pos.setFrom(projectile.position);
     _check_pos.y += 6;
 
-    for (final target in entities.destructibles) {
+    for (final target in projectile.entities.destructibles) {
       if (target.is_hit_by(_check_pos)) {
         target.on_hit(projectile.type);
 

@@ -46,13 +46,15 @@ late Images images;
 
 // to avoid importing materials elsewhere (which causes clashes sometimes), some color values right here
 
-const black = Colors.black;
-const blue = Colors.blue;
-const green = Colors.green;
-const orange = Colors.orange;
-const red = Colors.red;
-const white = Colors.white;
-const yellow = Colors.yellow;
+const black = Color(0xFF000000);
+const blue = Color(0xFF0000ff);
+const cyan = Color(0xFF00ffff);
+const green = Color(0xFF00ff00);
+const magenta = Color(0xFFff00ff);
+const orange = Color(0xFFff8000);
+const red = Color(0xFFff0000);
+const white = Color(0xFFffffff);
+const yellow = Color(0xFFffff00);
 
 const shadow = Color(0x80000000);
 const shadow_dark = Color(0xC0000000);

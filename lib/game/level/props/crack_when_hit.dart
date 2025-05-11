@@ -1,8 +1,7 @@
+import 'package:commando24/aural/audio_system.dart';
 import 'package:commando24/core/common.dart';
-import 'package:commando24/game/soundboard.dart';
+import 'package:commando24/game/level/props/level_prop_extensions.dart';
 import 'package:flame/components.dart';
-
-import 'level_prop_extensions.dart';
 
 class CrackWhenHit extends Component {
   CrackWhenHit(this.cracks);

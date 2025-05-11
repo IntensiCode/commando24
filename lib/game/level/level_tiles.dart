@@ -1,7 +1,9 @@
 import 'dart:ui';
 
+import 'package:commando24/core/atlas.dart';
 import 'package:commando24/core/common.dart';
 import 'package:commando24/game/game_context.dart';
+import 'package:commando24/game/game_entities.dart';
 import 'package:commando24/game/level/level_object.dart';
 import 'package:commando24/util/extensions.dart';
 import 'package:commando24/util/tiled_extensions.dart';
@@ -12,9 +14,8 @@ import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/foundation.dart';
 
 class LevelTiles extends Component with GameContext, HasVisibility {
-  LevelTiles(this._atlas, this._sprites, this._paint);
+  LevelTiles(this._sprites, this._paint);
 
-  final Image _atlas;
   final SpriteSheet _sprites;
   final Paint _paint;
 
@@ -24,6 +25,7 @@ class LevelTiles extends Component with GameContext, HasVisibility {
   final _cached_transforms = <int, RSTransform>{};
   final _render_pos = Vector2.zero();
 
+  late final Sprite _tileset;
   late final SpriteBatch _batch;
 
   late TiledMap? _map;
@@ -96,7 +98,8 @@ class LevelTiles extends Component with GameContext, HasVisibility {
   @override
   Future onLoad() async {
     super.onLoad();
-    _batch = SpriteBatch(_atlas, useAtlas: !kIsWeb);
+    _tileset = atlas.sprite('tileset');
+    _batch = SpriteBatch(_sprites.image, useAtlas: !kIsWeb);
   }
 
   @override
@@ -125,7 +128,7 @@ class LevelTiles extends Component with GameContext, HasVisibility {
           s.priority = _cached_priority[gid.tile] ??= tileset.priority(gid.tile - 1);
           if (s.priority > 0) continue;
 
-          s.rect = _cached_rect[gid.tile] ??= tileset.rect(gid.tile - 1);
+          s.rect = _cached_rect[gid.tile] ??= tileset.rect(gid.tile - 1) + _tileset.srcPosition;
         }
 
         stacking.sort((a, b) => a.priority - b.priority);
@@ -151,7 +154,7 @@ class _Stacking {
   Rect? rect;
 }
 
-class StackedTile extends SpriteComponent with HasVisibility, LevelObject {
+class StackedTile extends SpriteComponent with GameContext, HasVisibility, LevelObject {
   StackedTile({
     required super.sprite,
     required Paint paint,

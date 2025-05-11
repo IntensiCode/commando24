@@ -1,9 +1,8 @@
+import 'package:commando24/aural/audio_system.dart';
 import 'package:commando24/game/game_configuration.dart';
 import 'package:commando24/game/player/base_weapon.dart';
 import 'package:commando24/game/player/projectile.dart';
 import 'package:commando24/game/player/weapon_type.dart';
-import 'package:commando24/game/soundboard.dart';
-import 'package:commando24/util/extensions.dart';
 import 'package:commando24/util/random.dart';
 import 'package:flame/sprite.dart';
 import 'package:kart/kart.dart';

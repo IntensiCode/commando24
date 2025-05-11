@@ -1,22 +1,22 @@
 import 'dart:ui';
 
-import 'package:commando24/core/common.dart';
 import 'package:flame/components.dart';
 import 'package:flame/text.dart';
+import 'package:flutter/foundation.dart';
 
 class Ticker {
-  Ticker({int ticks = 60}) : _step = 1 / ticks;
+  Ticker({int ticks = 60}) : step = 1.0 / ticks;
 
-  final double _step;
+  final double step;
 
   double _remainder = 0;
 
   generateTicksFor(double dt, void Function(double) tick) {
     // for historic reasons i prefer constant ticks... ‾\_('')_/‾
     dt += _remainder;
-    while (dt >= _step) {
-      tick(_step);
-      dt -= _step;
+    while (dt >= step) {
+      tick(step);
+      dt -= step;
     }
     _remainder = dt;
   }
@@ -35,7 +35,7 @@ class RenderTps<T extends TextRenderer> extends TextComponent with HasVisibility
   final fpsComponent = FpsComponent();
 
   @override
-  bool get isVisible => debug;
+  bool get isVisible => !kReleaseMode;
 
   @override
   void update(double dt) => text = '${fpsComponent.fps.toStringAsFixed(0)} TPS';
@@ -51,7 +51,7 @@ class RenderFps<T extends TextRenderer> extends TextComponent with HasVisibility
   }) : super(priority: double.maxFinite.toInt());
 
   @override
-  bool get isVisible => debug;
+  bool get isVisible => !kReleaseMode;
 
   @override
   void update(double dt) {}

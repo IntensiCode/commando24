@@ -1,14 +1,14 @@
+import 'package:commando24/aural/audio_system.dart';
 import 'package:commando24/game/game_context.dart';
+import 'package:commando24/game/game_entities.dart';
 import 'package:commando24/game/game_messages.dart';
+import 'package:commando24/game/player/player.dart';
 import 'package:commando24/game/player/player_state.dart';
 import 'package:commando24/game/player/projectile.dart';
 import 'package:commando24/game/player/weapon_type.dart';
-import 'package:commando24/game/soundboard.dart';
+import 'package:commando24/input/keys.dart';
 import 'package:commando24/util/auto_dispose.dart';
 import 'package:commando24/util/component_recycler.dart';
-import 'package:commando24/util/extensions.dart';
-import 'package:commando24/util/keys.dart';
-import 'package:commando24/util/messaging.dart';
 import 'package:commando24/util/random.dart';
 import 'package:flame/components.dart';
 
@@ -39,7 +39,7 @@ class BaseWeapon extends Component with AutoDispose, GameContext {
   int ammo = 0;
 
   final weapon_behaviors = [
-    FireRateOnGameKey(GameKey.fire1),
+    FireRateOnGameKey(GameKey.a_button),
     RandomSpread(),
     PlayerRelativeSpeed(),
   ];
@@ -72,7 +72,7 @@ class BaseWeapon extends Component with AutoDispose, GameContext {
   }
 
   void on_fire(double dt, {bool sound = true, bool show_firing = true}) {
-    if (ammo != -1 && --ammo == 0) sendMessage(WeaponEmpty(type));
+    if (ammo != -1 && --ammo == 0) send_message(WeaponEmpty(type));
 
     if (show_firing) player.show_firing = fire_rate * 2;
 
@@ -140,7 +140,7 @@ class PlayerRelativeSpeed extends WeaponBehavior {
 
   @override
   void on_fire(BaseWeapon weapon, double dt) {
-    final add = (!add_relative || player.move_dir.isZero()) ? 0 : player.move_speed;
+    final add = (!add_relative || weapon.player.move_dir.isZero()) ? 0 : weapon.player.move_speed;
     weapon.velocity.scale(weapon.projectile_speed + add);
   }
 }

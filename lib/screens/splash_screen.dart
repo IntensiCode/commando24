@@ -1,10 +1,10 @@
-import 'package:commando24/components/military_text.dart';
+import 'package:commando24/aural/audio_system.dart';
+import 'package:commando24/game/military_text.dart';
 import 'package:commando24/core/common.dart';
 import 'package:commando24/core/screens.dart';
-import 'package:commando24/game/soundboard.dart';
+import 'package:commando24/input/shortcuts.dart';
+import 'package:commando24/ui/fonts.dart';
 import 'package:commando24/util/auto_dispose.dart';
-import 'package:commando24/util/fonts.dart';
-import 'package:commando24/util/shortcuts.dart';
 
 class SplashScreen extends AutoDisposeComponent with HasAutoDisposeShortcuts {
   final _text = '''
@@ -21,7 +21,7 @@ class SplashScreen extends AutoDisposeComponent with HasAutoDisposeShortcuts {
   ''';
 
   @override
-  void onMount() => onKey('<Space>', () => _leave());
+  void onMount() => on_key('<Space>', () => _leave());
 
   @override
   Future onLoad() async {
@@ -30,7 +30,7 @@ class SplashScreen extends AutoDisposeComponent with HasAutoDisposeShortcuts {
   }
 
   void _leave() {
-    show_screen(Screen.title, skip_fade_out: true, skip_fade_in: true);
+    show_screen(Screen.title);
     removeFromParent();
   }
 }

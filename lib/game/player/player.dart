@@ -1,29 +1,33 @@
 import 'dart:math';
 import 'dart:ui';
 
+import 'package:commando24/aural/audio_system.dart';
+import 'package:commando24/core/atlas.dart';
 import 'package:commando24/core/common.dart';
 import 'package:commando24/game/game_configuration.dart';
 import 'package:commando24/game/game_context.dart';
+import 'package:commando24/game/game_entities.dart';
 import 'package:commando24/game/game_messages.dart';
+import 'package:commando24/game/particles.dart';
 import 'package:commando24/game/player/base_weapon.dart';
 import 'package:commando24/game/player/player_state.dart';
-import 'package:commando24/game/soundboard.dart';
+import 'package:commando24/input/keys.dart';
+import 'package:commando24/input/shortcuts.dart';
 import 'package:commando24/util/auto_dispose.dart';
-import 'package:commando24/util/keys.dart';
 import 'package:commando24/util/log.dart';
-import 'package:commando24/util/messaging.dart';
 import 'package:commando24/util/on_message.dart';
-import 'package:commando24/util/shortcuts.dart';
 import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
-class Player extends SpriteComponent with AutoDispose, GameContext, HasAutoDisposeShortcuts, HasVisibility {
-  Player(this._sprites1632) : super(anchor: const Anchor(0.5, 0.8)) {
-    player = this;
-  }
+extension GameContextExtensions on GameContext {
+  Player get player => cache.putIfAbsent('player', () => Player());
+}
 
-  final SpriteSheet _sprites1632;
+class Player extends SpriteComponent with AutoDispose, GameContext, HasAutoDisposeShortcuts, HasVisibility {
+  Player() : super(anchor: const Anchor(0.5, 0.8));
+
+  late final SpriteSheet _sprites1632;
 
   final bounds = MutableRectangle(0.0, 0.0, 0.0, 0.0);
 
@@ -33,13 +37,11 @@ class Player extends SpriteComponent with AutoDispose, GameContext, HasAutoDispo
   final _check_pos = Vector2.zero();
   final _last_free = Vector2.zero();
 
-  late final Keys _keys;
-
   late TiledMap _map;
 
   var state = PlayerState.gone;
-  var _state_progress = 0.0;
-  double _anim_time = 0;
+  var state_progress = 0.0;
+  double anim_time = 0;
   double show_firing = 0;
   double move_speed = configuration.player_move_speed;
 
@@ -48,7 +50,7 @@ class Player extends SpriteComponent with AutoDispose, GameContext, HasAutoDispo
   void reset(PlayerState reset_state) {
     log_info('reset player: $reset_state');
     state = reset_state;
-    _state_progress = 0.0;
+    state_progress = 0.0;
     position.setValues(center_x, game_height + height);
   }
 
@@ -59,17 +61,22 @@ class Player extends SpriteComponent with AutoDispose, GameContext, HasAutoDispo
   Future onLoad() async {
     super.onLoad();
 
+    _sprites1632 = atlas.sheetIWH('tileset', 16, 32);
+
     paint = pixel_paint();
     paint.style = PaintingStyle.stroke;
 
-    _keys = keys;
-    this.sprite = _sprites1632.getSpriteById(0);
+    sprite = _sprites1632.getSpriteById(0);
+  }
 
-    onMessage<EnterRound>((_) => reset(PlayerState.gone));
-    onMessage<GameComplete>((_) => _on_level_complete());
-    onMessage<LevelComplete>((_) => _on_level_complete());
-    onMessage<LevelDataAvailable>((it) => _map = it.map);
-    onMessage<LevelReady>((_) => reset(PlayerState.entering));
+  @override
+  void onMount() {
+    super.onMount();
+    on_message<EnterRound>((_) => reset(PlayerState.gone));
+    on_message<GameComplete>((_) => _on_level_complete());
+    on_message<LevelComplete>((_) => _on_level_complete());
+    on_message<LevelDataAvailable>((it) => _map = it.map);
+    on_message<LevelReady>((_) => reset(PlayerState.entering));
   }
 
   void _on_level_complete() => state = PlayerState.leaving;
@@ -77,6 +84,7 @@ class Player extends SpriteComponent with AutoDispose, GameContext, HasAutoDispo
   @override
   void update(double dt) {
     super.update(dt);
+    anchor = Anchor(0.5, 0.8);
     switch (state) {
       case PlayerState.gone:
         break;
@@ -96,13 +104,13 @@ class Player extends SpriteComponent with AutoDispose, GameContext, HasAutoDispo
   }
 
   void _on_entering(double dt) {
-    _state_progress += dt;
-    if (dev) _state_progress += dt * 3;
-    if (_state_progress > 1.0) {
+    state_progress += dt;
+    if (dev) state_progress += dt * 3;
+    if (state_progress > 1.0) {
       move_dir.setZero();
-      _state_progress = 1.0;
+      state_progress = 1.0;
       state = PlayerState.playing;
-      sendMessage(PlayerReady());
+      send_message(PlayerReady());
     } else {
       move_dir.setValues(0, -1);
       if (dev) move_dir.setValues(0, -4);
@@ -123,8 +131,8 @@ class Player extends SpriteComponent with AutoDispose, GameContext, HasAutoDispo
   }
 
   void _animate_movement(double dt) {
-    _anim_time += dt * 2.5;
-    if (_anim_time >= 1) _anim_time -= 1;
+    anim_time += dt * 2.5;
+    if (anim_time >= 1) anim_time -= 1;
   }
 
   void _update_position(double dt) {
@@ -148,16 +156,16 @@ class Player extends SpriteComponent with AutoDispose, GameContext, HasAutoDispo
     for (final it in entities.consumables) {
       if (it.isRemoving || it.isRemoved) continue;
       if (!it.is_hit_by(position)) continue;
-      model.particles.spawn_sparkles_for(it);
+      particles.spawn_sparkles_for(it);
       soundboard.play(Sound.collect);
       it.removeFromParent();
-      sendMessage(Collected(it));
+      send_message(Collected(it));
       break;
     }
   }
 
   void _update_sprite() {
-    final frame = (_anim_time * 4).toInt().clamp(0, 3);
+    final frame = (anim_time * 4).toInt().clamp(0, 3);
 
     var offset = 0;
     if (fire_dir.y == 0) {
@@ -169,34 +177,34 @@ class Player extends SpriteComponent with AutoDispose, GameContext, HasAutoDispo
 
     final weapon = active_weapon?.type.index ?? 0;
     final firing = show_firing > 0 ? 16 : 0;
-    this.sprite = _sprites1632.getSprite(12 + weapon, 16 + offset + frame + firing);
+    sprite = _sprites1632.getSprite(12 + weapon, 16 + offset + frame + firing);
   }
 
   void _on_leaving(double dt) {
-    _state_progress -= dt;
-    if (_state_progress < 0.0) {
+    state_progress -= dt;
+    if (state_progress < 0.0) {
       paint.color = transparent;
-      _state_progress = 0.0;
+      state_progress = 0.0;
       reset(PlayerState.gone);
     }
   }
 
   void _on_dying(double dt) {
-    _state_progress += dt;
-    if (_state_progress > 1.0) {
-      _state_progress = 0.0;
+    state_progress += dt;
+    if (state_progress > 1.0) {
+      state_progress = 0.0;
       state = PlayerState.gone;
-      sendMessage(PlayerDied());
+      send_message(PlayerDied());
     }
   }
 
   void _on_move_player(double dt) {
     move_dir.setZero();
 
-    if (_keys.check(GameKey.left)) move_dir.x -= 1;
-    if (_keys.check(GameKey.right)) move_dir.x += 1;
-    if (_keys.check(GameKey.up)) move_dir.y -= 1;
-    if (_keys.check(GameKey.down)) move_dir.y += 1;
+    if (keys.check(GameKey.left)) move_dir.x -= 1;
+    if (keys.check(GameKey.right)) move_dir.x += 1;
+    if (keys.check(GameKey.up)) move_dir.y -= 1;
+    if (keys.check(GameKey.down)) move_dir.y += 1;
 
     _try_move(dt);
   }

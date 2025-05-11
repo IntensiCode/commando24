@@ -1,10 +1,11 @@
 import 'package:commando24/game/game_context.dart';
+import 'package:commando24/game/game_entities.dart';
 import 'package:commando24/game/level/props/level_prop.dart';
 import 'package:commando24/game/level/props/level_prop_extensions.dart';
 import 'package:commando24/game/level/props/spawn_prop.dart';
 import 'package:flame/components.dart';
 
-class Spawned extends Component {
+class Spawned extends Component with GameContext {
   @override
   void onMount() {
     super.onMount();

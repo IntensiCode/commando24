@@ -1,7 +1,6 @@
+import 'package:commando24/core/game_data.dart';
+import 'package:commando24/core/storage.dart';
 import 'package:flame/components.dart';
-
-import 'game_data.dart';
-import 'storage.dart';
 
 final hiscore = Hiscore();
 
@@ -33,13 +32,13 @@ class Hiscore extends Component with HasGameData {
     }
     latestRank = rank;
 
-    save('hiscore', this);
+    save_to_storage('hiscore', this);
   }
 
   // Component
 
   @override
-  onLoad() async => await load('hiscore', this);
+  onLoad() async => await load_from_storage('hiscore', this);
 
   // HasGameData
 

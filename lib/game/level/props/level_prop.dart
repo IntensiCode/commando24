@@ -1,12 +1,13 @@
 import 'dart:ui';
 
 import 'package:commando24/core/common.dart';
+import 'package:commando24/game/game_context.dart';
 import 'package:commando24/game/level/level_object.dart';
 import 'package:commando24/util/log.dart';
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 
-class LevelProp extends SpriteComponent with HasVisibility, LevelObject, TapCallbacks {
+class LevelProp extends SpriteComponent with GameContext, HasVisibility, LevelObject, TapCallbacks {
   LevelProp({
     required super.sprite,
     required Paint paint,

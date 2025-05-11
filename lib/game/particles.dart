@@ -1,18 +1,23 @@
+import 'package:commando24/core/atlas.dart';
 import 'package:commando24/game/game_context.dart';
+import 'package:commando24/game/game_entities.dart';
 import 'package:commando24/game/level/props/level_prop.dart';
 import 'package:commando24/util/component_recycler.dart';
 import 'package:commando24/util/delayed.dart';
-import 'package:commando24/util/extensions.dart';
 import 'package:commando24/util/random.dart';
 import 'package:flame/components.dart';
-import 'package:flame/sprite.dart';
 import 'package:kart/kart.dart';
 
 // note: not using actual particles because of the pseudo-3d effect based on priority. afaict particles wouldn't work
 // here at all.
 
-class Particles extends Component {
-  Particles(SpriteSheet sprites) {
+extension GameContextExtensions on GameContext {
+  Particles get particles => cache.putIfAbsent('particles', () => Particles());
+}
+
+class Particles extends Component with GameContext {
+  Particles() {
+    final sprites = atlas.sheetIWH('tileset', 16, 16);
     _smoke = sprites.createAnimation(row: 19, stepTime: 0.1, loop: false, from: 30, to: 40);
     _fire = sprites.createAnimation(row: 22, stepTime: 0.1, loop: false, from: 30, to: 34);
     _sparkle = sprites.createAnimation(row: 22, stepTime: 0.1, loop: false, from: 35, to: 38);

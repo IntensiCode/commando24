@@ -6,55 +6,42 @@ import 'game_script_functions.dart';
 class GameScriptComponent extends AutoDisposeComponent with GameScriptFunctions, GameScript {}
 
 mixin GameScript on GameScriptFunctions {
-  var script = <Future Function()>[];
+  var _script = <(double, Function())>[];
+  double? _active_delay;
 
-  StreamSubscription? active;
-
-  void clearScript() {
-    active?.cancel();
-    active = null;
-    script = [];
+  void script_clear() {
+    _script = [];
+    _active_delay = null;
   }
 
-  void at(double deltaSeconds, Function() execute) {
-    script.add(() async {
-      final millis = (deltaSeconds * 1000).toInt();
-      await Future.delayed(Duration(milliseconds: millis)).then((_) async {
-        if (!isMounted) return;
-        return await execute();
-      });
-    });
-  }
+  void pause_script(double deltaSeconds) => script_after(deltaSeconds, () {});
 
-  loopAt(double deltaSeconds, Function() body) {
-    at(deltaSeconds, () async {
-      while (isMounted) {
-        clearScript();
-        body();
-        await executeScript().asFuture();
-      }
-    });
-  }
+  void script_after(double deltaSeconds, Function() execute) => _script.add((deltaSeconds, execute));
 
-  StreamSubscription executeScript() {
-    final it = Stream.fromIterable(script).asyncMap((it) async {
-      if (!isMounted) return;
-      return await it();
-    });
-    active = it.listen((it) {});
-    return active!;
+  Future script_execute() {
+    final result = Completer();
+    script_after(0.0, () => result.complete());
+    return result.future;
   }
 
   @override
   void onMount() {
     super.onMount();
-    executeScript();
+    script_execute();
   }
 
   @override
-  void onRemove() {
-    super.onRemove();
-    active?.cancel();
-    active = null;
+  void update(double dt) {
+    super.update(dt);
+
+    _active_delay ??= _script.firstOrNull?.$1;
+    if (_active_delay == null) return;
+
+    final ad = _active_delay = _active_delay! - dt;
+    if (ad > 0) return;
+    _active_delay = null;
+
+    final it = _script.removeAt(0);
+    it.$2();
   }
 }

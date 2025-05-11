@@ -1,11 +1,11 @@
+import 'package:commando24/aural/audio_system.dart';
 import 'package:commando24/game/game_context.dart';
 import 'package:commando24/game/game_messages.dart';
 import 'package:commando24/game/level/props/level_prop_extensions.dart';
-import 'package:commando24/game/soundboard.dart';
-import 'package:commando24/util/messaging.dart';
+import 'package:commando24/game/player/player.dart';
 import 'package:flame/components.dart';
 
-class Imprisoned extends Component {
+class Imprisoned extends Component with GameContext {
   bool _on_fire = false;
 
   @override
@@ -36,6 +36,6 @@ class Imprisoned extends Component {
 
     soundboard.play(Sound.prisoner_freed);
 
-    sendMessage(PrisonerFreed(my_prop));
+    send_message(PrisonerFreed(my_prop));
   }
 }

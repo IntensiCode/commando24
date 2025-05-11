@@ -1,65 +1,104 @@
-import 'dart:ui';
-
 import 'package:collection/collection.dart';
-import 'package:commando24/audio_menu_screen.dart';
+import 'package:commando24/aural/audio_menu.dart';
 import 'package:commando24/core/common.dart';
+import 'package:commando24/core/configuration.dart';
+import 'package:commando24/core/debug_overlay.dart';
 import 'package:commando24/core/screens.dart';
-import 'package:commando24/screens/credits_screen.dart';
-import 'package:commando24/screens/enter_hiscore_screen.dart';
 import 'package:commando24/game/game_screen.dart';
-import 'package:commando24/game/visual_configuration.dart';
-import 'package:commando24/screens/help_screen.dart';
+import 'package:commando24/game/level/path_finder.dart';
+import 'package:commando24/input/controls.dart';
+import 'package:commando24/input/controls_gamepad.dart';
+import 'package:commando24/input/shortcuts.dart';
+import 'package:commando24/post/fade_screen.dart';
+import 'package:commando24/post/post_process.dart';
+import 'package:commando24/screens/credits_screen.dart';
+import 'package:commando24/screens/end_screen.dart';
+import 'package:commando24/screens/enter_hiscore_screen.dart';
 import 'package:commando24/screens/hiscore_screen.dart';
 import 'package:commando24/screens/options_screen.dart';
-import 'package:commando24/screens/splash_screen.dart';
-import 'package:commando24/screens/the_end_screen.dart';
 import 'package:commando24/screens/title_screen.dart';
+import 'package:commando24/screens/web_play_screen.dart';
 import 'package:commando24/util/auto_dispose.dart';
 import 'package:commando24/util/extensions.dart';
+import 'package:commando24/util/grab_input.dart';
 import 'package:commando24/util/log.dart';
 import 'package:commando24/util/messaging.dart';
-import 'package:commando24/util/shortcuts.dart';
-import 'package:commando24/screens/web_play_screen.dart';
+import 'package:commando24/util/on_message.dart';
+import 'package:flame/collisions.dart';
 import 'package:flame/components.dart';
-import 'package:flutter/foundation.dart';
 
-class MainController extends World with AutoDispose, HasAutoDisposeShortcuts implements ScreenNavigation {
+class MainController extends World
+    with AutoDispose, HasAutoDisposeShortcuts, HasCollisionDetection<Sweep<ShapeHitbox>>
+    implements ScreenNavigation {
+  //
+  final _screen_holder = PostFxScreenHolder();
+
+  Iterable<Component> get _screens => _screen_holder.children;
+
+  @override // IIRC this is to have the SelectGamePad screen capture all input!?
+  bool get is_active => !_screens.any((it) => it is GrabInput);
+
   final _stack = <Screen>[];
 
   @override
-  onLoad() async => messaging.listen<ShowScreen>((it) => show_screen(it.screen));
+  onLoad() async {
+    super.onLoad();
+    add(_screen_holder);
+    await configuration.load();
+    on_message<ShowScreen>((it) => show_screen(it.screen));
+  }
 
   @override
   void onMount() {
-    if (dev && !kIsWeb) {
+    super.onMount();
+
+    if (dev) {
       show_screen(Screen.game);
-    } else if (kIsWeb) {
-      add(WebPlayScreen());
     } else {
-      add(SplashScreen());
+      _screen_holder.add(WebPlayScreen());
     }
-    onKey('<A-a>', () => show_screen(Screen.audio_menu));
-    onKey('<A-c>', () => show_screen(Screen.credits));
-    onKey('<A-d>', () => debug = !debug);
-    onKey('<A-e>', () => show_screen(Screen.the_end));
-    onKey('<A-h>', () => show_screen(Screen.hiscore));
-    onKey('<A-s>', () => show_screen(Screen.splash, skip_fade_in: true));
-    onKey('<A-l>', () => show_screen(Screen.splash, skip_fade_in: true));
-    onKey('<A-t>', () => show_screen(Screen.title));
+
+    if (dev) {
+      on_keys(['<A-d>', '='], (_) {
+        debug = !debug;
+        log_level = debug ? LogLevel.debug : LogLevel.info;
+        show_debug("Debug Mode: $debug");
+      });
+      on_keys(['<A-p>', '='], (_) {
+        debug_path_finder = !debug_path_finder;
+        show_debug("Debug Path Finder: $debug_path_finder");
+      });
+      on_keys(['<A-v>'], (_) {
+        if (log_level == LogLevel.verbose) {
+          log_level = debug ? LogLevel.debug : LogLevel.info;
+        } else {
+          log_level = LogLevel.verbose;
+        }
+      });
+
+      on_keys(['1'], (_) => push_screen(Screen.game));
+      on_keys(['7'], (_) => push_screen(Screen.credits));
+      on_keys(['8'], (_) => push_screen(Screen.audio));
+      on_keys(['9'], (_) => push_screen(Screen.controls));
+      on_keys(['0'], (_) => show_screen(Screen.title));
+    }
+  }
+
+  void _log(String hint) {
+    log_info('$hint (stack=$_stack children=${_screens.map((it) => it.runtimeType)})');
   }
 
   @override
   void pop_screen() {
-    log_verbose('pop screen with stack=$_stack and children=${children.map((it) => it.runtimeType)}');
-    _stack.removeLastOrNull();
-    show_screen(_stack.lastOrNull ?? Screen.title);
+    _log('pop screen');
+    show_screen(_stack.removeLastOrNull() ?? Screen.title);
   }
 
   @override
   void push_screen(Screen it) {
-    log_verbose('push screen $it with stack=$_stack and children=${children.map((it) => it.runtimeType)}');
+    _log('push screen: $it triggered: $_triggered');
     if (_stack.lastOrNull == it) throw 'stack already contains $it';
-    _stack.add(it);
+    if (_triggered != null) _stack.add(_triggered!);
     show_screen(it);
   }
 
@@ -67,63 +106,81 @@ class MainController extends World with AutoDispose, HasAutoDisposeShortcuts imp
   StackTrace? _previous;
 
   @override
-  void show_screen(Screen screen, {bool skip_fade_out = false, bool skip_fade_in = false}) {
+  void show_screen(Screen screen, {ScreenTransition transition = ScreenTransition.fade_out_then_in}) {
     if (_triggered == screen) {
-      log_error('duplicate trigger ignored: $screen', StackTrace.current);
-      log_error('previous trigger', _previous);
+      _log('show $screen');
+      log_error('duplicate trigger ignored: $screen previous: $_previous', StackTrace.current);
       return;
     }
     _triggered = screen;
     _previous = StackTrace.current;
 
-    if (skip_fade_out) log_info('show $screen');
-    log_verbose('screen stack: $_stack');
-    log_verbose('children: ${children.map((it) => it.runtimeType)}');
+    if (_screens.length > 1) _log('show $screen');
 
-    if (!skip_fade_out && children.isNotEmpty) {
-      children.last.fadeOutDeep(and_remove: true);
-      children.last.removed.then((_) {
-        if (_triggered == screen) {
-          _triggered = null;
-        } else if (_triggered != screen) {
-          return;
-        }
-        log_info('show $screen');
-        show_screen(screen, skip_fade_out: skip_fade_out, skip_fade_in: skip_fade_in);
-      });
-    } else {
-      final it = added(_makeScreen(screen));
-      if (screen != Screen.game && !skip_fade_in) {
-        it.mounted.then((_) => it.fadeInDeep());
+    void call_again() {
+      // still the same? you never know.. :]
+      if (_triggered == screen) {
+        _triggered = null;
+        show_screen(screen, transition: transition);
+      } else {
+        log_warn('triggered screen changed: $screen != $_triggered');
+        log_warn('show $screen with stack=$_stack and children=${_screens.map((it) => it.runtimeType)}');
       }
     }
+
+    const fade_duration = 0.2;
+
+    final out = _screens.lastOrNull;
+    if (out != null) {
+      switch (transition) {
+        case ScreenTransition.cross_fade:
+          game_post_process = FadeScreen.fade_out(seconds: fade_duration, and_remove: out);
+          break;
+        case ScreenTransition.fade_out_then_in:
+          game_post_process = FadeScreen.fade_out(seconds: fade_duration, and_remove: out);
+          out.removed.then((_) => call_again());
+          return;
+        case ScreenTransition.switch_in_place:
+          out.removeFromParent();
+          break;
+        case ScreenTransition.remove_then_add:
+          out.removeFromParent();
+          out.removed.then((_) => call_again());
+          return;
+      }
+    }
+
+    final it = _screen_holder.added(_makeScreen(screen));
+    switch (transition) {
+      case ScreenTransition.cross_fade:
+        it.mounted.then((_) {
+          game_post_process = FadeScreen.fade_in(seconds: fade_duration);
+        });
+        break;
+      case ScreenTransition.fade_out_then_in:
+        it.mounted.then((_) {
+          game_post_process = FadeScreen.fade_in(seconds: fade_duration);
+        });
+        break;
+      case ScreenTransition.switch_in_place:
+        break;
+      case ScreenTransition.remove_then_add:
+        break;
+    }
+
+    messaging.send(ScreenShowing(screen));
   }
 
   Component _makeScreen(Screen it) => switch (it) {
-        Screen.audio_menu => AudioMenuScreen(),
+        Screen.audio => AudioMenu(),
+        Screen.controls => Controls(),
+        Screen.controls_gamepad => ControlsGamepad(),
         Screen.credits => CreditsScreen(),
-        Screen.enter_hiscore => EnterHiscoreScreen(),
+        Screen.end => EndScreen(),
         Screen.game => GameScreen(),
-        Screen.help => HelpScreen(),
         Screen.hiscore => HiscoreScreen(),
+        Screen.hiscore_enter => EnterHiscoreScreen(),
         Screen.options => OptionsScreen(),
-        Screen.splash => SplashScreen(),
-        Screen.the_end => TheEndScreen(),
         Screen.title => TitleScreen(),
       };
-
-  @override
-  void renderTree(Canvas canvas) {
-    if (visual.pixelate_screen) {
-      final recorder = PictureRecorder();
-      super.renderTree(Canvas(recorder));
-      final picture = recorder.endRecording();
-      final image = picture.toImageSync(game_width ~/ 1, game_height ~/ 1);
-      canvas.drawImage(image, Offset.zero, pixel_paint());
-      image.dispose();
-      picture.dispose();
-    } else {
-      super.renderTree(canvas);
-    }
-  }
 }

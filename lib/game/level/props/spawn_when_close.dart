@@ -1,10 +1,10 @@
 import 'package:commando24/game/game_context.dart';
+import 'package:commando24/game/game_entities.dart';
+import 'package:commando24/game/level/props/level_prop_extensions.dart';
+import 'package:commando24/game/level/props/proximity_sensor.dart';
 import 'package:flame/components.dart';
 
-import 'level_prop_extensions.dart';
-import 'proximity_sensor.dart';
-
-class SpawnWhenClose extends Component {
+class SpawnWhenClose extends Component with GameContext {
   @override
   void onMount() {
     super.onMount();

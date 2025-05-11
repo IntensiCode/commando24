@@ -9,7 +9,8 @@ typedef IsTileBlocked = bool Function(int col, int row);
 
 /// Reverse Dijkstra distance field pathfinder.
 class DistanceField {
-  static int steps_per_update = 500; // TODO: Link to FPS?
+  static int steps_per_update = 500;
+  static int max_distance = 100;
 
   final int cols;
   final int rows;
@@ -60,13 +61,13 @@ class DistanceField {
     while (_queue.isNotEmpty && steps-- > 0) {
       final curr = _queue.removeFirst();
       final x = curr[0], y = curr[1];
-      final currDist = _next_distance[y][x];
+      final dist = _next_distance[y][x];
       for (int d = 0; d < 4; ++d) {
         final nx = x + dx[d];
         final ny = y + dy[d];
         if (_in_bounds(nx, ny) && _next_distance[ny][nx] == -1 && !is_blocked(nx, ny)) {
-          _next_distance[ny][nx] = currDist + 1;
-          _queue.addLast([nx, ny]);
+          _next_distance[ny][nx] = dist + 1;
+          if (dist < max_distance) _queue.addLast([nx, ny]);
         }
       }
     }

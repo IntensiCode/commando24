@@ -1,21 +1,20 @@
-import 'dart:async';
-
+import 'package:commando24/aural/audio_system.dart';
+import 'package:commando24/core/atlas.dart';
 import 'package:commando24/game/game_context.dart';
+import 'package:commando24/game/game_entities.dart';
 import 'package:commando24/game/level/level_object.dart';
 import 'package:commando24/game/level/props/level_prop.dart';
 import 'package:commando24/game/level/props/level_prop_extensions.dart';
 import 'package:commando24/game/player/weapon_type.dart';
-import 'package:commando24/game/soundboard.dart';
 import 'package:commando24/util/component_recycler.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
-import 'package:flame/sprite.dart';
 
-class Explosions extends Component {
-  Explosions(this._sprites32);
+extension GameContextExtensions on GameContext {
+  Explosions get explosions => cache.putIfAbsent('explosions', () => Explosions());
+}
 
-  final SpriteSheet _sprites32;
-
+class Explosions extends Component with GameContext {
   final _pool = ComponentRecycler(() => Explosion());
 
   late final SpriteAnimation _vehicle_explosion;
@@ -26,13 +25,14 @@ class Explosions extends Component {
   late final SpriteAnimation _circular_explosion_3;
 
   @override
-  FutureOr<void> onLoad() async {
-    _vehicle_explosion = _sprites32.createAnimation(row: 10, stepTime: 0.1, loop: false, from: 0, to: 9);
-    _big_explosion = _sprites32.createAnimation(row: 11, stepTime: 0.1, loop: false, from: 0, to: 6);
-    _explosion = _sprites32.createAnimation(row: 12, stepTime: 0.1, loop: false, from: 0, to: 5);
-    _circular_explosion_1 = _sprites32.createAnimation(row: 13, stepTime: 0.1, loop: false, from: 0, to: 6);
-    _circular_explosion_2 = _sprites32.createAnimation(row: 14, stepTime: 0.1, loop: false, from: 0, to: 6);
-    _circular_explosion_3 = _sprites32.createAnimation(row: 15, stepTime: 0.1, loop: false, from: 0, to: 6);
+  onLoad() {
+    final sprites32 = atlas.sheetIWH('tileset', 32, 32);
+    _vehicle_explosion = sprites32.createAnimation(row: 10, stepTime: 0.1, loop: false, from: 0, to: 9);
+    _big_explosion = sprites32.createAnimation(row: 11, stepTime: 0.1, loop: false, from: 0, to: 6);
+    _explosion = sprites32.createAnimation(row: 12, stepTime: 0.1, loop: false, from: 0, to: 5);
+    _circular_explosion_1 = sprites32.createAnimation(row: 13, stepTime: 0.1, loop: false, from: 0, to: 6);
+    _circular_explosion_2 = sprites32.createAnimation(row: 14, stepTime: 0.1, loop: false, from: 0, to: 6);
+    _circular_explosion_3 = sprites32.createAnimation(row: 15, stepTime: 0.1, loop: false, from: 0, to: 6);
     return super.onLoad();
   }
 

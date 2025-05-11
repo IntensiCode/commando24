@@ -8,11 +8,11 @@ import 'package:commando24/game/level/props/level_prop.dart';
 import 'package:commando24/game/level/props/level_prop_extensions.dart';
 import 'package:flame/components.dart';
 
-class GameEntities extends Component {
-  GameEntities() {
-    entities = this;
-  }
+extension GameContextExtensions on GameContext {
+  GameEntities get entities => cache.putIfAbsent('entities', () => GameEntities());
+}
 
+class GameEntities extends Component {
   final solids = <StackedTile>[];
   final consumables = <LevelProp>[];
   final destructibles = <LevelProp>[];

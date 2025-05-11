@@ -1,10 +1,9 @@
+import 'package:commando24/core/game_data.dart';
+import 'package:commando24/core/storage.dart';
+import 'package:commando24/game/hiscore.dart';
 import 'package:commando24/util/auto_dispose.dart';
 import 'package:commando24/util/log.dart';
 import 'package:flame/components.dart';
-
-import 'game_data.dart';
-import 'hiscore.dart';
-import 'storage.dart';
 
 Future<bool> first_time() async {
   final map = await load_data('first_time');
@@ -17,7 +16,7 @@ Future save_not_first_time() async {
   await save_data('first_time', {'first_time': false});
 }
 
-final state = GameState.instance;
+final game_state = GameState.instance;
 
 class GameState extends Component with AutoDispose, HasGameData {
   static final instance = GameState._();
@@ -49,6 +48,11 @@ class GameState extends Component with AutoDispose, HasGameData {
 
   hack_hiscore() => _score = hiscore.entries.last.score + 1;
 
+  clear_game_state() async {
+    reset();
+    await delete();
+  }
+
   reset() async {
     log_info('reset game state');
     level_number_starting_at_1 = 1;
@@ -60,18 +64,18 @@ class GameState extends Component with AutoDispose, HasGameData {
   }
 
   preload() async {
-    await load('game_state', this);
+    await load_from_storage('game_state', this);
     log_info('loaded game state: $level_number_starting_at_1');
   }
 
   delete() async {
     log_info('delete game state');
-    await clear('game_state');
+    await clear_storage_entry('game_state');
   }
 
   save_checkpoint() async {
     log_info('save game state');
-    await save('game_state', this);
+    await save_to_storage('game_state', this);
   }
 
   // HasGameData

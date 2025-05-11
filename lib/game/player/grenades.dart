@@ -1,6 +1,9 @@
 import 'dart:async';
 
+import 'package:commando24/aural/audio_system.dart';
+import 'package:commando24/core/atlas.dart';
 import 'package:commando24/core/common.dart';
+import 'package:commando24/game/explosions.dart';
 import 'package:commando24/game/game_configuration.dart';
 import 'package:commando24/game/game_context.dart';
 import 'package:commando24/game/game_messages.dart';
@@ -8,15 +11,18 @@ import 'package:commando24/game/player/base_weapon.dart';
 import 'package:commando24/game/player/bazooka.dart';
 import 'package:commando24/game/player/projectile.dart';
 import 'package:commando24/game/player/weapon_type.dart';
-import 'package:commando24/game/soundboard.dart';
-import 'package:commando24/util/game_keys.dart';
+import 'package:commando24/input/game_keys.dart';
+import 'package:commando24/input/shortcuts.dart';
 import 'package:commando24/util/on_message.dart';
-import 'package:commando24/util/shortcuts.dart';
 import 'package:flame/components.dart';
-import 'package:flame/sprite.dart';
+
+extension GameContextExtensions on GameContext {
+  Grenades get grenades => cache.putIfAbsent('grenades', () => Grenades.make());
+}
 
 class Grenades extends BaseWeapon with HasAutoDisposeShortcuts {
-  static Grenades make(SpriteSheet sprites) {
+  static Grenades make() {
+    final sprites = atlas.sheetIWH('tileset', 16, 16);
     final animation = sprites.createAnimation(row: 21, stepTime: 0.2, from: 41, to: 48, loop: false);
     return Grenades._(animation);
   }
@@ -35,7 +41,7 @@ class Grenades extends BaseWeapon with HasAutoDisposeShortcuts {
     weapon_behaviors.removeWhere((it) => it is FireRateOnGameKey);
     weapon_behaviors.removeWhere((it) => it is PlayerRelativeSpeed);
     weapon_behaviors.add(PlayerRelativeSpeed(add_relative: false));
-    weapon_behaviors.add(FireRateOnGameKey(GameKey.fire2, show_firing: false));
+    weapon_behaviors.add(FireRateOnGameKey(GameKey.b_button, show_firing: false));
 
     projectile_behaviors.clear();
     projectile_behaviors.add(RecycleOutOfBounds());
@@ -50,10 +56,10 @@ class Grenades extends BaseWeapon with HasAutoDisposeShortcuts {
   Future onMount() async {
     super.onMount();
 
-    onMessage<Collected>((it) => _handle_pickup(it));
-    onMessage<EnterRound>((_) => _reset(reset_ammo: false));
+    on_message<Collected>((it) => _handle_pickup(it));
+    on_message<EnterRound>((_) => _reset(reset_ammo: false));
 
-    if (dev) onKey('0', () => ammo += 10);
+    if (dev) on_key('0', () => ammo += 10);
   }
 
   void _handle_pickup(Collected it) {
@@ -69,7 +75,7 @@ class Grenades extends BaseWeapon with HasAutoDisposeShortcuts {
   @override
   void on_fire(double dt, {bool sound = true, bool show_firing = true}) {
     super.on_fire(dt, sound: sound, show_firing: show_firing);
-    keys.consume(GameKey.fire2);
+    keys.consume(GameKey.b_button);
   }
 }
 
@@ -110,7 +116,7 @@ extension on Projectile {
       if (speed_z < 75) {
         _temp_pos.setFrom(position);
         _temp_pos.y += 16;
-        model.explosions.spawn_big_explosion(position: _temp_pos);
+        explosions.spawn_big_explosion(position: _temp_pos);
         recycle();
       }
     }

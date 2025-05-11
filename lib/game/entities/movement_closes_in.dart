@@ -2,10 +2,12 @@ import 'package:commando24/game/entities/enemy.dart';
 import 'package:commando24/game/entities/enemy_behavior.dart';
 import 'package:commando24/game/game_configuration.dart';
 import 'package:commando24/game/game_context.dart';
+import 'package:commando24/game/level/path_finder.dart';
 import 'package:commando24/game/level/props/level_prop_extensions.dart';
+import 'package:commando24/game/player/player.dart';
 import 'package:flame/components.dart';
 
-class MovementClosesIn extends Component with EnemyBehavior, MovementMode {
+class MovementClosesIn extends Component with GameContext, EnemyBehavior, MovementMode {
   late Enemy enemy;
 
   @override
@@ -20,7 +22,7 @@ class MovementClosesIn extends Component with EnemyBehavior, MovementMode {
   void offer_reaction() {
     // Finding an entirely new path is reaction based:
     if (_path_segment.first.isNaN) {
-      model.path_finder.find_path_to_player(my_prop, _path_segment);
+      path_finder.find_path_to_player(my_prop, _path_segment);
     }
   }
 
@@ -55,7 +57,7 @@ class MovementClosesIn extends Component with EnemyBehavior, MovementMode {
 
       // If path is ending, see if there is more:
       if (_path_segment[1].isNaN) {
-        model.path_finder.find_path_to_player(my_prop, _path_segment);
+        path_finder.find_path_to_player(my_prop, _path_segment);
       }
     } else {
       // Move into current target segment:

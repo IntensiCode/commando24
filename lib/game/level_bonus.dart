@@ -1,17 +1,17 @@
 import 'dart:ui';
 
+import 'package:commando24/aural/audio_system.dart';
+import 'package:commando24/core/atlas.dart';
 import 'package:commando24/core/common.dart';
+import 'package:commando24/game/game_context.dart';
+import 'package:commando24/game/game_state.dart';
+import 'package:commando24/ui/fonts.dart';
 import 'package:commando24/util/auto_dispose.dart';
 import 'package:commando24/util/extensions.dart';
-import 'package:commando24/util/fonts.dart';
-import 'package:commando24/util/functions.dart';
 import 'package:commando24/util/game_script.dart';
 import 'package:commando24/util/game_script_functions.dart';
 import 'package:commando24/util/nine_patch_image.dart';
 import 'package:flame/components.dart';
-
-import 'game_context.dart';
-import 'soundboard.dart';
 
 class LevelBonus extends PositionComponent with AutoDispose, GameScriptFunctions, GameContext, GameScript, HasPaint {
   LevelBonus(this.when_done, {this.game_complete = false});
@@ -28,8 +28,8 @@ class LevelBonus extends PositionComponent with AutoDispose, GameScriptFunctions
     position.setValues(16 + 20, 72);
     size.setValues(160, game_complete ? 96 : 64);
 
-    final bg = await image('button_plain.png');
-    fontSelect(tiny_font, scale: 1);
+    final bg = atlas.sprite('button_plain.png');
+    font_select(tiny_font, scale: 1);
     add(RectangleComponent(position: -position, size: game_size, paint: pixel_paint()..color = shadow));
     add(NinePatchComponent(image: bg, size: size));
     textXY(game_complete ? 'GAME COMPLETION BONUS' : 'LEVEL BONUS', size.x / 2, 8, anchor: Anchor.topCenter);
@@ -40,13 +40,13 @@ class LevelBonus extends PositionComponent with AutoDispose, GameScriptFunctions
       it.fadeInDeep();
     }
 
-    soundboard.play_one_shot_sample('sound/level_complete.ogg');
+    audio.play_one_shot_sample('sound/level_complete.ogg');
 
     if (game_complete) {
-      at(1.0, () => content.lines.add(''));
-      at(0.0, () => content.lines.add('DOH DEFEATED:'));
-      at(1.0, () => content.lines.add('*10000 POINTS*'));
-      at(0.0, () => game_state.score += 10000);
+      script_after(1.0, () => content.lines.add(''));
+      script_after(0.0, () => content.lines.add('DOH DEFEATED:'));
+      script_after(1.0, () => content.lines.add('*10000 POINTS*'));
+      script_after(0.0, () => game_state.score += 10000);
 
       game_state.game_complete = true;
 
@@ -85,7 +85,7 @@ class LevelBonus extends PositionComponent with AutoDispose, GameScriptFunctions
       //   }
       // }
 
-      at(1.0, () => when_done());
+      script_after(1.0, () => when_done());
     } else {
       // time_bonus = level.level_time.round();
     }
@@ -132,7 +132,7 @@ class LevelBonus extends PositionComponent with AutoDispose, GameScriptFunctions
       }
     }
 
-    // if (model.enemies.all_enemies_destroyed) {
+    // if (enemies.all_enemies_destroyed) {
     //   if (all_enemies < 0) {
     //     all_enemies += dt;
     //     if (all_enemies >= 0) {

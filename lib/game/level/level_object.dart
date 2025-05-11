@@ -4,16 +4,18 @@ import 'dart:ui';
 import 'package:collection/collection.dart';
 import 'package:commando24/core/common.dart';
 import 'package:commando24/game/game_context.dart';
+import 'package:commando24/game/level/level.dart';
 import 'package:commando24/game/level/level_state.dart';
 import 'package:commando24/game/level/props/destructible.dart';
 import 'package:commando24/game/level/props/flammable.dart';
 import 'package:commando24/game/level/props/level_prop_extensions.dart';
+import 'package:commando24/game/player/player.dart';
 import 'package:commando24/game/player/weapon_type.dart';
 import 'package:commando24/util/extensions.dart';
 import 'package:commando24/util/random.dart';
 import 'package:flame/components.dart';
 
-mixin LevelObject on SpriteComponent, HasVisibility {
+mixin LevelObject on SpriteComponent, GameContext, HasVisibility {
   final _hit_bounds = MutableRectangle(0.0, 0.0, 0.0, 0.0);
   final _visual_bounds = MutableRectangle(0.0, 0.0, 0.0, 0.0);
   final _walk_bounds = MutableRectangle(0.0, 0.0, 0.0, 0.0);

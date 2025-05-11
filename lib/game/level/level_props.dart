@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:commando24/core/atlas.dart';
 import 'package:commando24/game/entities/enemy.dart';
 import 'package:commando24/game/entities/finds_cover.dart';
 import 'package:commando24/game/entities/movement_closes_in.dart';
@@ -10,31 +11,30 @@ import 'package:commando24/game/entities/spawn_late.dart';
 import 'package:commando24/game/entities/spawn_stacked.dart';
 import 'package:commando24/game/entities/throws_grenade.dart';
 import 'package:commando24/game/game_context.dart';
+import 'package:commando24/game/game_entities.dart';
+import 'package:commando24/game/game_model.dart';
+import 'package:commando24/game/level/props/consumable.dart';
+import 'package:commando24/game/level/props/crack_when_hit.dart';
+import 'package:commando24/game/level/props/destructible.dart';
+import 'package:commando24/game/level/props/explode_on_contact.dart';
+import 'package:commando24/game/level/props/explosive.dart';
+import 'package:commando24/game/level/props/flammable.dart';
+import 'package:commando24/game/level/props/imprisoned.dart';
+import 'package:commando24/game/level/props/level_prop.dart';
+import 'package:commando24/game/level/props/level_prop_extensions.dart';
+import 'package:commando24/game/level/props/smoke_when_hit.dart';
+import 'package:commando24/game/level/props/spawn_score.dart';
+import 'package:commando24/game/level/props/spawn_when_close.dart';
+import 'package:commando24/game/level/props/spawned.dart';
 import 'package:commando24/util/extensions.dart';
-import 'package:commando24/util/functions.dart';
 import 'package:flame/components.dart';
 import 'package:flame/extensions.dart';
 import 'package:flame/sprite.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
-import 'props/consumable.dart';
-import 'props/crack_when_hit.dart';
-import 'props/destructible.dart';
-import 'props/explode_on_contact.dart';
-import 'props/explosive.dart';
-import 'props/flammable.dart';
-import 'props/imprisoned.dart';
-import 'props/level_prop.dart';
-import 'props/level_prop_extensions.dart';
-import 'props/smoke_when_hit.dart';
-import 'props/spawn_score.dart';
-import 'props/spawn_when_close.dart';
-import 'props/spawned.dart';
-
 class LevelProps extends Component with GameContext, HasVisibility {
-  LevelProps(this._atlas, this._name, this._width, this._height, this._paint);
+  LevelProps(this._name, this._width, this._height, this._paint);
 
-  final Image _atlas;
   final String _name;
   final int _width;
   final int _height;
@@ -152,7 +152,7 @@ class LevelProps extends Component with GameContext, HasVisibility {
   @override
   Future onLoad() async {
     super.onLoad();
-    _sprites = sheetWH(_atlas, _width, _height);
+    _sprites = atlas.sheetIWH('tileset', _width, _height);
   }
 
   @override

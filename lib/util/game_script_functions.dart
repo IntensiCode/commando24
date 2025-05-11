@@ -1,43 +1,25 @@
-import 'dart:async';
 import 'dart:ui';
 
-import 'package:commando24/core/common.dart';
+import 'package:commando24/ui/fonts.dart';
 import 'package:commando24/util/auto_dispose.dart';
 import 'package:commando24/util/bitmap_button.dart';
 import 'package:commando24/util/bitmap_font.dart';
 import 'package:commando24/util/bitmap_text.dart';
 import 'package:commando24/util/debug.dart';
 import 'package:commando24/util/extensions.dart';
-import 'package:commando24/util/fonts.dart';
 import 'package:commando24/util/functions.dart';
-import 'package:commando24/util/log.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flutter/animation.dart';
 import 'package:flutter/foundation.dart';
-import 'package:signals_core/signals_core.dart';
 
 // don't look here. at least not initially. none of this you should reuse. this
 // is a mess. but the mess works for the case of this demo game. all of this
 // should be replaced by what you need for your game.
 
 mixin GameScriptFunctions on Component, AutoDispose {
-  int _autoDisposeCount = 0;
-
-  void autoEffect(String hint, void Function() callback) {
-    autoDispose(
-      'autoEffect-$_autoDisposeCount-$hint',
-      effect(
-        () => callback(),
-        debugLabel: hint,
-        onDispose: () => log_verbose('effect disposed: $hint'),
-      ),
-    );
-    _autoDisposeCount++;
-  }
-
-  Future<BitmapButton> add_button(
-    Image bg,
+  Future<BitmapButton> add_single_button(
+    Sprite bg,
     String text,
     double x,
     double y,
@@ -47,11 +29,11 @@ mixin GameScriptFunctions on Component, AutoDispose {
     final it = BitmapButton(
       bg_nine_patch: bg,
       text: text,
-      font: menu_font,
-      font_scale: 0.5,
+      font: tiny_font,
+      font_scale: 1.0,
       position: Vector2(x, y),
       anchor: anchor,
-      onTap: (_) => onTap(),
+      onTap: () => onTap(),
     );
     await add(it);
     return it;
@@ -60,11 +42,6 @@ mixin GameScriptFunctions on Component, AutoDispose {
   void clearByType(List types) {
     final what = types.isEmpty ? children : children.where((it) => types.contains(it.runtimeType));
     removeAll(what);
-  }
-
-  void delay(double seconds) async {
-    final millis = (seconds * 1000).toInt();
-    await Stream.periodic(Duration(milliseconds: millis)).first;
   }
 
   DebugText? debugXY(String Function() text, double x, double y, [Anchor? anchor, double? scale]) {
@@ -80,29 +57,26 @@ mixin GameScriptFunctions on Component, AutoDispose {
   BitmapFont? font;
   double? fontScale;
 
-  fontSelect(BitmapFont? font, {double? scale = 1}) {
+  font_select(BitmapFont? font, {double? scale = 1}) {
     this.font = font;
     fontScale = scale;
   }
 
-  Future<SpriteComponent> sprite({
+  SpriteComponent sprite({
     required String filename,
     Vector2? position,
     Anchor? anchor,
-  }) async =>
-      added(await sprite_comp(filename, position: position, anchor: anchor));
+  }) =>
+      added(sprite_comp(filename, position: position, anchor: anchor));
 
-  Future<SpriteComponent> spriteSXY(Sprite sprite, double x, double y, [Anchor anchor = Anchor.center]) async {
-    final it = SpriteComponent(sprite: sprite, position: Vector2(x, y), anchor: anchor);
-    await add(it);
-    return it;
-  }
+  SpriteComponent spriteSXY(Sprite sprite, double x, double y, [Anchor anchor = Anchor.center]) =>
+      added(SpriteComponent(sprite: sprite, position: Vector2(x, y), anchor: anchor));
 
   SpriteComponent spriteIXY(Image image, double x, double y, [Anchor anchor = Anchor.center]) =>
       added(SpriteComponent(sprite: Sprite(image), position: Vector2(x, y), anchor: anchor));
 
-  Future<SpriteComponent> spriteXY(String filename, double x, double y, [Anchor anchor = Anchor.center]) async =>
-      added(await sprite_comp(filename, position: Vector2(x, y), anchor: anchor));
+  SpriteComponent spriteXY(String filename, double x, double y, [Anchor anchor = Anchor.center]) =>
+      added(sprite_comp(filename, position: Vector2(x, y), anchor: anchor));
 
   void fadeInByType<T extends Component>([bool reset = false]) async {
     children.whereType<T>().forEach((it) => it.fadeInDeep(restart: reset));
@@ -118,7 +92,7 @@ mixin GameScriptFunctions on Component, AutoDispose {
     }
   }
 
-  Future<SpriteAnimationComponent> makeAnimCRXY(
+  SpriteAnimationComponent makeAnimCRXY(
     String filename,
     int columns,
     int rows,
@@ -127,8 +101,8 @@ mixin GameScriptFunctions on Component, AutoDispose {
     Anchor anchor = Anchor.center,
     bool loop = true,
     double stepTime = 0.1,
-  }) async {
-    final animation = await animCR(filename, columns, rows, stepTime, loop);
+  }) {
+    final animation = animCR(filename, columns, rows, stepTime: stepTime, loop: loop);
     return makeAnim(animation, Vector2(x, y), anchor);
   }
 
@@ -142,38 +116,6 @@ mixin GameScriptFunctions on Component, AutoDispose {
         anchor: anchor,
       ));
 
-  Future<BitmapButton> menuButtonXY(
-    String text,
-    double x,
-    double y, [
-    Anchor? anchor,
-    String? bgNinePatch,
-    Function(BitmapButton)? onTap,
-  ]) {
-    return menuButton(text: text, pos: Vector2(x, y), anchor: anchor, bgNinePatch: bgNinePatch, onTap: onTap);
-  }
-
-  Future<BitmapButton> menuButton({
-    required String text,
-    Vector2? pos,
-    Anchor? anchor,
-    String? bgNinePatch,
-    void Function(BitmapButton)? onTap,
-  }) async {
-    final button = await images.load(bgNinePatch ?? 'button_plain.png');
-    final it = BitmapButton(
-      bg_nine_patch: button,
-      text: text,
-      font: menu_font,
-      font_scale: 0.25,
-      position: pos,
-      anchor: anchor,
-      onTap: onTap ?? (_) => {},
-    );
-    add(it);
-    return it;
-  }
-
   void scaleTo(Component it, double scale, double duration, Curve? curve) {
     it.add(
       ScaleEffect.to(
@@ -184,22 +126,11 @@ mixin GameScriptFunctions on Component, AutoDispose {
   }
 
   BitmapText textXY(String text, double x, double y, {Anchor anchor = Anchor.center, double? scale}) =>
-      this.text(text: text, position: Vector2(x, y), anchor: anchor, scale: scale);
-
-  BitmapText text({
-    required String text,
-    required Vector2 position,
-    Anchor? anchor,
-    double? scale,
-  }) {
-    final it = BitmapText(
-      text: text,
-      position: position,
-      anchor: anchor ?? Anchor.center,
-      font: font,
-      scale: scale ?? fontScale ?? 1,
-    );
-    add(it);
-    return it;
-  }
+      added(BitmapText(
+        text: text,
+        position: Vector2(x, y),
+        anchor: anchor,
+        font: font,
+        scale: scale ?? fontScale ?? 1,
+      ));
 }

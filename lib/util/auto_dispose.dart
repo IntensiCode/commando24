@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:commando24/util/log.dart';
 import 'package:flame/components.dart';
-import 'package:signals_core/signals_core.dart';
 
 /// Generic "disposable" to dispose/cancel/free some wrapped object.
 abstract interface class Disposable {
@@ -18,7 +17,7 @@ abstract interface class Disposable {
 /// Holds potentially multiple [Disposable]s to be [dispose]d in one call.
 /// Removes all [Disposable]s when [dispose] is called. Can be reused after
 /// [dispose] has been called.
-class CompositeDisposable implements Disposable {
+mixin CompositeDisposable implements Disposable {
   final _disposables = <Disposable>[];
 
   void add(Disposable disposable) => _disposables.add(disposable);
@@ -53,8 +52,6 @@ Disposable _wrap(something) {
     it = _Disposable(() => something.cancel());
   } else if (something is Function()) {
     it = _Disposable(() => something());
-  } else if (something is Signal) {
-    it = _Disposable(() => something.dispose());
   } else if (something is Disposable) {
     it = something;
   } else {
@@ -74,11 +71,11 @@ mixin AutoDispose on Component {
   void onRemove() {
     super.onRemove();
     log_verbose('onRemove for $runtimeType');
-    disposeAllDeep();
+    dispose_all_deep();
   }
 
   /// Dispose all [Disposable]s currently registered with this [AutoDispose] instance.
-  void disposeAll() {
+  void dispose_all() {
     log_verbose('dispose all on $runtimeType');
     if (_disposables.isNotEmpty) {
       log_verbose('disposing ${_disposables.keys}');
@@ -87,6 +84,21 @@ mixin AutoDispose on Component {
       it.dispose();
     }
     _disposables.clear();
+  }
+
+  void dispose_where(bool Function(Disposable disposable) predicate) {
+    final matched = _disposables.entries.where((it) => predicate(it.value));
+    for (final it in matched) {
+      log_info('dispose ${it.key}');
+      dispose(it.key);
+    }
+  }
+
+  void dispose_where_tag(bool Function(String tag) predicate) {
+    for (final tag in _disposables.keys.where(predicate).toList()) {
+      log_info('dispose $tag');
+      dispose(tag);
+    }
   }
 
   /// Dispose the [Disposable] associated with the given [tag]. Nop if nothing registered for this
@@ -102,8 +114,8 @@ mixin AutoDispose on Component {
   /// Otherwise, the new one is assigned to this tag. [something] is turned into a [Disposable]
   /// by inspecting the [Object.runtimeType]. Raises an [ArgumentError] if the given [something]
   /// has an unsupported type. In that case, wrap it into a [Disposable] before passing it to
-  /// [autoDispose].
-  T autoDispose<T>(String tag, T something) {
+  /// [auto_dispose].
+  T auto_dispose<T>(String tag, T something) {
     log_verbose('register $tag on $runtimeType');
     dispose(tag);
     _disposables[tag] = _wrap(something);
@@ -114,9 +126,9 @@ mixin AutoDispose on Component {
 class AutoDisposeComponent extends Component with AutoDispose {}
 
 extension ComponentExtension on Component {
-  void disposeAllDeep() {
+  void dispose_all_deep() {
     bool dispose(Component it) {
-      if (it case AutoDispose ad) ad.disposeAll();
+      if (it case AutoDispose ad) ad.dispose_all();
       return true;
     }
 

@@ -4,10 +4,12 @@ import 'dart:ui';
 import 'package:collection/collection.dart';
 import 'package:commando24/core/common.dart';
 import 'package:commando24/game/game_context.dart';
+import 'package:commando24/game/game_entities.dart';
 import 'package:commando24/game/game_messages.dart';
 import 'package:commando24/game/level/distance_field.dart';
 import 'package:commando24/game/level/level_object.dart';
 import 'package:commando24/game/level/props/level_prop.dart';
+import 'package:commando24/game/player/player.dart';
 import 'package:commando24/util/auto_dispose.dart';
 import 'package:commando24/util/log.dart';
 import 'package:commando24/util/mutable.dart';
@@ -15,7 +17,13 @@ import 'package:commando24/util/on_message.dart';
 import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
-class PathFinder extends Component with AutoDispose {
+bool debug_path_finder = dev;
+
+extension GameContextExtensions on GameContext {
+  PathFinder get path_finder => cache.putIfAbsent('path_finder', () => PathFinder());
+}
+
+class PathFinder extends Component with AutoDispose, GameContext {
   static const tile_size = 16.0;
   static const grid_size = 8.0;
   static const half_size = grid_size / 2;
@@ -29,7 +37,7 @@ class PathFinder extends Component with AutoDispose {
   @override
   void onMount() {
     super.onMount();
-    onMessage<LevelDataAvailable>((it) => _init(it.map));
+    on_message<LevelDataAvailable>((it) => _init(it.map));
   }
 
   double _to_x(int col) => col * grid_size + half_size;
@@ -93,6 +101,9 @@ class PathFinder extends Component with AutoDispose {
   @override
   void render(Canvas canvas) {
     super.render(canvas);
+
+    if (!debug_path_finder) return;
+
     final df = _distances;
     if (df == null) return;
 
@@ -105,7 +116,11 @@ class PathFinder extends Component with AutoDispose {
         final d = df.distance[y][x];
         _pos.dx = _to_x(x);
         _pos.dy = _to_y(y);
-        if (d == -1) continue;
+        if (d == -1) {
+          _paint.color = black;
+          canvas.drawCircle(_pos, 1.0, _paint);
+          continue;
+        }
 
         final l = (d / 40).clamp(0.0, 1.0);
         final c = d == -1 ? black : Color.lerp(green, red, l)!;
@@ -113,7 +128,7 @@ class PathFinder extends Component with AutoDispose {
         canvas.drawCircle(_pos, grid_size / 3, _paint);
 
         if (_is_on_path(x, y)) {
-          _paint.color = black;
+          _paint.color = blue.withValues(alpha: 0.75);
           canvas.drawCircle(_pos, grid_size / 3, _paint);
         }
       }
@@ -131,5 +146,7 @@ class PathFinder extends Component with AutoDispose {
   }
 
   final _pos = MutableOffset(0, 0);
-  final _paint = pixel_paint();
+  final _paint = pixel_paint()
+    ..strokeWidth = 1.25
+    ..style = PaintingStyle.stroke;
 }

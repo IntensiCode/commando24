@@ -1,12 +1,12 @@
+import 'package:commando24/game/decals.dart';
 import 'package:commando24/game/game_configuration.dart';
 import 'package:commando24/game/game_context.dart';
+import 'package:commando24/game/level/props/level_prop_extensions.dart';
 import 'package:commando24/game/player/weapon_type.dart';
 import 'package:commando24/util/log.dart';
 import 'package:flame/components.dart';
 
-import 'level_prop_extensions.dart';
-
-class Destructible extends Component {
+class Destructible extends Component with GameContext {
   late final double _hit_points;
 
   late double _remaining_hits;
@@ -23,7 +23,7 @@ class Destructible extends Component {
     _remaining_hits -= damage;
     if (_remaining_hits <= 0) {
       _remaining_hits = 0;
-      model.decals.spawn_for(my_prop);
+      decals.spawn_for(my_prop);
       my_prop.removeFromParent();
       my_prop.when_destroyed.forEach((it) => it());
       my_prop.when_destroyed.clear();

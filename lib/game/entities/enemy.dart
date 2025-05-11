@@ -8,15 +8,17 @@ import 'package:commando24/game/entities/property_behavior.dart';
 import 'package:commando24/game/entities/spawn_when_visible.dart';
 import 'package:commando24/game/game_configuration.dart';
 import 'package:commando24/game/game_context.dart';
+import 'package:commando24/game/game_entities.dart';
+import 'package:commando24/game/level/level.dart';
+import 'package:commando24/game/level/props/level_prop.dart';
 import 'package:commando24/game/level/props/level_prop_extensions.dart';
 import 'package:commando24/game/player/weapon_type.dart';
-import 'package:commando24/util/extensions.dart';
 import 'package:commando24/util/random.dart';
 import 'package:flame/components.dart';
 import 'package:flame/sprite.dart';
 
-class Enemy extends PositionComponent with PropertyBehavior {
-  Enemy(this.sprites) : super(anchor: const Anchor(0.5, 0.8));
+class Enemy extends PositionComponent with PropertyBehavior, GameContext {
+  Enemy(this.sprites);
 
   final SpriteSheet sprites;
 
@@ -65,6 +67,9 @@ class Enemy extends PositionComponent with PropertyBehavior {
   void update(double dt) {
     super.update(dt);
 
+    // TODO: How to do this properly? From outside?
+    (parent as LevelProp).anchor = Anchor(0.5, 0.8);
+
     if (!active) return;
 
     if (_react_time <= 0) {
@@ -104,7 +109,7 @@ class Enemy extends PositionComponent with PropertyBehavior {
     _check_pos.add(_temp_move);
 
     _temp_bounds.left = _check_pos.x - 7;
-    _temp_bounds.top = _check_pos.y;
+    _temp_bounds.top = _check_pos.y - 7;
     _temp_bounds.width = 14;
     _temp_bounds.height = my_prop.height * 0.125;
 

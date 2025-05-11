@@ -1,16 +1,14 @@
-import 'package:commando24/components/basic_menu.dart';
-import 'package:commando24/components/basic_menu_button.dart';
-import 'package:commando24/components/flow_text.dart';
-import 'package:commando24/components/soft_keys.dart';
 import 'package:commando24/core/common.dart';
 import 'package:commando24/core/screens.dart';
-import 'package:commando24/util/extensions.dart';
-import 'package:commando24/util/fonts.dart';
+import 'package:commando24/input/game_keys.dart';
+import 'package:commando24/input/shortcuts.dart';
+import 'package:commando24/ui/basic_menu_button.dart';
+import 'package:commando24/ui/flow_text.dart';
+import 'package:commando24/ui/fonts.dart';
+import 'package:commando24/ui/soft_keys.dart';
 import 'package:commando24/util/functions.dart';
-import 'package:commando24/util/game_keys.dart';
 import 'package:commando24/util/game_script.dart';
 import 'package:commando24/util/log.dart';
-import 'package:commando24/util/shortcuts.dart';
 import 'package:flame/components.dart';
 
 enum OptionsMenuEntry {
@@ -28,32 +26,32 @@ class OptionsScreen extends GameScriptComponent with HasAutoDisposeShortcuts, Ke
 
   @override
   onLoad() async {
-    add(await sprite_comp('background.png'));
+    add(sprite_comp('background.png'));
 
-    fontSelect(tiny_font, scale: 1);
+    font_select(tiny_font, scale: 1);
     textXY('Video Mode', center_x, 16, scale: 2);
 
-    final buttonSheet = await sheetI('button_option.png', 1, 2);
-    final menu = added(BasicMenu<OptionsMenuEntry>(
-      button: buttonSheet,
-      font: tiny_font,
-      onSelected: _selected,
-    ));
-    pixelate = menu.addEntry(OptionsMenuEntry.pixelate, 'Pixelate FX', anchor: Anchor.centerLeft);
-    pixelate_screen = menu.addEntry(OptionsMenuEntry.pixelate_screen, 'Pixelate Screen', anchor: Anchor.centerLeft);
-    animate_stars = menu.addEntry(OptionsMenuEntry.animate_stars, 'Animate Stars', anchor: Anchor.centerLeft);
-
-    // pixelate.checked = visual.pixelate;
-    // pixelate_screen.checked = visual.pixelate_screen;
-    // animate_stars.checked = visual.animate_stars;
-
-    menu.position.setFrom(game_center);
-    menu.anchor = Anchor.center;
-
-    rememberSelection ??= menu.entries.first;
-
-    menu.preselectEntry(rememberSelection);
-    menu.onPreselected = (it) => rememberSelection = it;
+    // final buttonSheet = sheetI('button_option.png', 1, 2);
+    // final menu = added(BasicMenu<OptionsMenuEntry>(
+    //   button: buttonSheet,
+    //   font: tiny_font,
+    //   onSelected: _selected,
+    // ));
+    // pixelate = menu.addEntry(OptionsMenuEntry.pixelate, 'Pixelate FX', anchor: Anchor.centerLeft);
+    // pixelate_screen = menu.addEntry(OptionsMenuEntry.pixelate_screen, 'Pixelate Screen', anchor: Anchor.centerLeft);
+    // animate_stars = menu.addEntry(OptionsMenuEntry.animate_stars, 'Animate Stars', anchor: Anchor.centerLeft);
+    //
+    // // pixelate.checked = visual.pixelate;
+    // // pixelate_screen.checked = visual.pixelate_screen;
+    // // animate_stars.checked = visual.animate_stars;
+    //
+    // menu.position.setFrom(game_center);
+    // menu.anchor = Anchor.center;
+    //
+    // rememberSelection ??= menu.entries.first;
+    //
+    // menu.preselectEntry(rememberSelection);
+    // menu.onPreselected = (it) => rememberSelection = it;
 
     softkeys('Back', null, (_) => pop_screen());
 

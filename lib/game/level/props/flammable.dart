@@ -1,9 +1,11 @@
 import 'package:commando24/game/game_context.dart';
+import 'package:commando24/game/game_entities.dart';
 import 'package:commando24/game/level/props/level_prop_extensions.dart';
+import 'package:commando24/game/particles.dart';
 import 'package:commando24/game/player/weapon_type.dart';
 import 'package:flame/components.dart';
 
-class Flammable extends Component {
+class Flammable extends Component with GameContext {
   bool on_fire = false;
 
   double _fire_time = 0;
@@ -25,8 +27,8 @@ class Flammable extends Component {
     if (_fire_time <= 0) {
       my_prop.destructible.on_hit(WeaponType.burning);
 
-      model.particles.spawn_smoke(my_prop.position, my_prop.hit_width);
-      model.particles.spawn_fire(my_prop.position, my_prop.hit_width);
+      particles.spawn_smoke(my_prop.position, my_prop.hit_width);
+      particles.spawn_fire(my_prop.position, my_prop.hit_width);
 
       final damage = my_prop.damage_percent / 100;
       _fire_time = 0.3 - damage * 0.2;
