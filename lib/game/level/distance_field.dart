@@ -54,20 +54,46 @@ class DistanceField {
   bool _in_bounds(int col, int row) => col >= 0 && col < cols && row >= 0 && row < rows;
 
   void _continue_compute() {
+    // Cardinal directions: up, left, right, down
     final dx = const [0, -1, 1, 0];
     final dy = const [-1, 0, 0, 1];
+
+    // Diagonal directions: up-left, up-right, down-left, down-right
+    final diag_dx = const [-1, 1, -1, 1];
+    final diag_dy = const [-1, -1, 1, 1];
 
     int steps = steps_per_update;
     while (_queue.isNotEmpty && steps-- > 0) {
       final curr = _queue.removeFirst();
       final x = curr[0], y = curr[1];
       final dist = _next_distance[y][x];
+
+      // Process cardinal directions first
       for (int d = 0; d < 4; ++d) {
         final nx = x + dx[d];
         final ny = y + dy[d];
         if (_in_bounds(nx, ny) && _next_distance[ny][nx] == -1 && !is_blocked(nx, ny)) {
           _next_distance[ny][nx] = dist + 1;
           if (dist < max_distance) _queue.addLast([nx, ny]);
+        }
+      }
+
+      // Process diagonal directions
+      for (int d = 0; d < 4; ++d) {
+        final nx = x + diag_dx[d];
+        final ny = y + diag_dy[d];
+
+        // Check if diagonal move is valid (both adjacent cardinal moves must be free)
+        if (_in_bounds(nx, ny) && _next_distance[ny][nx] == -1 && !is_blocked(nx, ny)) {
+          // Check if both adjacent cardinal paths are free
+          final free_x = !is_blocked(nx, y);
+          final free_y = !is_blocked(x, ny);
+
+          if (free_x && free_y) {
+            // Diagonal movement costs slightly more (√2 ≈ 1.414)
+            _next_distance[ny][nx] = dist + 1.5.toInt();
+            if (dist < max_distance) _queue.addLast([nx, ny]);
+          }
         }
       }
     }
@@ -115,17 +141,36 @@ class DistanceField {
       if (best == -1) best = 100000;
 
       int? next_x, next_y;
+
+      // Check cardinal directions
       for (final dir in const [(0, -1), (-1, 0), (1, 0), (0, 1)]) {
         final nx = x + dir.$1;
         final ny = y + dir.$2;
-        if (ny < 0 || ny > rows || nx < 0 || nx > cols) continue;
-        // log_info('check $nx, $ny dist: ${distance[ny][nx]}');
-        if (_in_bounds(nx, ny) && distance[ny][nx] >= 0 && distance[ny][nx] < best) {
+        if (!_in_bounds(nx, ny)) continue;
+        if (distance[ny][nx] >= 0 && distance[ny][nx] < best) {
           best = distance[ny][nx];
           next_x = nx;
           next_y = ny;
         }
       }
+
+      // Check diagonal directions
+      for (final dir in const [(-1, -1), (1, -1), (-1, 1), (1, 1)]) {
+        final nx = x + dir.$1;
+        final ny = y + dir.$2;
+        if (!_in_bounds(nx, ny)) continue;
+
+        // Check if both adjacent cardinal paths are free
+        final free_x = _in_bounds(nx, y) && !is_blocked(nx, y);
+        final free_y = _in_bounds(x, ny) && !is_blocked(x, ny);
+
+        if (free_x && free_y && distance[ny][nx] >= 0 && distance[ny][nx] < best) {
+          best = distance[ny][nx];
+          next_x = nx;
+          next_y = ny;
+        }
+      }
+
       if (next_x == null || next_y == null) break;
 
       x = next_x;
