@@ -31,7 +31,7 @@ class BaseWeapon extends Component with AutoDispose, GameContext {
   final double projectile_speed;
 
   late final Keys _keys;
-  late final _recycler = ComponentRecycler(() => Projectile(type));
+  late final _recycler = ComponentRecycler(() => Projectile(type))..precreate(32);
 
   final temp_pos = Vector2.zero();
   final velocity = Vector2.zero();

@@ -15,7 +15,7 @@ extension GameContextExtensions on GameContext {
 }
 
 class Explosions extends Component with GameContext {
-  final _pool = ComponentRecycler(() => Explosion());
+  final _pool = ComponentRecycler(() => Explosion())..precreate(64);
 
   late final SpriteAnimation _vehicle_explosion;
   late final SpriteAnimation _big_explosion;
