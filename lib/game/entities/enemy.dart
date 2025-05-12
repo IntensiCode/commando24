@@ -116,23 +116,27 @@ class Enemy extends PositionComponent with PropertyBehavior, GameContext {
     for (final it in entities.obstacles) {
       if (it.is_blocked_for_walking(_temp_bounds, enemy: true)) {
         if (move_dir.x != 0 && move_dir.y != 0) {
+          // For diagonal movement, try to find an alternative path
+          final remember_x = move_dir.x;
           final remember_y = move_dir.y;
 
+          // First try horizontal movement
           move_dir.y = 0;
-          move_dir.x = move_dir.x.sign;
+          move_dir.x = remember_x.sign;
           _try_move(dt);
 
+          // If horizontal movement fails, try vertical movement
           if (move_dir.isZero()) {
-            move_dir.y = remember_y.sign;
             move_dir.x = 0;
+            move_dir.y = remember_y.sign;
             _try_move(dt);
           }
 
           return;
         }
+
         move_dir.setZero();
         my_prop.position.setFrom(_last_free);
-        // priority = my_prop.position.y.toInt() + 1;
         return;
       }
     }
