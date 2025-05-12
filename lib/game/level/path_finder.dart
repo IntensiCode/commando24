@@ -9,11 +9,13 @@ import 'package:commando24/game/game_messages.dart';
 import 'package:commando24/game/level/distance_field.dart';
 import 'package:commando24/game/level/level_object.dart';
 import 'package:commando24/game/level/props/level_prop.dart';
+import 'package:commando24/game/level/props/level_prop_extensions.dart';
 import 'package:commando24/game/player/player.dart';
 import 'package:commando24/util/auto_dispose.dart';
 import 'package:commando24/util/log.dart';
 import 'package:commando24/util/mutable.dart';
 import 'package:commando24/util/on_message.dart';
+import 'package:commando24/util/performance.dart';
 import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 
@@ -31,8 +33,8 @@ class PathFinder extends Component with AutoDispose, GameContext {
   DistanceField? _distances;
 
   late List<List<bool>> _solids;
-  var _snapshot = <LevelObject>{};
-
+  late List<List<int>> _destructibles;
+  final _snapshot = <LevelProp, MutableRectangle<double>>{};
   final _temp_rect = MutableRectangle<double>(0, 0, 0, 0);
 
   @override
@@ -54,11 +56,8 @@ class PathFinder extends Component with AutoDispose, GameContext {
 
   bool is_blocked(int col, int row) {
     if (_solids[row][col]) return true;
-    _temp_rect.left = _to_x(col) - half_size + 0.5;
-    _temp_rect.top = _to_y(row) - half_size + 0.5;
-    _temp_rect.width = grid_size - 1;
-    _temp_rect.height = grid_size - 1;
-    return _snapshot.firstWhereOrNull((it) => it.is_blocked_for_walking(_temp_rect)) != null;
+    if (_destructibles[row][col] > 0) return true;
+    return false;
   }
 
   bool _is_blocked(Set<LevelObject> objects, int col, int row) {
@@ -75,6 +74,7 @@ class PathFinder extends Component with AutoDispose, GameContext {
     log_info('init distance field: $cols x $rows');
     _distances = DistanceField(cols: cols, rows: rows, is_blocked: is_blocked);
     _solids = List.generate(rows, (_) => List.generate(cols, (_) => false, growable: false), growable: false);
+    _destructibles = List.generate(rows, (_) => List.generate(cols, (_) => 0, growable: false), growable: false);
   }
 
   void _init_blocked(List<List<bool>> target, Set<LevelObject> objects) {
@@ -108,7 +108,7 @@ class PathFinder extends Component with AutoDispose, GameContext {
     super.update(dt);
 
     // Update snapshot of obstacles TODO: Optimize - only when something changed
-    _snapshot = entities.destructibles.toSet();
+    _update_destructibles();
 
     // Notify distance field if player moved
     final col = _to_col(player.position.x);
@@ -116,7 +116,58 @@ class PathFinder extends Component with AutoDispose, GameContext {
     _distances?.on_position_changed(col, row);
 
     // Update distance field
-    _distances?.update();
+    timed('update distance field', () => _distances?.update());
+  }
+
+  Iterable<(int col, int row)> _blocked_for(Rectangle<double> rect) sync* {
+    final cl = _to_col(rect.left + 0.5);
+    final cr = _to_col(rect.left + rect.width - 0.5);
+    final rt = _to_row(rect.top - half_size + 0.5);
+    final rb = _to_row(rect.top + rect.height - half_size - 0.5);
+    for (int y = rb; y <= rt; ++y) {
+      for (int x = cl; x <= cr; ++x) {
+        yield (x, y);
+      }
+    }
+  }
+
+  bool _unchanged(Rectangle<double> a, Rectangle<double> b) =>
+      a.left == b.left && a.top == b.top && a.width == b.width && a.height == b.height;
+
+  void _update_blocked(Rectangle<double> rect, int delta) {
+    for (final (c, r) in _blocked_for(rect)) {
+      if (c < 0 || r < 0 || c >= _destructibles[0].length || r >= _destructibles.length) continue;
+      _destructibles[r][c] += delta;
+    }
+  }
+
+  void _update_destructibles() {
+    timed('update destructibles ${_snapshot.length}', () {
+      // Excluding enemies to not have them block each other:
+      final snapshot = entities.destructibles.where((it) => !it.is_enemy).toSet();
+
+      for (final it in _snapshot.keys) {
+        if (snapshot.contains(it)) continue;
+        _update_blocked(_snapshot[it]!, -1);
+      }
+
+      for (final it in snapshot) {
+        final r = it.hit_bounds;
+        final s = _snapshot[it];
+
+        if (s != null) {
+          if (_unchanged(s, r)) continue;
+          _update_blocked(s, -1);
+        }
+        _update_blocked(r, 1);
+
+        _snapshot[it] ??= MutableRectangle<double>(0, 0, 0, 0);
+        _snapshot[it]!.left = r.left;
+        _snapshot[it]!.top = r.top;
+        _snapshot[it]!.width = r.width;
+        _snapshot[it]!.height = r.height;
+      }
+    });
   }
 
   @override
