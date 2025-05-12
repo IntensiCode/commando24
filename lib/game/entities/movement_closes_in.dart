@@ -16,7 +16,7 @@ class MovementClosesIn extends Component with GameContext, EnemyBehavior, Moveme
     this.enemy.use_advice = false;
   }
 
-  final _path_segment = List.generate(10, (_) => Vector2.all(double.nan));
+  final _path_segment = List.generate(4, (_) => Vector2.all(double.nan));
 
   @override
   void offer_reaction() {
