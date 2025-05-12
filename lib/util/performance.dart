@@ -1,8 +1,23 @@
 import 'dart:ui';
 
+import 'package:commando24/util/log.dart';
 import 'package:flame/components.dart';
 import 'package:flame/text.dart';
 import 'package:flutter/foundation.dart';
+
+const _reset_count = 1000000;
+
+final _timings = <String, (int, Stopwatch)>{};
+
+void timed(String hint, Function block) {
+  final (count, delta) = _timings[hint] ??= (0, Stopwatch());
+  delta.start();
+  block();
+  delta.stop();
+  _timings[hint] = (count + 1, delta);
+  if (count % 600 == 1) log_debug('$hint: ${delta.elapsedMicroseconds ~/ count} us');
+  if (count % _reset_count == _reset_count - 1) _timings[hint] = (0, Stopwatch());
+}
 
 class Ticker {
   Ticker({int ticks = 60}) : step = 1.0 / ticks;
