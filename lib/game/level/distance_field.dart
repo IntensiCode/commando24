@@ -51,7 +51,7 @@ class DistanceField {
     }
   }
 
-  bool _in_bounds(int col, int row) => col >= 0 && col < cols && row >= 0 && row < rows;
+  bool in_bounds(int col, int row) => col >= 0 && col < cols && row >= 0 && row < rows;
 
   void _continue_compute() {
     // Cardinal directions: up, left, right, down
@@ -72,7 +72,7 @@ class DistanceField {
       for (int d = 0; d < 4; ++d) {
         final nx = x + dx[d];
         final ny = y + dy[d];
-        if (_in_bounds(nx, ny) && _next_distance[ny][nx] == -1 && !is_blocked(nx, ny)) {
+        if (in_bounds(nx, ny) && _next_distance[ny][nx] == -1 && !is_blocked(nx, ny)) {
           _next_distance[ny][nx] = dist + 1;
           if (dist < max_distance) _queue.addLast([nx, ny]);
         }
@@ -84,7 +84,7 @@ class DistanceField {
         final ny = y + diag_dy[d];
 
         // Check if diagonal move is valid (both adjacent cardinal moves must be free)
-        if (_in_bounds(nx, ny) && _next_distance[ny][nx] == -1 && !is_blocked(nx, ny)) {
+        if (in_bounds(nx, ny) && _next_distance[ny][nx] == -1 && !is_blocked(nx, ny)) {
           // Check if both adjacent cardinal paths are free
           final free_x = !is_blocked(nx, y);
           final free_y = !is_blocked(x, ny);
@@ -119,7 +119,7 @@ class DistanceField {
     }
 
     _queue.clear();
-    if (_in_bounds(col, row)) {
+    if (in_bounds(col, row)) {
       _next_distance[row][col] = 0;
       _queue.addLast([col, row]);
     }
@@ -133,7 +133,7 @@ class DistanceField {
       it.setAll(double.nan);
     }
 
-    if (!_in_bounds(col, row)) return;
+    if (!in_bounds(col, row)) return;
 
     int x = col, y = row;
     for (int step = 0; step < out_segment.length; ++step) {
@@ -146,7 +146,7 @@ class DistanceField {
       for (final dir in const [(0, -1), (-1, 0), (1, 0), (0, 1)]) {
         final nx = x + dir.$1;
         final ny = y + dir.$2;
-        if (!_in_bounds(nx, ny)) continue;
+        if (!in_bounds(nx, ny)) continue;
         if (distance[ny][nx] >= 0 && distance[ny][nx] < best) {
           best = distance[ny][nx];
           next_x = nx;
@@ -158,11 +158,11 @@ class DistanceField {
       for (final dir in const [(-1, -1), (1, -1), (-1, 1), (1, 1)]) {
         final nx = x + dir.$1;
         final ny = y + dir.$2;
-        if (!_in_bounds(nx, ny)) continue;
+        if (!in_bounds(nx, ny)) continue;
 
         // Check if both adjacent cardinal paths are free
-        final free_x = _in_bounds(nx, y) && !is_blocked(nx, y);
-        final free_y = _in_bounds(x, ny) && !is_blocked(x, ny);
+        final free_x = in_bounds(nx, y) && !is_blocked(nx, y);
+        final free_y = in_bounds(x, ny) && !is_blocked(x, ny);
 
         if (free_x && free_y && distance[ny][nx] >= 0 && distance[ny][nx] < best) {
           best = distance[ny][nx];
