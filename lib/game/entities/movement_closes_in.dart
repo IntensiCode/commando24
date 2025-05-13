@@ -16,7 +16,7 @@ class MovementClosesIn extends Component with GameContext, EnemyBehavior, Moveme
     this.enemy.use_advice = false;
   }
 
-  final _path_segment = List.generate(4, (_) => Vector2.all(double.nan));
+  final _path_segment = List.generate(5, (_) => Vector2.all(double.nan));
 
   @override
   void offer_reaction() {
@@ -39,15 +39,14 @@ class MovementClosesIn extends Component with GameContext, EnemyBehavior, Moveme
     enemy.fire_dir.setFrom(player.position);
     enemy.fire_dir.sub(my_prop.position);
 
+    // If player is close, stop. For now. Really needs FindsCover behavior instead.
     final dist = enemy.fire_dir.normalize();
-    if (dist < 32) {
-      return;
-    }
+    if (dist < 32) return;
 
-    if (_path_segment.first.isNaN) {
-      return;
-    }
+    // Nowhere to go?
+    if (_path_segment.first.isNaN) return;
 
+    // Reached current target segment?
     if (my_prop.position.distanceToSquared(_path_segment.first) < 16) {
       // Set next target segment:
       for (var i = 1; i < _path_segment.length; i++) {
@@ -60,7 +59,7 @@ class MovementClosesIn extends Component with GameContext, EnemyBehavior, Moveme
         path_finder.find_path_to_player(my_prop, _path_segment);
       }
     } else {
-      // Move into current target segment:
+      // Move further into current target segment:
       _temp.setFrom(_path_segment.first);
       _temp.sub(my_prop.position);
       _temp.normalize();

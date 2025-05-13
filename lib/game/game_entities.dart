@@ -19,7 +19,7 @@ class GameEntities extends Component {
   final explosives = <LevelProp>[];
   final flammables = <LevelProp>[];
   final prisoners = <Prisoner>[];
-  final enemies = <LevelObject>[];
+  final enemies = <LevelProp>[];
 
   Iterable<LevelObject> get obstacles sync* {
     yield* solids;

@@ -28,13 +28,14 @@ class Enemy extends PositionComponent with PropertyBehavior, GameContext {
   WeaponType? active_weapon;
   double show_firing = 0;
 
-  double reaction_time = 0.25;
-  final move_dir = Vector2.zero();
   bool use_advice = true;
-  final fire_dir = Vector2.zero();
   bool auto_fire_dir = true;
-
+  double reaction_time = 0.25;
   double _react_time = 0;
+
+  final move_dir = Vector2.zero();
+  final fire_dir = Vector2.zero();
+
   final _temp_move = Vector2.zero();
   final _check_pos = Vector2.zero();
   final _last_free = Vector2.zero();
