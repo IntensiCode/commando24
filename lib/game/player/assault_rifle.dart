@@ -6,7 +6,7 @@ import 'package:flame/sprite.dart';
 
 class AssaultRifle extends BaseWeapon {
   static AssaultRifle make(SpriteSheet sprites) {
-    final animation = sprites.createAnimation(row: 17, stepTime: 0.1, from: 42, to: 44);
+    final animation = sprites.createAnimation(row: 17, stepTime: 0.1, from: 42, to: 42);
     return AssaultRifle._(animation);
   }
 

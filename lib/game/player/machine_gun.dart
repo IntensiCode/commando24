@@ -6,7 +6,7 @@ import 'package:flame/sprite.dart';
 
 class MachineGun extends BaseWeapon {
   static MachineGun make(SpriteSheet sprites) {
-    final animation = sprites.createAnimation(row: 17, stepTime: 0.1, from: 46, to: 48);
+    final animation = sprites.createAnimation(row: 17, stepTime: 0.1, from: 42, to: 42);
     return MachineGun._(animation);
   }
 

@@ -9,7 +9,7 @@ import 'package:kart/kart.dart';
 
 class Shotgun extends BaseWeapon {
   static Shotgun make(SpriteSheet sprites) {
-    final animation = sprites.createAnimation(row: 17, stepTime: 0.1, from: 44, to: 45);
+    final animation = sprites.createAnimation(row: 17, stepTime: 0.1, from: 44, to: 44);
     return Shotgun._(animation);
   }
 

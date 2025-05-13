@@ -71,7 +71,7 @@ class MoveByVelocity extends ProjectileBehavior {
   @override
   void update(Projectile projectile, double dt) {
     projectile.position.add(projectile.velocity * dt);
-    projectile.priority = projectile.position.y.toInt() + 10;
+    projectile.priority = projectile.position.y.toInt() + 16;
   }
 }
 
